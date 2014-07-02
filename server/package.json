@@ -9,10 +9,8 @@
     "main": "app.js",
     "author": "Cam Jackson",
     "dependencies": {
-        
     },
     "devDependencies": {
-        "karma" : "*",
-        "karma-jasmine" : "*"
+        "jasmine-node" : "*"
     }
 }
