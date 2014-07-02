@@ -1,11 +1,11 @@
-require('../src/post_handler');
+require('../src/postHandler');
 
 describe('foo', function() {
     it('should pass', function() {
-        expect(returns_true()).toBe(true);
+        expect(returnsTrue()).toBe(true);
     });
 
     it('should also pass', function() {
-        expect(returns_false()).toBe(false);
+        expect(returnsFalse()).toBe(false);
     })
 });
