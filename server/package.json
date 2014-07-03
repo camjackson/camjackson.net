@@ -1,16 +1,17 @@
 {
-    "name": "writeitdown",
-    "version": "0.0.1",
-    "description": "Blogging with markdown",
-    "repository": {
-        "type": "git",
-        "url": "http://github.com/camjackson/writeitdown.git"
-    },
-    "main": "app.js",
-    "author": "Cam Jackson",
-    "dependencies": {
-    },
-    "devDependencies": {
-        "jasmine-node" : "*"
-    }
+  "name": "writeitdown",
+  "version": "0.0.1",
+  "description": "Blogging with markdown",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/camjackson/writeitdown.git"
+  },
+  "main": "app.js",
+  "author": "Cam Jackson",
+  "dependencies": {
+    "mongoose": "^3.9.0"
+  },
+  "devDependencies": {
+    "jasmine-node": "2.0"
+  }
 }
