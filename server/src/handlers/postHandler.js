@@ -47,3 +47,4 @@ function deletePost(req, res) {
 exports.getPosts = getPosts;
 exports.getPost = getPost;
 exports.createPost = createPost;
+exports.deletePost = deletePost;

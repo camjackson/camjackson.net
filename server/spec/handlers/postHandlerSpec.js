@@ -1,6 +1,7 @@
 postHandler = require('../../src/handlers/postHandler');
 models      = require('../../src/models');
 var Post = models.Post;
+var any = jasmine.any;
 
 describe('postHandler', function(){
     var result;
@@ -42,10 +43,9 @@ describe('postHandler', function(){
                 callback(null, post)
             });
 
-            var postId = 7;
-            postHandler.getPost({'params': {'post_id': postId}}, result);
+            postHandler.getPost({'params': {'post_id': 7}}, result);
 
-            expect(Post.findById).toHaveBeenCalledWith(postId, jasmine.any(Function));
+            expect(Post.findById).toHaveBeenCalledWith(7, any(Function));
             expect(result.json).toHaveBeenCalledWith(post);
             expect(result.send).not.toHaveBeenCalled();
         });
@@ -75,13 +75,13 @@ describe('postHandler', function(){
             postHandler.createPost({'body': {'title': 'Hello, world!', 'text': 'Lorem ipsum.'}}, result);
 
             var document = {'title': 'Hello, world!', 'text': 'Lorem ipsum.', 'authorId': null};
-            expect(Post.create).toHaveBeenCalledWith(document, jasmine.any(Function));
+            expect(Post.create).toHaveBeenCalledWith(document, any(Function));
             expect(result.json).toHaveBeenCalledWith(createdPost);
             expect(result.send).not.toHaveBeenCalled();
         });
 
         it('sends the error back upon failure', function() {
-            var error = 'No db connection!';
+            var error = 'Could not create!';
             spyOn(Post, 'create').and.callFake(function(document, callback) {
                 callback(error, null);
             });
@@ -96,6 +96,27 @@ describe('postHandler', function(){
     });
 
     describe('deletePost', function() {
+        it('deletes the post with the given id', function() {
+            spyOn(Post, 'remove');
 
+            postHandler.deletePost({'params': {'post_id': 3}}, result);
+
+            expect(Post.remove).toHaveBeenCalledWith({'_id': 3}, any(Function));
+            expect(result.send).not.toHaveBeenCalled();
+        });
+
+        it('sends the error back upon failure', function() {
+            var error = 'Could not delete!';
+            spyOn(Post, 'remove').and.callFake(function(conditions, callback) {
+                callback(error, null);
+            });
+
+            postHandler.deletePost({'params': {'post_id': 3}}, result);
+
+            expect(Post.remove).toHaveBeenCalledWith({'_id': 3}, any(Function));
+            expect(result.send).toHaveBeenCalledWith(error);
+        });
+
+        //TODO: When request is invalid (e.g. no post_id)
     });
 });
