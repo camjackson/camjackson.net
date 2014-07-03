@@ -27,9 +27,11 @@ function createPost(req, res) {
         text: req.body.text,
         authorId: null
     }, function (err, post) {
-        if (err)
+        if (post) {
+            res.json(post);
+        } else {
             res.send(err);
-        res.json(post);
+        }
     });
 }
 
@@ -44,3 +46,4 @@ function deletePost(req, res) {
 
 exports.getPosts = getPosts;
 exports.getPost = getPost;
+exports.createPost = createPost;
