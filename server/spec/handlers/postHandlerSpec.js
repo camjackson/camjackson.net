@@ -3,6 +3,13 @@ models      = require('../../src/models');
 var Post = models.Post;
 
 describe('postHandler', function(){
+    var request;
+    var result;
+
+    beforeEach(function() {
+        request = null;
+        result = jasmine.createSpyObj('result', ['json', 'send']);
+    });
 
     describe('getPosts', function() {
         it('gets all stored posts', function() {
@@ -11,29 +18,55 @@ describe('postHandler', function(){
                 callback(null, posts);
             });
 
-            var resultObject = jasmine.createSpyObj('resultObject', ['json']);
+            postHandler.getPosts(request, result);
 
-            postHandler.getPosts(null, resultObject);
-
-            expect(resultObject.json).toHaveBeenCalledWith(posts);
+            expect(result.json).toHaveBeenCalledWith(posts);
+            expect(result.send).not.toHaveBeenCalled();
         });
 
-        it ('sends the error back upon failure', function() {
+        it('sends the error back upon failure', function() {
             var error = 'Broken!';
             spyOn(Post, 'find').and.callFake(function(conditions, callback) {
                 callback(error, null);
             });
 
-            var resultObject = jasmine.createSpyObj('resultObject', ['send']);
+            postHandler.getPosts(request, result);
 
-            postHandler.getPosts(null, resultObject);
-
-            expect(resultObject.send).toHaveBeenCalledWith(error)
-        })
+            expect(result.send).toHaveBeenCalledWith(error);
+            expect(result.json).not.toHaveBeenCalled();
+        });
     });
 
     describe('getPost', function() {
+        it('gets a post matching the given id', function() {
+            var post = 'some Post';
+            spyOn(Post, 'findById').and.callFake(function(id, callback) {
+                callback(null, post)
+            });
 
+            var postId = 7;
+            request = {'params' : {'post_id' : postId}};
+            postHandler.getPost(request, result);
+
+            expect(Post.findById).toHaveBeenCalledWith(postId, jasmine.any(Function));
+            expect(result.json).toHaveBeenCalledWith(post);
+            expect(result.send).not.toHaveBeenCalled();
+        });
+
+        it('sends the error back upon failure', function() {
+            var error = 'Whoops!';
+            spyOn(Post, 'findById').and.callFake(function(id, callback) {
+               callback(error, null)
+            });
+
+            var badId = ':(';
+            request = {'params' : {'post_id' : badId}};
+            postHandler.getPost(request, result);
+
+            expect(Post.findById).toHaveBeenCalledWith(badId, jasmine.any(Function));
+            expect(result.send).toHaveBeenCalledWith(error);
+            expect(result.json).not.toHaveBeenCalled();
+        });
     });
 
     describe('createPost', function() {

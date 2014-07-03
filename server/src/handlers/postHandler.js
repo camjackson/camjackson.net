@@ -13,9 +13,11 @@ function getPosts(req, res) {
 
 function getPost(req, res) {
     Post.findById(req.params.post_id, function (err, post) {
-        if (err)
+        if (post) {
+            res.json(post)
+        } else {
             res.send(err);
-        res.json(post)
+        }
     });
 }
 
@@ -41,3 +43,4 @@ function deletePost(req, res) {
 }
 
 exports.getPosts = getPosts;
+exports.getPost = getPost;
