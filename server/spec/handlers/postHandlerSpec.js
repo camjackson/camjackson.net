@@ -45,7 +45,7 @@ describe('postHandler', function(){
         callback(null, post)
       });
 
-      postHandler.getPost({'params': {'post_id': 7}}, result);
+      postHandler.getPost({'params': {'id': 7}}, result);
 
       expect(Post.findById).toHaveBeenCalledWith(7, any(Function));
       expect(result.send).toHaveBeenCalledWith(200, post);
@@ -57,12 +57,12 @@ describe('postHandler', function(){
         callback(error, null)
       });
 
-      postHandler.getPost({'params': {'post_id': ':('}}, result);
+      postHandler.getPost({'params': {'id': ':('}}, result);
 
       expect(result.send).toHaveBeenCalledWith(500, error);
     });
 
-    //TODO: When request is invalid (e.g. no post_id)
+    //TODO: When request is invalid (e.g. no id)
   });
 
   describe('createPost', function() {
@@ -100,7 +100,7 @@ describe('postHandler', function(){
         callback(null, deletedPost)
       });
 
-      postHandler.deletePost({'params': {'post_id': 3}}, result);
+      postHandler.deletePost({'params': {'id': 3}}, result);
 
       expect(Post.findByIdAndRemove).toHaveBeenCalledWith(3, any(Function));
       expect(result.send).toHaveBeenCalledWith(204, deletedPost);
@@ -112,11 +112,11 @@ describe('postHandler', function(){
         callback(error, null);
       });
 
-      postHandler.deletePost({'params': {'post_id': 3}}, result);
+      postHandler.deletePost({'params': {'id': 3}}, result);
 
       expect(result.send).toHaveBeenCalledWith(500, error);
     });
 
-    //TODO: When request is invalid (e.g. no post_id)
+    //TODO: When request is invalid (e.g. no id)
   });
 });

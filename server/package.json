@@ -9,8 +9,10 @@
   "main": "app.js",
   "author": "Cam Jackson",
   "dependencies": {
+    "body-parser": "^1.4.3",
     "express": "^4.4.5",
-    "mongoose": "^3.9.0"
+    "mongoose": "^3.9.0",
+    "morgan": "^1.1.1"
   },
   "devDependencies": {
     "jasmine-node": "2.0"

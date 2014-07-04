@@ -12,7 +12,7 @@ function getPosts(req, res) {
 }
 
 function getPost(req, res) {
-  Post.findById(req.params.post_id, function (err, post) {
+  Post.findById(req.params.id, function (err, post) {
     if (post) {
       res.send(200, post);
     } else {
@@ -36,7 +36,7 @@ function createPost(req, res) {
 }
 
 function deletePost(req, res) {
-  Post.findByIdAndRemove(req.params.post_id, function (err, post) {
+  Post.findByIdAndRemove(req.params.id, function (err, post) {
     if (post) {
       res.send(204, post);
     } else {
