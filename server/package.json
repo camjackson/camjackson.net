@@ -9,6 +9,7 @@
   "main": "app.js",
   "author": "Cam Jackson",
   "dependencies": {
+    "express": "^4.4.5",
     "mongoose": "^3.9.0"
   },
   "devDependencies": {
