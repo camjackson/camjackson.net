@@ -7,7 +7,11 @@ describe('postHandler', function(){
   var result;
 
   beforeEach(function() {
-    result = jasmine.createSpyObj('result', ['json', 'send']);
+    result = jasmine.createSpyObj('result', ['send']);
+  });
+
+  afterEach(function() {
+    expect(result.send.calls.count()).toEqual(1);
   });
 
   describe('getPosts', function() {
@@ -19,8 +23,7 @@ describe('postHandler', function(){
 
       postHandler.getPosts(null, result);
 
-      expect(result.json).toHaveBeenCalledWith(posts);
-      expect(result.send).not.toHaveBeenCalled();
+      expect(result.send).toHaveBeenCalledWith(200, posts);
     });
 
     it('sends the error back upon failure', function() {
@@ -31,8 +34,7 @@ describe('postHandler', function(){
 
       postHandler.getPosts(null, result);
 
-      expect(result.send).toHaveBeenCalledWith(error);
-      expect(result.json).not.toHaveBeenCalled();
+      expect(result.send).toHaveBeenCalledWith(500, error);
     });
   });
 
@@ -46,8 +48,7 @@ describe('postHandler', function(){
       postHandler.getPost({'params': {'post_id': 7}}, result);
 
       expect(Post.findById).toHaveBeenCalledWith(7, any(Function));
-      expect(result.json).toHaveBeenCalledWith(post);
-      expect(result.send).not.toHaveBeenCalled();
+      expect(result.send).toHaveBeenCalledWith(200, post);
     });
 
     it('sends the error back upon failure', function() {
@@ -58,8 +59,7 @@ describe('postHandler', function(){
 
       postHandler.getPost({'params': {'post_id': ':('}}, result);
 
-      expect(result.send).toHaveBeenCalledWith(error);
-      expect(result.json).not.toHaveBeenCalled();
+      expect(result.send).toHaveBeenCalledWith(500, error);
     });
 
     //TODO: When request is invalid (e.g. no post_id)
@@ -76,8 +76,7 @@ describe('postHandler', function(){
 
       var document = {'title': 'Hello, world!', 'text': 'Lorem ipsum.', 'authorId': null};
       expect(Post.create).toHaveBeenCalledWith(document, any(Function));
-      expect(result.json).toHaveBeenCalledWith(createdPost);
-      expect(result.send).not.toHaveBeenCalled();
+      expect(result.send).toHaveBeenCalledWith(201, createdPost);
     });
 
     it('sends the error back upon failure', function() {
@@ -88,8 +87,7 @@ describe('postHandler', function(){
 
       postHandler.createPost({'body': {'title': '', 'text': ''}}, result);
 
-      expect(result.send).toHaveBeenCalledWith(error);
-      expect(result.json).not.toHaveBeenCalled();
+      expect(result.send).toHaveBeenCalledWith(500, error);
     });
 
     //TODO: When request is invalid (e.g. no title, no text)
@@ -97,24 +95,26 @@ describe('postHandler', function(){
 
   describe('deletePost', function() {
     it('deletes the post with the given id', function() {
-      spyOn(Post, 'remove');
+      var deletedPost = 'Bye bye';
+      spyOn(Post, 'findByIdAndRemove').and.callFake(function(id, callback) {
+        callback(null, deletedPost)
+      });
 
       postHandler.deletePost({'params': {'post_id': 3}}, result);
 
-      expect(Post.remove).toHaveBeenCalledWith({'_id': 3}, any(Function));
-      expect(result.send).not.toHaveBeenCalled();
+      expect(Post.findByIdAndRemove).toHaveBeenCalledWith(3, any(Function));
+      expect(result.send).toHaveBeenCalledWith(204, deletedPost);
     });
 
     it('sends the error back upon failure', function() {
       var error = 'Could not delete!';
-      spyOn(Post, 'remove').and.callFake(function(conditions, callback) {
+      spyOn(Post, 'findByIdAndRemove').and.callFake(function(id, callback) {
         callback(error, null);
       });
 
       postHandler.deletePost({'params': {'post_id': 3}}, result);
 
-      expect(Post.remove).toHaveBeenCalledWith({'_id': 3}, any(Function));
-      expect(result.send).toHaveBeenCalledWith(error);
+      expect(result.send).toHaveBeenCalledWith(500, error);
     });
 
     //TODO: When request is invalid (e.g. no post_id)
