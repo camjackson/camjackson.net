@@ -5,6 +5,7 @@ var any = jasmine.any;
 
 describe('postHandler', function(){
   var result;
+  var errorValue = 'Some error.';
 
   beforeEach(function() {
     result = jasmine.createSpyObj('result', ['send']);
@@ -26,15 +27,14 @@ describe('postHandler', function(){
       expect(result.send).toHaveBeenCalledWith(200, posts);
     });
 
-    it('sends the error back upon failure', function() {
-      var error = 'Broken!';
+    it('sends an error back upon failure', function() {
       spyOn(Post, 'find').and.callFake(function(conditions, callback) {
-        callback(error, null);
+        callback(errorValue, null);
       });
 
       postHandler.getPosts(null, result);
 
-      expect(result.send).toHaveBeenCalledWith(500, error);
+      expect(result.send).toHaveBeenCalledWith(500, 'Could not retrieve posts.');
     });
   });
 
@@ -51,15 +51,14 @@ describe('postHandler', function(){
       expect(result.send).toHaveBeenCalledWith(200, post);
     });
 
-    it('sends the error back upon failure', function() {
-      var error = 'Whoops!';
+    it('sends an error back upon failure', function() {
       spyOn(Post, 'findById').and.callFake(function(id, callback) {
-        callback(error, null)
+        callback(errorValue, null)
       });
 
-      postHandler.getPost({'params': {'id': ':('}}, result);
+      postHandler.getPost({'params': {'id': '7'}}, result);
 
-      expect(result.send).toHaveBeenCalledWith(500, error);
+      expect(result.send).toHaveBeenCalledWith(500, 'Could not retrieve post 7.');
     });
 
     //TODO: When request is invalid (e.g. no id)
@@ -79,15 +78,14 @@ describe('postHandler', function(){
       expect(result.send).toHaveBeenCalledWith(201, createdPost);
     });
 
-    it('sends the error back upon failure', function() {
-      var error = 'Could not create!';
+    it('sends an error back upon failure', function() {
       spyOn(Post, 'create').and.callFake(function(document, callback) {
-        callback(error, null);
+        callback(errorValue, null);
       });
 
       postHandler.createPost({'body': {'title': '', 'text': ''}}, result);
 
-      expect(result.send).toHaveBeenCalledWith(500, error);
+      expect(result.send).toHaveBeenCalledWith(500, 'Could not create post.');
     });
 
     //TODO: When request is invalid (e.g. no title, no text)
@@ -106,15 +104,14 @@ describe('postHandler', function(){
       expect(result.send).toHaveBeenCalledWith(204, deletedPost);
     });
 
-    it('sends the error back upon failure', function() {
-      var error = 'Could not delete!';
+    it('sends an error back upon failure', function() {
       spyOn(Post, 'findByIdAndRemove').and.callFake(function(id, callback) {
-        callback(error, null);
+        callback(errorValue, null);
       });
 
       postHandler.deletePost({'params': {'id': 3}}, result);
 
-      expect(result.send).toHaveBeenCalledWith(500, error);
+      expect(result.send).toHaveBeenCalledWith(500, 'Could not delete post 3.');
     });
 
     //TODO: When request is invalid (e.g. no id)
