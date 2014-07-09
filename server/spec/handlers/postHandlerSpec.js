@@ -1,11 +1,8 @@
-postHandler = require('../../src/handlers/postHandler');
-models      = require('../../src/models');
-var Post = models.Post;
-var any = jasmine.any;
+var postHandler = require('../../src/handlers/postHandler');
+var postService = require('../../src/services/postService');
 
 describe('postHandler', function(){
   var result;
-  var errorValue = 'Some error.';
 
   beforeEach(function() {
     result = jasmine.createSpyObj('result', ['send']);
@@ -18,19 +15,16 @@ describe('postHandler', function(){
   describe('getPosts', function() {
     it('gets all stored posts', function() {
       var posts = ['post 1', 'post 2'];
-      spyOn(Post, 'find').and.callFake(function (conditions, callback) {
-        callback(null, posts);
-      });
+      spyOn(postService, 'getPosts').and.returnValue(posts);
 
       postHandler.getPosts(null, result);
 
+      expect(postService.getPosts).toHaveBeenCalled();
       expect(result.send).toHaveBeenCalledWith(200, posts);
     });
 
     it('sends an error back upon failure', function() {
-      spyOn(Post, 'find').and.callFake(function(conditions, callback) {
-        callback(errorValue, null);
-      });
+      spyOn(postService, 'getPosts').and.returnValue(null);
 
       postHandler.getPosts(null, result);
 
@@ -41,22 +35,18 @@ describe('postHandler', function(){
   describe('getPost', function() {
     it('gets a post matching the given id', function() {
       var post = 'some Post';
-      spyOn(Post, 'findById').and.callFake(function(id, callback) {
-        callback(null, post)
-      });
+      spyOn(postService, 'getPost').and.returnValue(post);
 
       postHandler.getPost({'params': {'id': 7}}, result);
 
-      expect(Post.findById).toHaveBeenCalledWith(7, any(Function));
+      expect(postService.getPost).toHaveBeenCalledWith(7);
       expect(result.send).toHaveBeenCalledWith(200, post);
     });
 
     it('sends an error back upon failure', function() {
-      spyOn(Post, 'findById').and.callFake(function(id, callback) {
-        callback(errorValue, null)
-      });
+      spyOn(postService, 'getPost').and.returnValue(null);
 
-      postHandler.getPost({'params': {'id': '7'}}, result);
+      postHandler.getPost({'params': {'id': 7}}, result);
 
       expect(result.send).toHaveBeenCalledWith(500, 'Could not retrieve post 7.');
     });
@@ -67,21 +57,18 @@ describe('postHandler', function(){
   describe('createPost', function() {
     it('creates a new post with the given data', function() {
       var createdPost = 'the new post';
-      spyOn(Post, 'create').and.callFake(function(document, callback) {
-        callback(null, createdPost);
-      });
+      spyOn(postService, 'createPost').and.returnValue(createdPost);
 
-      postHandler.createPost({'body': {'title': 'Hello, world!', 'text': 'Lorem ipsum.'}}, result);
+      var title = 'Hello, world!';
+      var text = 'Lorem ipsum.';
+      postHandler.createPost({'body': {'title': title, 'text': text}}, result);
 
-      var document = {'title': 'Hello, world!', 'text': 'Lorem ipsum.', 'authorId': null};
-      expect(Post.create).toHaveBeenCalledWith(document, any(Function));
+      expect(postService.createPost).toHaveBeenCalledWith(title, text, null);
       expect(result.send).toHaveBeenCalledWith(201, createdPost);
     });
 
     it('sends an error back upon failure', function() {
-      spyOn(Post, 'create').and.callFake(function(document, callback) {
-        callback(errorValue, null);
-      });
+      spyOn(postService, 'createPost').and.returnValue(null);
 
       postHandler.createPost({'body': {'title': '', 'text': ''}}, result);
 
@@ -94,20 +81,16 @@ describe('postHandler', function(){
   describe('deletePost', function() {
     it('deletes the post with the given id', function() {
       var deletedPost = 'Bye bye';
-      spyOn(Post, 'findByIdAndRemove').and.callFake(function(id, callback) {
-        callback(null, deletedPost)
-      });
+      spyOn(postService, 'deletePost').and.returnValue(deletedPost);
 
       postHandler.deletePost({'params': {'id': 3}}, result);
 
-      expect(Post.findByIdAndRemove).toHaveBeenCalledWith(3, any(Function));
+      expect(postService.deletePost).toHaveBeenCalledWith(3);
       expect(result.send).toHaveBeenCalledWith(204, deletedPost);
     });
 
     it('sends an error back upon failure', function() {
-      spyOn(Post, 'findByIdAndRemove').and.callFake(function(id, callback) {
-        callback(errorValue, null);
-      });
+      spyOn(postService, 'deletePost').and.returnValue(null);
 
       postHandler.deletePost({'params': {'id': 3}}, result);
 
