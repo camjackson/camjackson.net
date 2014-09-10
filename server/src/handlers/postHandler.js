@@ -1,13 +1,28 @@
-var postService = require('../services/postService');
+var Post = require('../models').Post;
 
-function getPosts(req, res) {
-  var posts = postService.getPosts();
-  if (posts === null) {
-    res.send(500, 'Could not retrieve posts.');
-  } else {
-    res.send(200, posts);
-  }
+function root(req, res) {
+  Post.find({}, function(err, posts) {
+    if (err) {
+      res.send(500, 'Whoops');
+    }
+
+    res.render('index.jade', {
+      'config': {
+        'title': 'camjackson.net',
+        'heading': 'CamJackson.net'
+      },
+      'posts': posts
+    });
+  })
 }
+
+exports.root = root;
+
+
+
+
+
+var postService = require('../services/postService');
 
 function getPost(req, res) {
   var post = postService.getPost(req.params.id);
@@ -36,7 +51,7 @@ function deletePost(req, res) {
   }
 }
 
-exports.getPosts = getPosts;
+
 exports.getPost = getPost;
 exports.createPost = createPost;
 exports.deletePost = deletePost;

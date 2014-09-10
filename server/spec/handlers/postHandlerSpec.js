@@ -12,26 +12,6 @@ describe('postHandler', function(){
     expect(result.send.calls.count()).toEqual(1);
   });
 
-  describe('getPosts', function() {
-    it('gets all stored posts', function() {
-      var posts = ['post 1', 'post 2'];
-      spyOn(postService, 'getPosts').and.returnValue(posts);
-
-      postHandler.getPosts(null, result);
-
-      expect(postService.getPosts).toHaveBeenCalled();
-      expect(result.send).toHaveBeenCalledWith(200, posts);
-    });
-
-    it('sends an error back upon failure', function() {
-      spyOn(postService, 'getPosts').and.returnValue(null);
-
-      postHandler.getPosts(null, result);
-
-      expect(result.send).toHaveBeenCalledWith(500, 'Could not retrieve posts.');
-    });
-  });
-
   describe('getPost', function() {
     it('gets a post matching the given id', function() {
       var post = 'some Post';

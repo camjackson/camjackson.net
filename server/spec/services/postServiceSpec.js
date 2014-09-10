@@ -5,25 +5,6 @@ var Post = models.Post;
 describe('postService', function(){
   var errorValue = 'Some error.';
 
-  describe('getPosts', function() {
-    it('gets all stored posts', function() {
-      var posts = ['post 1', 'post 2'];
-      spyOn(Post, 'find').and.callFake(function (conditions, callback) {
-        callback(null, posts);
-      });
-
-      expect(postService.getPosts()).toBe(posts);
-    });
-
-    it('sends an error back upon failure', function() {
-      spyOn(Post, 'find').and.callFake(function(conditions, callback) {
-        callback(errorValue, null);
-      });
-
-      expect(postService.getPosts()).toBe(null);
-    });
-  });
-
   describe('getPost', function() {
     it('gets a post matching the given id', function() {
       var post = 'some Post';

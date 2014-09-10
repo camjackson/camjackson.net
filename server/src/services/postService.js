@@ -1,18 +1,6 @@
 var models = require('../models');
 var Post = models.Post;
 
-function getPosts() {
-  var result;
-  Post.find({}, function (err, posts) {
-    if (err) {
-      result =  null;
-    } else {
-      result = posts;
-    }
-  });
-  return result;
-}
-
 function getPost(id) {
   var result;
   Post.findById(id, function (err, post) {
@@ -49,7 +37,6 @@ function deletePost(id) {
   return result;
 }
 
-exports.getPosts = getPosts;
 exports.getPost = getPost;
 exports.createPost = createPost;
 exports.deletePost = deletePost;
