@@ -1,0 +1,16 @@
+<!doctype html>
+<html ng-app>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.8/angular.min.js"></script>
+    <script src="../js/marked.min.js"></script>
+    <script src="../js/script.js"></script>
+</head>
+<body>
+<div ng-controller="PageCtrl">
+    <h1>Enter some markdown:</h1>
+    <textarea ng-model="markdown"></textarea>
+    <hr>
+    <div ng-bind-html="parseMarkdown(markdown)"></div>
+</div>
+</body>
+</html>

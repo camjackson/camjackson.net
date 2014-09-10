@@ -17,4 +17,11 @@ var postSchema = new Schema({
   edited: { type: Date, default: Date.now },
   comments: [commentSchema]
 });
+
+var appConfigSchema = new Schema({
+  title: String,
+  heading: String
+});
+
 exports.Post = mongoose.model('Post', postSchema);
+exports.appConfig = mongoose.model('AppConfig', appConfigSchema);
