@@ -11,7 +11,6 @@ app.set('view engine', 'jade');
 var postHandler = require('./handlers/postHandler');
 app.get('/', postHandler.root);
 
-
 //run
 app.listen(8080);
 console.log('Listening on 8080');
