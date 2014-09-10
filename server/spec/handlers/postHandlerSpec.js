@@ -1,6 +1,7 @@
 var postHandler = require('../../src/handlers/postHandler');
 var models = require('../../src/models');
 var Post = models.Post;
+var Config = models.Config;
 
 describe('postHandler', function(){
   var result;
@@ -9,7 +10,11 @@ describe('postHandler', function(){
   });
 
   describe('root', function() {
-    it('renders all the stored posts', function() {
+    it('renders the index with config and post data', function() {
+      var config = { a: 'b', c: 'd' };
+      spyOn(Config, 'find').and.callFake(function(id, callback) {
+        callback(null, [config]);
+      });
       var posts = ['post 1', 'post 2'];
       spyOn(Post, 'find').and.callFake(function(id, callback) {
         callback(null, posts);
@@ -17,11 +22,22 @@ describe('postHandler', function(){
 
       postHandler.root(null, result);
 
-      expect(result.render).toHaveBeenCalledWith('index.jade', jasmine.objectContaining({'posts': posts}));
+      var data = {config: config, posts: posts};
+      expect(result.render).toHaveBeenCalledWith('index.jade', data);
     });
 
-    it('renders an error page on error', function() {
+    it('renders an error page when we cannot get posts', function() {
       spyOn(Post, 'find').and.callFake(function(id, callback) {
+        callback('Some error.', null);
+      });
+
+      postHandler.root(null, result);
+
+      expect(result.render).toHaveBeenCalledWith('error.jade');
+    });
+
+    it('renders an error page when we cannot get config', function() {
+      spyOn(Config, 'find').and.callFake(function(id, callback) {
         callback('Some error.', null);
       });
 
