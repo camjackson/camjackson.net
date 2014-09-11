@@ -1,29 +1,35 @@
-var postHandler = require('../../src/handlers/postHandler');
-var models = require('../../src/models');
+var marked = require('marked');
+var postHandler = require('../../../lib/handlers/postHandler');
+var models = require('../../../lib/models');
 var Post = models.Post;
 var Config = models.Config;
 
 describe('postHandler', function(){
-  var result;
-  beforeEach(function() {
-    result = jasmine.createSpyObj('result', ['render']);
-  });
-
   describe('root', function() {
-    it('renders the index with config and post data', function() {
-      var config = { a: 'b', c: 'd' };
+
+    var result;
+    var config = { a: 'b', c: 'd' };
+    var posts = ['post 1', 'post 2'];
+    beforeEach(function() {
+      result = jasmine.createSpyObj('result', ['render']);
       spyOn(Config, 'find').and.callFake(function(id, callback) {
         callback(null, [config]);
       });
-      var posts = ['post 1', 'post 2'];
+
       spyOn(Post, 'find').and.callFake(function(id, callback) {
         callback(null, posts);
       });
+    });
 
+    it('renders the index with config data and marked posts', function() {
       postHandler.root(null, result);
 
       var data = {config: config, posts: posts};
       expect(result.render).toHaveBeenCalledWith('index.jade', data);
+    });
+
+    it('passes each post through marked', function() {
+      postHandler.root(null, result);
     });
 
     it('renders an error page when we cannot get posts', function() {

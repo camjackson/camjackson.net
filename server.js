@@ -7,7 +7,7 @@ app.set('view engine', 'jade');
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/writeitdown');
 
-var postHandler = require('./handlers/postHandler');
+var postHandler = require('./lib/handlers/postHandler');
 app.get('/', postHandler.root);
 
 app.listen(8080);
