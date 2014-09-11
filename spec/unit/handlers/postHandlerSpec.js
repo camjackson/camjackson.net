@@ -4,38 +4,52 @@ var models = require('../../../lib/models');
 var Post = models.Post;
 var Config = models.Config;
 
-describe('postHandler', function(){
+describe('postHandler', function() {
   describe('root', function() {
-
-    var result;
     var config = { a: 'b', c: 'd' };
-    var posts = ['post 1', 'post 2'];
-    beforeEach(function() {
-      result = jasmine.createSpyObj('result', ['render']);
-      spyOn(Config, 'find').and.callFake(function(id, callback) {
+    function configSuccess() {
+      spyOn(Config, 'find').and.callFake(function (id, callback) {
         callback(null, [config]);
       });
+    }
+    function configError() {
+      spyOn(Config, 'find').and.callFake(function (id, callback) {
+        callback('error', null);
+      });
+    }
 
-      spyOn(Post, 'find').and.callFake(function(id, callback) {
+    var posts = [
+      {title: 'hey', text: 'jude', posted: 'yesterday'},
+      {title: 'bye', text: 'now', posted: 'today'}
+    ];
+    function postSuccess() {
+      spyOn(Post, 'find').and.callFake(function (id, callback) {
         callback(null, posts);
       });
+    }
+    function postError() {
+      spyOn(Post, 'find').and.callFake(function (id, callback) {
+        callback('error', null);
+      });
+    }
+
+    var result;
+    beforeEach(function() {
+      result = jasmine.createSpyObj('result', ['render']);
     });
 
     it('renders the index with config data and marked posts', function() {
+      configSuccess();
+      postSuccess();
       postHandler.root(null, result);
 
-      var data = {config: config, posts: posts};
+      var data = {config: config, posts: posts, marked: marked};
       expect(result.render).toHaveBeenCalledWith('index.jade', data);
     });
 
-    it('passes each post through marked', function() {
-      postHandler.root(null, result);
-    });
-
     it('renders an error page when we cannot get posts', function() {
-      spyOn(Post, 'find').and.callFake(function(id, callback) {
-        callback('Some error.', null);
-      });
+      configSuccess();
+      postError();
 
       postHandler.root(null, result);
 
@@ -43,9 +57,8 @@ describe('postHandler', function(){
     });
 
     it('renders an error page when we cannot get config', function() {
-      spyOn(Config, 'find').and.callFake(function(id, callback) {
-        callback('Some error.', null);
-      });
+      postSuccess();
+      configError();
 
       postHandler.root(null, result);
 

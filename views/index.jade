@@ -8,4 +8,4 @@ html
     each post in posts
         h2= post.title
         p= post.posted
-        p= post.text
+        != marked(post.text)
