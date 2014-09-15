@@ -1,8 +1,10 @@
 process.env.LOGGING = true;
 
-var app = require('express')();
+var express = require('express');
+var app = express();
 app.use(require('morgan')('dev'));
 app.set('view engine', 'jade');
+app.use(express.static('public'));
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/writeitdown');

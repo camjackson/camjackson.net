@@ -2,10 +2,20 @@ doctype html
 html
   head
     title= config.title
+    link(href='style/style.css', type='text/css', rel='stylesheet')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
 
   body
-    h1= config.heading
-    each post in posts
-        h2= post.title
-        p= post.posted
-        != marked(post.text)
+    div#main_column
+      header
+        h1#heading= config.heading
+      nav
+        p Nav bar!
+      section
+        each post in posts
+          article
+            h2= post.title
+            p= post.posted
+            != marked(post.text)
+      footer
+        p A footer!
