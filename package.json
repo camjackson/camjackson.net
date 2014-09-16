@@ -9,9 +9,9 @@
   "main": "server.js",
   "author": "Cam Jackson",
   "dependencies": {
-    "async": "^0.9.0",
     "bunyan": "^1.0.1",
     "express": "^4.9.0",
+    "express-promise": "^0.3.0",
     "jade": "^1.6.0",
     "marked": "^0.3.2",
     "mongoose": "~3.6.20",

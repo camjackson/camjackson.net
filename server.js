@@ -3,6 +3,7 @@ process.env.LOGGING = true;
 var express = require('express');
 var app = express();
 app.use(require('morgan')('dev'));
+app.use(require('express-promise')());
 app.set('view engine', 'jade');
 app.use(express.static('public'));
 
