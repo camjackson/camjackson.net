@@ -7,18 +7,46 @@ var Config = models.Config;
 describe('postHandler', function() {
   var result;
   beforeEach(function() {
-    result = jasmine.createSpyObj('result', ['render']);
+    result = jasmine.createSpyObj('result', ['render', 'status', 'send']);
+    result.status.and.returnValue(result);
   });
 
   describe('root', function() {
-    it('renders the index with marked, posts, and config', function() {
-      spyOn(Config, 'findOne').and.returnValue('config');
-      spyOn(Post, 'find').and.returnValue(['post 1', 'post 2']);
+    describe('when render succeeds', function () {
+      beforeEach(function() {
+        result.render.and.callFake(function(_, __, callback) {
+          callback(null, 'success');
+        });
+      });
 
-      postHandler.root(null, result);
+      it('renders the index with correct data', function() {
+        spyOn(Config, 'findOne').and.returnValue('config');
+        spyOn(Post, 'find').and.returnValue('posts');
 
-      var data = { marked: marked, config: 'config', posts: ['post 1', 'post 2'] };
-      expect(result.render).toHaveBeenCalledWith('index.jade', data);
+        postHandler.root(null, result);
+
+        var data = { marked: marked, config: 'config', posts: 'posts' };
+        expect(result.render).toHaveBeenCalledWith('index.jade', data, jasmine.any(Function));
+        expect(result.status).toHaveBeenCalledWith(200);
+        expect(result.send).toHaveBeenCalledWith('success');
+      });
+    });
+
+    describe('when render fails', function () {
+      beforeEach(function() {
+        result.render.and.callFake(function(_, __, callback) {
+          if (callback) {
+            callback('failure', null);
+          }
+        });
+      });
+
+      it('renders the error page', function () {
+        postHandler.root(null, result);
+
+        expect(result.status).toHaveBeenCalledWith(500);
+        expect(result.render).toHaveBeenCalledWith('error.jade');
+      });
     });
   });
 });
