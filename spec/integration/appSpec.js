@@ -1,13 +1,21 @@
+var mongoose = require('mongoose');
 var request = require('supertest');
 
 var models = require('../../lib/models');
 var Post = models.Post;
 var Config = models.Config;
 
-process.env.WRITEITDOWN_DB_STRING = 'mongodb://localhost/writeitdown-test';
 var app = require('../../lib/app');
 
 describe('app', function() {
+  beforeEach(function () {
+    mongoose.connect('mongodb://localhost/writeitdown-test');
+  });
+
+  afterEach(function (done) {
+    mongoose.connection.close(done)
+  });
+
   describe('root', function () {
     beforeEach(function(done) {
       Config.remove({}).exec().then(function() {
