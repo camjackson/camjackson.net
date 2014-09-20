@@ -1,5 +1,5 @@
 writeitdown
 ===========
-[![Build Status](https://travis-ci.org/camjackson/writeitdown.png)](https://travis-ci.org/camjackson/writeitdown)
+[![Build Status](https://snap-ci.com/camjackson/writeitdown/branch/master/build_image)](https://snap-ci.com/camjackson/writeitdown/branch/master)
 
 Blogging with markdown
