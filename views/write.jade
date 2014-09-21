@@ -1,18 +1,5 @@
-doctype html
-html
-  head
-    title= config.title
-    link(rel='stylesheet', href='style/style.css', type='text/css')
-    link(rel='shortcut icon', href='favicon.ico')
-    meta(name='viewport', content='width=device-width, initial-scale=1')
-  body
-    main
-      header
-        h1#heading= config.heading
-        nav
-          p Nav bar!
-      section
-        form
-          input(type = 'submit')
-      footer
-        p A footer!
+extends ./base.jade
+
+block content
+  form
+    input(type = 'submit')

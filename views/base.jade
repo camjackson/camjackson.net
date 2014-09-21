@@ -1,0 +1,19 @@
+doctype html
+html
+  head
+    title= config.title
+    link(rel='stylesheet', href='style/style.css', type='text/css')
+    link(rel='shortcut icon', href='favicon.ico')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+  body
+    main
+      header
+        h1#heading= config.heading
+        nav
+          ol
+            li: a(href='/') Home
+            li: a(href='/write') New Post
+      section
+        block content
+      footer
+        p A footer!
