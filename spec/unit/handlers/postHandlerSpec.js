@@ -49,4 +49,41 @@ describe('postHandler', function() {
       });
     });
   });
+
+  describe('write', function() {
+    describe('when render succeeds', function () {
+      beforeEach(function() {
+        result.render.and.callFake(function(_, __, callback) {
+          callback(null, 'success');
+        });
+      });
+
+      it('renders the write page with config', function() {
+        spyOn(Config, 'findOne').and.returnValue('config');
+
+        postHandler.write(null, result);
+
+        expect(result.render).toHaveBeenCalledWith('write.jade', { config: 'config' }, jasmine.any(Function));
+        expect(result.status).toHaveBeenCalledWith(200);
+        expect(result.send).toHaveBeenCalledWith('success');
+      });
+    });
+
+    describe('when render fails', function () {
+      beforeEach(function() {
+        result.render.and.callFake(function(_, __, callback) {
+          if (callback) {
+            callback('failure', null);
+          }
+        });
+      });
+
+      it('renders the error page', function () {
+        postHandler.write(null, result);
+
+        expect(result.status).toHaveBeenCalledWith(500);
+        expect(result.render).toHaveBeenCalledWith('error.jade');
+      });
+    });
+  });
 });

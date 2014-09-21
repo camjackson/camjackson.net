@@ -16,7 +16,7 @@ describe('app', function() {
     mongoose.connection.close(done)
   });
 
-  describe('root', function () {
+  describe('GET /', function () {
     beforeEach(function(done) {
       Config.remove({}).exec().then(function() {
         return Config.create({
@@ -33,7 +33,7 @@ describe('app', function() {
       }).then(done);
     });
 
-    it('renders the home page successfully', function (done) {
+    it('renders the home page successfully', function(done) {
       request(app.app)
         .get('/')
         .end(function (err, res) {
@@ -44,6 +44,20 @@ describe('app', function() {
           done();
         });
     });
+  });
+
+  describe('GET /write', function () {
+    it('renders the post creation page successfully', function(done) {
+      request(app.app)
+        .get('/write')
+        .end(function(err, res) {
+          expect(err).toBeNull();
+          expect(res.statusCode).toBe(200);
+          expect(res.text).toMatch(/<title>site title<\/title>/);
+          expect(res.text).toMatch(/<input type=['"]submit['"]/);
+          done();
+        });
+    })
   });
 
   describe('errors', function () {
