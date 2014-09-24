@@ -3,5 +3,8 @@ extends ./base.jade
 block content
   form
     input(type='text', class='h1', name='title', placeholder='Title')
-    textarea(name='text', class='p', placeholder='Contents', rows='20')
+    fieldset
+      label=config.domain
+      input(type='text', class='p', name='slug', placeholder='slug')
+    textarea(name='text', class='p', placeholder='Write some markdown!', rows='20')
     input(type='submit', class='p', value='Post')
