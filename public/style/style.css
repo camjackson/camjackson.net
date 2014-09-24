@@ -1,3 +1,4 @@
+/* Overall layout stuff */
 body, main, #heading {
     margin: 0;
     padding: 0;
@@ -5,14 +6,78 @@ body, main, #heading {
     box-sizing: border-box;
 }
 
+@media (min-width: 800px) {
+    main {
+        width: 800px;
+        border: 1px solid grey;
+        margin: 10px auto;
+    }
+}
+
 main {
     padding: 5px;
 }
 
-@media (min-width: 800px) {
-    #main_column {
-        width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-    }
+/* General appearance stuff, with classes matching tags.
+ This allows e.g. form elements to match h2 or p elements */
+body {
+    font-family: helvetica, sans-serif;
+}
+
+h2, .h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+p, .p {
+    font-size: 1em;
+}
+
+/* Nav bar */
+nav ol {
+    float: left;
+    width: 100%;
+    padding-left: 0;
+    margin-left: 0;
+    border: 1px solid dimgrey;
+    font-family: arial, helvetica, sans-serif;
+}
+
+nav ol li {
+    display: inline;
+}
+
+nav ol li a {
+    padding: 0.2em 1em;
+    text-decoration: none;
+    float: left;
+    border-right: 1px solid dimgrey;
+}
+
+nav ol li a:visited {
+    color: inherit;
+}
+
+nav ol li a:hover
+{
+    background-color: dimgrey;
+    color: white;
+}
+
+/* Form layout */
+form {
+    padding: 5px;
+}
+
+input[type='text'] {
+    width: 50%;
+}
+
+input[type='submit'] {
+    width: 80px;
+}
+
+textarea {
+    width: 100%;
+    margin-top: 5px;
 }
