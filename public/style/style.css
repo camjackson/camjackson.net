@@ -83,10 +83,6 @@ input[name='title'] {
     width: 50%;
 }
 
-input[name='slug'] {
-    sborder: none;
-}
-
 textarea {
     width: 100%;
     margin-top: 5px;
