@@ -11,7 +11,7 @@ describe('postHandler', function() {
     result.status.and.returnValue(result);
   });
 
-  describe('root', function() {
+  describe('getRoot', function() {
     describe('when render succeeds', function () {
       beforeEach(function() {
         result.render.and.callFake(function(_, __, callback) {
@@ -23,7 +23,7 @@ describe('postHandler', function() {
         spyOn(Config, 'findOne').and.returnValue('config');
         spyOn(Post, 'find').and.returnValue('posts');
 
-        postHandler.root(null, result);
+        postHandler.getRoot(null, result);
 
         var data = { marked: marked, config: 'config', posts: 'posts' };
         expect(result.render).toHaveBeenCalledWith('index.jade', data, jasmine.any(Function));
@@ -42,7 +42,7 @@ describe('postHandler', function() {
       });
 
       it('renders the error page', function () {
-        postHandler.root(null, result);
+        postHandler.getRoot(null, result);
 
         expect(result.status).toHaveBeenCalledWith(500);
         expect(result.render).toHaveBeenCalledWith('error.jade');
@@ -50,7 +50,7 @@ describe('postHandler', function() {
     });
   });
 
-  describe('write', function() {
+  describe('getWrite', function() {
     describe('when render succeeds', function () {
       beforeEach(function() {
         result.render.and.callFake(function(_, __, callback) {
@@ -61,7 +61,7 @@ describe('postHandler', function() {
       it('renders the write page with config', function() {
         spyOn(Config, 'findOne').and.returnValue('config');
 
-        postHandler.write(null, result);
+        postHandler.getWrite(null, result);
 
         expect(result.render).toHaveBeenCalledWith('write.jade', { config: 'config' }, jasmine.any(Function));
         expect(result.status).toHaveBeenCalledWith(200);
@@ -79,7 +79,7 @@ describe('postHandler', function() {
       });
 
       it('renders the error page', function () {
-        postHandler.write(null, result);
+        postHandler.getWrite(null, result);
 
         expect(result.status).toHaveBeenCalledWith(500);
         expect(result.render).toHaveBeenCalledWith('error.jade');
