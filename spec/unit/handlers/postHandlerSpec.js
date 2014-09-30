@@ -1,89 +1,71 @@
-var marked = require('marked');
-var postHandler = require('../../../lib/handlers/postHandler');
-var models = require('../../../lib/models');
-var Post = models.Post;
-var Config = models.Config;
+var sinon = require('sinon');
+var chai = require('chai');
+var sinonChai = require('sinon-chai');
+chai.use(sinonChai);
+var expect = chai.expect;
 
-describe('postHandler', function() {
-  var result;
-  beforeEach(function() {
-    result = jasmine.createSpyObj('result', ['render', 'status', 'send']);
-    result.status.and.returnValue(result);
+var marked = require('marked');
+
+var PostHandler = require('../../../lib/handlers/postHandler').PostHandler;
+var Config = require('../../../lib/models').Config;
+var Post = require('../../../lib/models').Post;
+
+describe('PostHandler', function() {
+  before(function() {
+      sinon.stub(Config, 'findOne').returns('config');
+      sinon.stub(Post, 'find').returns('posts');
   });
 
+  function createExpressResultObject(renderSuccess) {
+    var res = {
+      render: sinon.spy(function(_, __, callback) {
+        if (renderSuccess) callback(null, 'html');
+        else if (callback) callback('error', null);
+      }),
+      status: sinon.spy(function(_) {
+        return res;
+      }),
+      send: sinon.spy()
+    };
+    return res;
+  }
+
   describe('getRoot', function() {
-    describe('when render succeeds', function () {
-      beforeEach(function() {
-        result.render.and.callFake(function(_, __, callback) {
-          callback(null, 'success');
-        });
-      });
+    it('sends the index page with correct data when render succeeds', function() {
+      var result = createExpressResultObject(true);
+      new PostHandler().getRoot(null, result);
 
-      it('renders the index with correct data', function() {
-        spyOn(Config, 'findOne').and.returnValue('config');
-        spyOn(Post, 'find').and.returnValue('posts');
-
-        postHandler.getRoot(null, result);
-
-        var data = { marked: marked, config: 'config', posts: 'posts' };
-        expect(result.render).toHaveBeenCalledWith('index.jade', data, jasmine.any(Function));
-        expect(result.status).toHaveBeenCalledWith(200);
-        expect(result.send).toHaveBeenCalledWith('success');
-      });
+      var data = { marked: marked, config: 'config', posts: 'posts' };
+      expect(result.render).to.have.been.calledWith('index.jade', data, sinon.match.func);
+      expect(result.status).to.have.been.calledWithExactly(200);
+      expect(result.send).to.have.been.calledWithExactly('html');
     });
 
-    describe('when render fails', function () {
-      beforeEach(function() {
-        result.render.and.callFake(function(_, __, callback) {
-          if (callback) {
-            callback('failure', null);
-          }
-        });
-      });
+    it('sends the error page when render fails', function () {
+      var result = createExpressResultObject(false);
+      new PostHandler().getRoot(null, result);
 
-      it('renders the error page', function () {
-        postHandler.getRoot(null, result);
-
-        expect(result.status).toHaveBeenCalledWith(500);
-        expect(result.render).toHaveBeenCalledWith('error.jade');
-      });
+      expect(result.status).to.have.been.calledWithExactly(500);
+      expect(result.render).to.have.been.calledWithExactly('error.jade');
     });
   });
 
   describe('getWrite', function() {
-    describe('when render succeeds', function () {
-      beforeEach(function() {
-        result.render.and.callFake(function(_, __, callback) {
-          callback(null, 'success');
-        });
-      });
+    it('sends the write page with config when render succeeds', function() {
+      var result = createExpressResultObject(true);
+      new PostHandler().getWrite(null, result);
 
-      it('renders the write page with config', function() {
-        spyOn(Config, 'findOne').and.returnValue('config');
-
-        postHandler.getWrite(null, result);
-
-        expect(result.render).toHaveBeenCalledWith('write.jade', { config: 'config' }, jasmine.any(Function));
-        expect(result.status).toHaveBeenCalledWith(200);
-        expect(result.send).toHaveBeenCalledWith('success');
-      });
+      expect(result.render).to.have.been.calledWith('write.jade', { config: 'config' }, sinon.match.func);
+      expect(result.status).to.have.been.calledWithExactly(200);
+      expect(result.send).to.have.been.calledWithExactly('html');
     });
 
-    describe('when render fails', function () {
-      beforeEach(function() {
-        result.render.and.callFake(function(_, __, callback) {
-          if (callback) {
-            callback('failure', null);
-          }
-        });
-      });
+    it('sends the error page when render fails', function () {
+      var result = createExpressResultObject(false);
+      new PostHandler().getWrite(null, result);
 
-      it('renders the error page', function () {
-        postHandler.getWrite(null, result);
-
-        expect(result.status).toHaveBeenCalledWith(500);
-        expect(result.render).toHaveBeenCalledWith('error.jade');
-      });
+      expect(result.status).to.have.been.calledWithExactly(500);
+      expect(result.render).to.have.been.calledWithExactly('error.jade');
     });
   });
 });

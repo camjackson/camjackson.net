@@ -8,7 +8,7 @@ var expect = chai.expect;
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 var PostHandler = require('../../lib/handlers/postHandler').PostHandler;
 
-describe('app', function() {
+describe('WriteItDown', function() {
 
   describe('GET /', function () {
     it('returns the homepage using the postHandler', function (done) {
@@ -20,7 +20,6 @@ describe('app', function() {
       request(new WriteItDown(postHandler).app)
         .get('/')
         .end(function(err, res) {
-          expect(postHandler.getRoot).to.have.been.calledOnce;
           expect(err).to.be.null;
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.equal('Hey');
@@ -39,7 +38,6 @@ describe('app', function() {
       request(new WriteItDown(postHandler).app)
         .get('/write')
         .end(function(err, res) {
-          expect(postHandler.getWrite).to.have.been.calledOnce;
           expect(err).to.be.null;
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.equal('Hi');
@@ -62,7 +60,6 @@ describe('app', function() {
           text: 'Here is some text'
         })
         .end(function (err, res) {
-          expect(postHandler.createPost).to.have.been.calledOnce;
           expect(err).to.be.null;
           expect(res.statusCode).to.equal(303);
           expect(res.headers.location).to.equal('some-url');
