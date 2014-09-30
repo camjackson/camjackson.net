@@ -1,4 +1,5 @@
 require('mongoose').connect('mongodb://localhost/writeitdown');
 process.env.LOGGING = true;
 
-require('./lib/app').start();
+var WriteItDown = require('./lib/writeitdown').WriteItDown;
+new WriteItDown().start();
