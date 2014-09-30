@@ -1,15 +1,25 @@
-var mongoose = require('mongoose');
 var request = require('supertest');
+var chai = require('chai');
+var expect = chai.expect;
+
+var mongoose = require('mongoose');
 
 var models = require('../../lib/models');
-var Post = models.Post;
 var Config = models.Config;
+var Post = models.Post;
+var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 
-var app = require('../../lib/app');
-
-describe('app', function() {
-  beforeEach(function () {
+describe('WriteItDown', function() {
+  beforeEach(function (done) {
     mongoose.connect('mongodb://localhost/writeitdown-test');
+    Config.remove({}).exec().then(function() {
+      return Config.create({
+        title: 'site title',
+        heading: 'site heading'
+      });
+    }).then(function() {
+      done()
+    });
   });
 
   afterEach(function (done) {
@@ -18,29 +28,24 @@ describe('app', function() {
 
   describe('GET /', function () {
     beforeEach(function(done) {
-      Config.remove({}).exec().then(function() {
-        return Config.create({
-          title: 'site title',
-          heading: 'site heading'
-        });
-      }).then(function () {
-        return Post.remove({}).exec();
-      }).then(function() {
+      Post.remove({}).exec().then(function() {
         return Post.create({
           title: 'Post title',
           text: '*emphasised*'
         });
-      }).then(done);
+      }).then(function() {
+        done();
+      });
     });
 
     it('renders the home page successfully', function(done) {
-      request(app.app)
+      request(new WriteItDown().app)
         .get('/')
         .end(function (err, res) {
-          expect(err).toBeNull();
-          expect(res.statusCode).toBe(200);
-          expect(res.text).toMatch(/<title>site title<\/title>/);
-          expect(res.text).toMatch(/<em>emphasised<\/em>/);
+          expect(err).to.be.null;
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.include('<title>site title</title>');
+          expect(res.text).to.include('<em>emphasised</em>');
           done();
         });
     });
@@ -48,13 +53,13 @@ describe('app', function() {
 
   describe('GET /write', function () {
     it('renders the post creation page successfully', function(done) {
-      request(app.app)
+      request(new WriteItDown().app)
         .get('/write')
         .end(function(err, res) {
-          expect(err).toBeNull();
-          expect(res.statusCode).toBe(200);
-          expect(res.text).toMatch(/<title>site title<\/title>/);
-          expect(res.text).toMatch(/<input type=['"]submit['"]/);
+          expect(err).to.be.null;
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.include('<title>site title<\/title>');
+          expect(res.text).to.include('<input type="submit"');
           done();
         });
     })
@@ -62,10 +67,10 @@ describe('app', function() {
 
   describe('errors', function () {
     it('gives a 404 for a bad path', function (done) {
-      request(app.app)
+      request(new WriteItDown().app)
         .get('/does_not_exist')
         .end(function(err, res) {
-          expect(res.statusCode).toBe(404);
+          expect(res.statusCode).to.equal(404);
           done();
         });
     });

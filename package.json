@@ -25,6 +25,6 @@
     "supertest": "^0.13.0"
   },
   "scripts": {
-    "test": "./node_modules/jasmine-node/bin/jasmine-node spec"
+    "test": "./node_modules/mocha/bin/mocha --recursive spec"
   }
 }
