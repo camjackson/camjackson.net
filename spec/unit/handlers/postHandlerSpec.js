@@ -16,56 +16,50 @@ describe('PostHandler', function() {
       sinon.stub(Post, 'find').returns('posts');
   });
 
-  function createExpressResultObject(renderSuccess) {
-    var res = {
-      render: sinon.spy(function(_, __, callback) {
-        if (renderSuccess) callback(null, 'html');
-        else if (callback) callback('error', null);
-      }),
-      status: sinon.spy(function(_) {
-        return res;
-      }),
-      send: sinon.spy()
-    };
-    return res;
-  }
-
-  describe('getRoot', function() {
-    it('sends the index page with correct data when render succeeds', function() {
-      var result = createExpressResultObject(true);
-      new PostHandler().getRoot(null, result);
-
-      var data = { marked: marked, config: 'config', posts: 'posts' };
-      expect(result.render).to.have.been.calledWith('index.jade', data, sinon.match.func);
-      expect(result.status).to.have.been.calledWithExactly(200);
-      expect(result.send).to.have.been.calledWithExactly('html');
+  describe('render success', function() {
+    var result;
+    beforeEach(function() {
+      result = {
+        render: sinon.spy(function(_, __, callback) {callback(null, 'html');}),
+        status: sinon.spy(function(_) {return result;}),
+        send: sinon.spy()
+      };
     });
 
-    it('sends the error page when render fails', function () {
-      var result = createExpressResultObject(false);
+    describe('getRoot', function() {
+      it('sends the index page with correct data', function() {
+        new PostHandler().getRoot(null, result);
+
+        var data = { marked: marked, config: 'config', posts: 'posts' };
+        expect(result.render).to.have.been.calledWith('index.jade', data, sinon.match.func);
+        expect(result.status).to.have.been.calledWithExactly(200);
+        expect(result.send).to.have.been.calledWithExactly('html');
+      });
+    });
+
+    describe('getWrite', function() {
+      it('sends the write page with config', function() {
+        new PostHandler().getWrite(null, result);
+
+        expect(result.render).to.have.been.calledWith('write.jade', { config: 'config' }, sinon.match.func);
+        expect(result.status).to.have.been.calledWithExactly(200);
+        expect(result.send).to.have.been.calledWithExactly('html');
+      });
+    });
+  });
+
+
+  describe('render failure', function() {
+    it('sends the error page', function () {
+      var result = {
+        render: sinon.spy(function(_, __, callback) {if (callback) callback('error', null);}),
+        status: sinon.spy(function(_) {return result;}),
+        send: sinon.spy()
+      };
       new PostHandler().getRoot(null, result);
 
       expect(result.status).to.have.been.calledWithExactly(500);
       expect(result.render).to.have.been.calledWithExactly('error.jade');
     });
-  });
-
-  describe('getWrite', function() {
-    it('sends the write page with config when render succeeds', function() {
-      var result = createExpressResultObject(true);
-      new PostHandler().getWrite(null, result);
-
-      expect(result.render).to.have.been.calledWith('write.jade', { config: 'config' }, sinon.match.func);
-      expect(result.status).to.have.been.calledWithExactly(200);
-      expect(result.send).to.have.been.calledWithExactly('html');
-    });
-
-    it('sends the error page when render fails', function () {
-      var result = createExpressResultObject(false);
-      new PostHandler().getWrite(null, result);
-
-      expect(result.status).to.have.been.calledWithExactly(500);
-      expect(result.render).to.have.been.calledWithExactly('error.jade');
-    });
-  });
+  })
 });
