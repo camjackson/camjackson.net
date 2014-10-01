@@ -9,17 +9,22 @@ var Config = models.Config;
 var Post = models.Post;
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 
-describe('WriteItDown', function() {
-  beforeEach(function (done) {
+describe('Integration Test', function() {
+  beforeEach(function () {
     mongoose.connect('mongodb://localhost/writeitdown-test');
-    Config.remove({}).exec().then(function() {
+    return Config.remove({}).exec().then(function() {
       return Config.create({
         title: 'site title',
         heading: 'site heading'
       });
     }).then(function() {
-      done()
-    });
+      return Post.remove({}).exec();
+    }).then(function() {
+      return Post.create({
+        title: 'Post title',
+        text: '*emphasised*'
+      });
+    })
   });
 
   afterEach(function (done) {
@@ -27,17 +32,6 @@ describe('WriteItDown', function() {
   });
 
   describe('GET /', function () {
-    beforeEach(function(done) {
-      Post.remove({}).exec().then(function() {
-        return Post.create({
-          title: 'Post title',
-          text: '*emphasised*'
-        });
-      }).then(function() {
-        done();
-      });
-    });
-
     it('renders the home page successfully', function(done) {
       request(new WriteItDown().app)
         .get('/')
@@ -63,6 +57,34 @@ describe('WriteItDown', function() {
           done();
         });
     })
+  });
+
+  describe('PUT /posts/', function() {
+    it('creates a new post and redirects to it', function(done) {
+      request(new WriteItDown().app)
+        .post('/posts/')
+        .type('form')
+        .send({
+          _method: 'PUT',
+          title: 'New Post',
+          slug: 'new-post',
+          text: 'This is my newest post.'
+        })
+        .end(function (err, res) {
+          expect(err).to.be.null;
+          expect(res.statusCode).to.equal(303);
+          expect(res.headers.location).to.equal('/posts/new-post');
+
+          Post.find({slug: 'new-post'}).exec().then(function(posts) {
+            expect(posts).to.have.length(1);
+            var post = posts[0];
+            expect(post.title).to.equal('New Post');
+            expect(post.slug).to.equal('new-post');
+            expect(post.text).to.equal('This is my newest post.');
+            done();
+          });
+        });
+    });
   });
 
   describe('errors', function () {
