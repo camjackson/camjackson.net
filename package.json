@@ -9,17 +9,19 @@
   "main": "server.js",
   "author": "Cam Jackson",
   "dependencies": {
+    "body-parser": "^1.9.0",
     "bunyan": "^1.0.1",
     "express": "^4.9.0",
     "express-promise": "^0.3.0",
     "jade": "^1.6.0",
     "marked": "^0.3.2",
-    "mongoose": "~3.8.16",
-    "morgan": "^1.3.0"
+    "method-override": "^2.2.0",
+    "mongoose": "~3.8.16"
   },
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.21.4",
+    "q": "^1.0.1",
     "sinon": "^1.10.3",
     "sinon-chai": "^2.5.0",
     "supertest": "^0.13.0"

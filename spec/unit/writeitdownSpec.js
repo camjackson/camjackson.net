@@ -50,19 +50,21 @@ describe('WriteItDown', function() {
     var postHandler = new PostHandler();
     it ('creates a new post using the postHandler', function(done) {
       sinon.stub(postHandler, 'createPost', function(req, res) {
-        res.redirect(303, 'some-url');
+        res.redirect(303, '/posts/some-slug');
       });
       request(new WriteItDown(postHandler).app)
-        .put('/posts/slug')
+        .post('/posts/')
+        .type('form')
         .send({
+          _method: 'PUT',
           title: 'Hey',
-          slug: 'hello-world',
+          slug: 'some-slug',
           text: 'Here is some text'
         })
         .end(function (err, res) {
           expect(err).to.be.null;
           expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('some-url');
+          expect(res.headers.location).to.equal('/posts/some-slug');
           done();
         });
     })

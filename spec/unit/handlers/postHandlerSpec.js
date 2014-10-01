@@ -3,6 +3,7 @@ var chai = require('chai');
 var sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 var expect = chai.expect;
+var Q = require('q');
 
 var marked = require('marked');
 
@@ -14,6 +15,7 @@ describe('PostHandler', function() {
   before(function() {
       sinon.stub(Config, 'findOne').returns('config');
       sinon.stub(Post, 'find').returns('posts');
+      sinon.stub(Post, 'create').returns(Q.fcall(function() {}));
   });
 
   describe('render success', function() {
@@ -22,7 +24,8 @@ describe('PostHandler', function() {
       result = {
         render: sinon.spy(function(_, __, callback) {callback(null, 'html');}),
         status: sinon.spy(function(_) {return result;}),
-        send: sinon.spy()
+        send: sinon.spy(),
+        redirect: sinon.spy()
       };
     });
 
@@ -46,8 +49,22 @@ describe('PostHandler', function() {
         expect(result.send).to.have.been.calledWithExactly('html');
       });
     });
-  });
 
+    describe('createPost', function() {
+      it('creates the new post and redirects to it', function(done) {
+        var postBody = {
+          title: 'Some Title',
+          slug: 'some-slug',
+          text: 'Some text.'
+        };
+        new PostHandler().createPost({body: postBody}, result).then(function() {
+          expect(Post.create).to.have.been.calledWithExactly(postBody);
+          expect(result.redirect).to.have.been.calledWithExactly(303, '/posts/some-slug');
+          done();
+        });
+      });
+    });
+  });
 
   describe('render failure', function() {
     it('sends the error page', function () {
