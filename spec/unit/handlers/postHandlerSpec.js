@@ -13,9 +13,11 @@ var Post = require('../../../lib/models').Post;
 
 describe('PostHandler', function() {
   before(function() {
-      sinon.stub(Config, 'findOne').returns('config');
-      sinon.stub(Post, 'find').returns('posts');
-      sinon.stub(Post, 'create').returns(Q.fcall(function() {}));
+    sinon.stub(Config, 'findOne').returns('config');
+    sinon.stub(Post, 'find').returns('posts');
+
+    var promise = Q.fcall(function() {});
+    sinon.stub(Post, 'update').returns({exec: function() {return promise;}});
   });
 
   describe('render success', function() {
@@ -50,15 +52,15 @@ describe('PostHandler', function() {
       });
     });
 
-    describe('createPost', function() {
-      it('creates the new post and redirects to it', function(done) {
+    describe('createOrUpdatePost', function() {
+      it('upserts the post and redirects to it', function(done) {
         var postBody = {
           title: 'Some Title',
           slug: 'some-slug',
           text: 'Some text.'
         };
-        new PostHandler().createPost({body: postBody}, result).then(function() {
-          expect(Post.create).to.have.been.calledWithExactly(postBody);
+        new PostHandler().createOrUpdatePost({body: postBody}, result).then(function() {
+          expect(Post.update).to.have.been.calledWithExactly({slug: 'some-slug'}, postBody, {upsert: true});
           expect(result.redirect).to.have.been.calledWithExactly(303, '/posts/some-slug');
           done();
         });

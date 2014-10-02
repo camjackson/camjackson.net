@@ -49,7 +49,7 @@ describe('WriteItDown', function() {
   describe('PUT /posts/slug', function() {
     var postHandler = new PostHandler();
     it ('creates a new post using the postHandler', function(done) {
-      sinon.stub(postHandler, 'createPost', function(req, res) {
+      sinon.stub(postHandler, 'createOrUpdatePost', function(req, res) {
         res.redirect(303, '/posts/some-slug');
       });
       request(new WriteItDown(postHandler).app)
