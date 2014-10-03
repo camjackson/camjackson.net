@@ -21,7 +21,7 @@ main {
 /* General appearance stuff, with classes matching tags.
  This allows e.g. form elements to match h2 or p elements */
 body {
-    font-family: helvetica, sans-serif;
+    font-family: 'Open Sans', sans-serif;
 }
 
 #heading {
