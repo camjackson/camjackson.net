@@ -22,6 +22,7 @@ describe('Integration Test', function() {
     }).then(function() {
       return Post.create({
         title: 'Post title',
+        slug: 'post-slug',
         text: '*emphasised*'
       });
     })
@@ -60,30 +61,64 @@ describe('Integration Test', function() {
   });
 
   describe('PUT /posts/', function() {
-    it('creates a new post and redirects to it', function(done) {
-      request(new WriteItDown().app)
-        .post('/posts/')
-        .type('form')
-        .send({
-          _method: 'PUT',
-          title: 'New Post',
-          slug: 'new-post',
-          text: 'This is my newest post.'
-        })
-        .end(function (err, res) {
-          expect(err).to.be.null;
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/posts/new-post');
+    describe('when there is no post with the given slug', function() {
+      it('creates a new post and redirects to it', function(done) {
+        request(new WriteItDown().app)
+          .post('/posts/')
+          .type('form')
+          .send({
+            _method: 'PUT',
+            title: 'New Post',
+            slug: 'new-post',
+            text: 'This is my newest post.'
+          })
+          .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res.statusCode).to.equal(303);
+            expect(res.headers.location).to.equal('/posts/new-post');
 
-          Post.find({slug: 'new-post'}).exec().then(function(posts) {
-            expect(posts).to.have.length(1);
-            var post = posts[0];
-            expect(post.title).to.equal('New Post');
-            expect(post.slug).to.equal('new-post');
-            expect(post.text).to.equal('This is my newest post.');
-            done();
+            Post.find({}).exec().then(function(posts) {
+              expect(posts).to.have.length(2);
+              return Post.findOne({slug: 'new-post'}).exec()
+            }).then(function(post) {
+              expect(post.title).to.equal('New Post');
+              expect(post.slug).to.equal('new-post');
+              expect(post.text).to.equal('This is my newest post.');
+              done();
+            });
           });
-        });
+      });
+    });
+
+    describe('when there is an existing post with the given slug', function() {
+      it('overwrites the existing post', function(done) {
+        request(new WriteItDown().app)
+          .post('/posts/')
+          .type('form')
+          .send({
+            _method: 'PUT',
+            title: 'Post title (updated)',
+            slug: 'post-slug',
+            text: '*still emphasised*'
+          })
+          .end(function (err, res) {
+            expect(err).to.be.null;
+            expect(res.statusCode).to.equal(303);
+            expect(res.headers.location).to.equal('/posts/post-slug');
+
+            Post.find({}).exec().then(function(posts) {
+              expect(posts).to.have.length(1);
+              return Post.find({slug: 'post-slug'}).exec()
+            }).then(function(posts) {
+              expect(posts).to.have.length(1);
+              expect(posts[0].title).to.equal('Post title (updated)');
+              expect(posts[0].slug).to.equal('post-slug');
+              expect(posts[0].text).to.equal('*still emphasised*');
+              done();
+            });
+          });
+
+      })
     });
   });
 
