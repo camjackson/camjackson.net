@@ -20,11 +20,18 @@ describe('Integration Test', function() {
     }).then(function() {
       return Post.remove({}).exec();
     }).then(function() {
-      return Post.create({
-        title: 'Post title',
-        slug: 'post-slug',
-        text: '*emphasised*'
-      });
+      return Post.create([
+        {
+          title: 'Post title',
+          slug: 'post-slug',
+          text: '*emphasised*'
+        },
+        {
+          title: 'Second post',
+          slug: 'second-slug',
+          text: '**strong**'
+        }
+      ]);
     })
   });
 
@@ -37,10 +44,23 @@ describe('Integration Test', function() {
       request(new WriteItDown().app)
         .get('/')
         .end(function (err, res) {
-          expect(err).to.be.null;
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<title>site title</title>');
           expect(res.text).to.include('<em>emphasised</em>');
+          expect(res.text).to.include('<strong>strong</strong>');
+          done();
+        });
+    });
+  });
+
+  describe('GET /post/:slug', function() {
+    it('renders the post page successfully', function(done) {
+      request(new WriteItDown().app)
+        .get('/posts/post-slug')
+        .end(function(req, res) {
+          expect(res.text).to.include('<title>site title</title>');
+          expect(res.text).to.include('<em>emphasised</em>');
+          expect(res.text).not.to.include('<strong>strong</strong>');
           done();
         });
     });
@@ -51,7 +71,6 @@ describe('Integration Test', function() {
       request(new WriteItDown().app)
         .get('/write')
         .end(function(err, res) {
-          expect(err).to.be.null;
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<title>site title<\/title>');
           expect(res.text).to.include('<input type="submit"');
@@ -73,12 +92,11 @@ describe('Integration Test', function() {
             text: 'This is my newest post.'
           })
           .end(function (err, res) {
-            expect(err).to.be.null;
             expect(res.statusCode).to.equal(303);
             expect(res.headers.location).to.equal('/posts/new-post');
 
             Post.find({}).exec().then(function(posts) {
-              expect(posts).to.have.length(2);
+              expect(posts).to.have.length(3);
               return Post.findOne({slug: 'new-post'}).exec()
             }).then(function(post) {
               expect(post.title).to.equal('New Post');
@@ -102,12 +120,11 @@ describe('Integration Test', function() {
             text: '*still emphasised*'
           })
           .end(function (err, res) {
-            expect(err).to.be.null;
             expect(res.statusCode).to.equal(303);
             expect(res.headers.location).to.equal('/posts/post-slug');
 
             Post.find({}).exec().then(function(posts) {
-              expect(posts).to.have.length(1);
+              expect(posts).to.have.length(2);
               return Post.find({slug: 'post-slug'}).exec()
             }).then(function(posts) {
               expect(posts).to.have.length(1);
