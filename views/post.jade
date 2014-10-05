@@ -1,0 +1,7 @@
+extends ./base
+
+block content
+  article
+    h1= post.title
+    time(pubdate)= post.posted
+    != marked(post.text)
