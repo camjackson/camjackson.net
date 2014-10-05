@@ -15,6 +15,7 @@ describe('PostHandler', function() {
   before(function() {
     sinon.stub(Config, 'findOne').returns('config');
     sinon.stub(Post, 'find').returns('posts');
+    sinon.stub(Post, 'findOne').returns('post');
 
     var promise = Q.fcall(function() {});
     sinon.stub(Post, 'update').returns({exec: function() {return promise;}});
@@ -37,6 +38,18 @@ describe('PostHandler', function() {
 
         var data = { marked: marked, config: 'config', posts: 'posts' };
         expect(result.render).to.have.been.calledWith('index.jade', data, sinon.match.func);
+        expect(result.status).to.have.been.calledWithExactly(200);
+        expect(result.send).to.have.been.calledWithExactly('html');
+      });
+    });
+
+    describe('getPost', function() {
+      it('sends the single post page with the correct data', function() {
+        new PostHandler().getPost({params: {slug: 'some-slug'}}, result);
+
+        var data = { marked: marked, config: 'config', post: 'post' };
+        expect(Post.findOne).to.have.been.calledWithExactly({slug: 'some-slug'});
+        expect(result.render).to.have.been.calledWith('post.jade', data, sinon.match.func);
         expect(result.status).to.have.been.calledWithExactly(200);
         expect(result.send).to.have.been.calledWithExactly('html');
       });
