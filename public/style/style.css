@@ -15,13 +15,17 @@ body, main, #heading {
 }
 
 main {
-    padding: 5px;
+    padding: 15px;
 }
 
 /* General appearance stuff, with classes matching tags.
  This allows e.g. form elements to match h2 or p elements */
 body {
     font-family: 'Open Sans', sans-serif;
+}
+
+a {
+    color: inherit;
 }
 
 #heading {
@@ -35,8 +39,20 @@ h1, .h1 {
     font-weight: bold;
 }
 
+a h1 {
+    color: black;
+}
+
 p, .p {
     font-size: 1em;
+}
+
+.underline-hover-only {
+    text-decoration: none;
+}
+
+.underline-hover-only:hover {
+    text-decoration: underline;
 }
 
 /* Nav bar */
