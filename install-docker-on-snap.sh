@@ -6,7 +6,7 @@ if [ ! -d ${SNAP_CACHE_DIR}/docker ]; then
    #Make sure there's only one rpm to copy to cache later
    rm -f /var/cache/yum/docker-io/packages/*
 
-   sudo yum install docker-io
+   sudo yum -y install docker-io
 
    echo Copying rpm to snap cache dir for next time.
    mkdir ${SNAP_CACHE_DIR}/docker
