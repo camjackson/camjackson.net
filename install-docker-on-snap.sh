@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ ! -d ${SNAP_CACHE_DIR}/docker ]; then
+if [ ! -e ${SNAP_CACHE_DIR}/docker/docker.rpm ]; then
    echo Docker is not in snap cache dir. Need to download it.
 
    #Make sure there's only one rpm to copy to cache later
