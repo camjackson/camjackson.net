@@ -7,11 +7,12 @@ var mongoose = require('mongoose');
 var models = require('../../lib/models');
 var Config = models.Config;
 var Post = models.Post;
+var db_host = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 
 describe('Integration Test', function() {
   beforeEach(function () {
-    mongoose.connect('mongodb://localhost/writeitdown-test');
+    mongoose.connect('mongodb://'+ db_host +'/writeitdown-test');
     return Config.remove({}).exec().then(function() {
       return Config.create({
         title: 'site title',
