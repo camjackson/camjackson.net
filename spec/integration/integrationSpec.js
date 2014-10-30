@@ -42,7 +42,7 @@ describe('Integration Test', function() {
 
   describe('GET /', function () {
     it('renders the home page successfully', function(done) {
-      request(new WriteItDown().app)
+      request(new WriteItDown({}).app)
         .get('/')
         .end(function (err, res) {
           expect(res.statusCode).to.equal(200);
@@ -56,7 +56,7 @@ describe('Integration Test', function() {
 
   describe('GET /post/:slug', function() {
     it('renders the post page successfully', function(done) {
-      request(new WriteItDown().app)
+      request(new WriteItDown({}).app)
         .get('/posts/post-slug')
         .end(function(req, res) {
           expect(res.text).to.include('<title>site title</title>');
@@ -69,7 +69,7 @@ describe('Integration Test', function() {
 
   describe('GET /write', function () {
     it('renders the post creation page successfully', function(done) {
-      request(new WriteItDown().app)
+      request(new WriteItDown({}).app)
         .get('/write')
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
@@ -83,7 +83,7 @@ describe('Integration Test', function() {
   describe('PUT /posts/', function() {
     describe('when there is no post with the given slug', function() {
       it('creates a new post and redirects to it', function(done) {
-        request(new WriteItDown().app)
+        request(new WriteItDown({}).app)
           .post('/posts/')
           .type('form')
           .send({
@@ -111,7 +111,7 @@ describe('Integration Test', function() {
 
     describe('when there is an existing post with the given slug', function() {
       it('overwrites the existing post', function(done) {
-        request(new WriteItDown().app)
+        request(new WriteItDown({}).app)
           .post('/posts/')
           .type('form')
           .send({
@@ -135,14 +135,13 @@ describe('Integration Test', function() {
               done();
             });
           });
-
       })
     });
   });
 
   describe('errors', function () {
     it('gives a 404 for a bad path', function (done) {
-      request(new WriteItDown().app)
+      request(new WriteItDown({}).app)
         .get('/does_not_exist')
         .end(function(err, res) {
           expect(res.statusCode).to.equal(404);

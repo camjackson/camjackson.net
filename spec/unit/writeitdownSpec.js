@@ -17,7 +17,7 @@ describe('WriteItDown', function() {
         res.status(200).send('This is the home page');
       });
 
-      request(new WriteItDown(postHandler).app)
+      request(new WriteItDown({postHandler: postHandler}).app)
         .get('/')
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
@@ -34,7 +34,7 @@ describe('WriteItDown', function() {
         res.status(200).send('This is a single post');
       });
 
-      request(new WriteItDown(postHandler).app)
+      request(new WriteItDown({postHandler: postHandler}).app)
         .get('/posts/some-post')
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
@@ -51,7 +51,7 @@ describe('WriteItDown', function() {
         res.status(200).send('Hi');
       });
 
-      request(new WriteItDown(postHandler).app)
+      request(new WriteItDown({postHandler: postHandler}).app)
         .get('/write')
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
@@ -67,7 +67,7 @@ describe('WriteItDown', function() {
       sinon.stub(postHandler, 'createOrUpdatePost', function(req, res) {
         res.redirect(303, '/posts/some-slug');
       });
-      request(new WriteItDown(postHandler).app)
+      request(new WriteItDown({postHandler: postHandler}).app)
         .post('/posts/')
         .type('form')
         .send({
