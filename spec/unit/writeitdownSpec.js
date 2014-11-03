@@ -49,7 +49,7 @@ describe('WriteItDown', function() {
     });
   });
 
-  describe('GET /write/:slug', function() {
+  describe('GET /post/:slug', function() {
     it('renders the post using the postHandler', function(done) {
       var postHandler = new PostHandler();
       sinon.stub(postHandler, 'getPost', function(req, res) {
@@ -57,7 +57,7 @@ describe('WriteItDown', function() {
       });
 
       request(new WriteItDown({postHandler: postHandler}).app)
-        .get('/posts/some-post')
+        .get('/post/some-post')
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.equal('This is a single post');

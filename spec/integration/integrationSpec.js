@@ -65,7 +65,7 @@ describe('Integration Test', function() {
   describe('GET /post/:slug', function() {
     it('renders the post page successfully', function(done) {
       request(new WriteItDown({}).app)
-        .get('/posts/post-slug')
+        .get('/post/post-slug')
         .end(function(req, res) {
           expect(res.text).to.include('<title>site title</title>');
           expect(res.text).to.include('<em>emphasised</em>');
