@@ -9,16 +9,21 @@
   "main": "server.js",
   "author": "Cam Jackson",
   "dependencies": {
+    "bcrypt": "^0.8.0",
     "body-parser": "^1.9.0",
     "bunyan": "^1.0.1",
+    "connect-flash": "^0.1.1",
     "express": "^4.9.0",
     "express-promise": "^0.3.0",
+    "express-session": "^1.9.1",
     "gulp": "^3.8.9",
     "gulp-mocha": "^1.1.1",
     "jade": "^1.6.0",
     "marked": "^0.3.2",
     "method-override": "^2.2.0",
     "mongoose": "~3.8.16",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
     "prompt": "~0.2.14"
   },
   "devDependencies": {

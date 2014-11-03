@@ -1,0 +1,9 @@
+extends ./base
+block content
+  form(method='post', action='/login/')
+    label(for='username') Username
+    input(type='text', id='username', name='username')
+    label(for='password') Password
+    input(type='password', id='password', name='password')
+    input(type='submit', class='p', value='Log In')
+  p(class='error')= errorMessage

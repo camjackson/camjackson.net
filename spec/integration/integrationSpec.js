@@ -40,6 +40,14 @@ describe('Integration Test', function() {
     mongoose.connection.close(done)
   });
 
+  describe('GET /login', function() {
+    //TODO!
+  });
+
+  describe('POST /login', function() {
+    //TODO!
+  });
+
   describe('GET /', function () {
     it('renders the home page successfully', function(done) {
       request(new WriteItDown({}).app)

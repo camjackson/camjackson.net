@@ -7,8 +7,30 @@ var expect = chai.expect;
 
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 var PostHandler = require('../../lib/handlers/postHandler').PostHandler;
+var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
 
 describe('WriteItDown', function() {
+
+  describe('GET /login', function() {
+    it('returns the login page using the authHandler', function(done) {
+      var authHandler = new AuthHandler();
+      sinon.stub(authHandler, 'getLogin', function(req, res) {
+        res.status(200).send('This is the login page');
+      });
+
+      request(new WriteItDown({authHandler: authHandler}).app)
+        .get('/login')
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.equal('This is the login page');
+          done()
+        });
+    });
+  });
+
+  describe('POST /login', function() {
+    //TODO!
+  });
 
   describe('GET /', function () {
     it('returns the homepage using the postHandler', function (done) {

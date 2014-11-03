@@ -53,6 +53,7 @@ function seed() {
   var mongoose = require('mongoose');
   var models = require('./lib/models');
   var Config = models.Config;
+  var User = models.User;
   var Post = models.Post;
   var db_host = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
   var connection;
@@ -70,8 +71,24 @@ function seed() {
       domain: 'example.com' //TODO
     });
   }).then(function() {
+    return User.remove({}).exec();
+  }).then(function() {
+    return User.create({
+      username: 'defaultUser',
+      password: 'defaultPassword'
+    });
+  }).then(function() {
     return Post.remove({}).exec();
+  }).then(function() {
+    return Post.create({
+      title: 'Hello, world!',
+      slug: 'hello-world',
+      text: firstPostText
+    });
   }).then(function() {
     mongoose.disconnect();
   });
 }
+
+var firstPostText = 'This is your first post.\n\n Log in with the default credentials to ' +
+  'edit or delete it, and to start making posts of your own.'

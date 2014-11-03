@@ -18,7 +18,7 @@ main {
     padding: 15px;
 }
 
-/* General appearance stuff, with classes matching tags.
+/* General appearance/presentation stuff, with classes matching tags.
  This allows e.g. form elements to match h2 or p elements */
 body {
     font-family: 'Open Sans', sans-serif;
@@ -45,6 +45,10 @@ a h1 {
 
 p, .p {
     font-size: 1em;
+}
+
+.error {
+    color: red;
 }
 
 .underline-hover-only {

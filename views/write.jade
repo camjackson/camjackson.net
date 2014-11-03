@@ -3,9 +3,11 @@ extends ./base
 block content
   form(method='post', action='/posts/')
     input(type='hidden', name='_method', value='PUT')
-    input(type='text', class='h1', name='title', placeholder='Title')
+    label(for='title', class='h1') Post title:
+    input(type='text', class='h1', id='title', name='title', placeholder='Title')
     fieldset
-      label=config.domain
+      label(style='p')=config.domain + '/'
       input(type='text', class='p', name='slug', placeholder='slug')
-    textarea(name='text', class='p', placeholder='Write some markdown!', rows='20')
+    label(for='text', class='h1') Post Body:
+    textarea(id='text', name='text', class='p', placeholder='Write some markdown!', rows='20')
     input(type='submit', class='p', value='Post')
