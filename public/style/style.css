@@ -75,7 +75,15 @@ nav a {
     padding: 5px 10px;
     text-decoration: none;
     display: inline-block;
+}
+
+nav a.nav-left {
     border-right: 1px solid dimgrey;
+}
+
+nav a.nav-right {
+    float: right;
+    border-left: 1px solid dimgrey;
 }
 
 nav a:visited {

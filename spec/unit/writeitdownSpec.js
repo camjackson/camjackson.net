@@ -10,11 +10,27 @@ var PostHandler = require('../../lib/handlers/postHandler').PostHandler;
 var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
 
 describe('WriteItDown', function() {
+  var sandbox;
+  var authHandler = new AuthHandler();
+  var postHandler = new PostHandler();
+
+  beforeEach(function() {
+    sandbox = sinon.sandbox.create();
+  });
+
+  afterEach(function() {
+    sandbox.restore();
+  });
+
+  function authorise() {
+    sandbox.stub(authHandler, 'authorise', function(req, res, next) {
+      next();
+    });
+  }
 
   describe('GET /login', function() {
     it('returns the login page using the authHandler', function(done) {
-      var authHandler = new AuthHandler();
-      sinon.stub(authHandler, 'getLogin', function(req, res) {
+      sandbox.stub(authHandler, 'getLogin', function(req, res) {
         res.status(200).send('This is the login page');
       });
 
@@ -29,13 +45,29 @@ describe('WriteItDown', function() {
   });
 
   describe('POST /login', function() {
-    //TODO!
+    it('authenticates using the authHandler', function(done) {
+      sandbox.stub(authHandler, 'authenticate', function(req, res) {
+        res.redirect(303, '/');
+      });
+
+      request(new WriteItDown({authHandler: authHandler}).app)
+        .post('/login')
+        .type('form')
+        .send({
+          username: 'some-user',
+          password: 'some-pass'
+        })
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(303);
+          expect(res.headers.location).to.equal('/');
+          done();
+        });
+    });
   });
 
   describe('GET /', function () {
     it('returns the homepage using the postHandler', function (done) {
-      var postHandler = new PostHandler();
-      sinon.stub(postHandler, 'getRoot', function(req, res) {
+      sandbox.stub(postHandler, 'getRoot', function(req, res) {
         res.status(200).send('This is the home page');
       });
 
@@ -51,8 +83,7 @@ describe('WriteItDown', function() {
 
   describe('GET /post/:slug', function() {
     it('renders the post using the postHandler', function(done) {
-      var postHandler = new PostHandler();
-      sinon.stub(postHandler, 'getPost', function(req, res) {
+      sandbox.stub(postHandler, 'getPost', function(req, res) {
         res.status(200).send('This is a single post');
       });
 
@@ -67,13 +98,23 @@ describe('WriteItDown', function() {
   });
 
   describe('GET /write', function () {
-    it('returns the new post page using the postHandler', function (done) {
-      var postHandler = new PostHandler();
-      sinon.stub(postHandler, 'getWrite', function(req, res) {
+    it('redirects to the login page when the user is not authenticated', function(done) {
+      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
+        .get('/write')
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+    });
+
+    it('returns the new post page using the postHandler when the user is authenticated', function (done) {
+      authorise();
+      sandbox.stub(postHandler, 'getWrite', function(req, res) {
         res.status(200).send('Hi');
       });
 
-      request(new WriteItDown({postHandler: postHandler}).app)
+      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
         .get('/write')
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
@@ -83,13 +124,30 @@ describe('WriteItDown', function() {
     });
   });
 
-  describe('PUT /posts/slug', function() {
-    var postHandler = new PostHandler();
-    it ('creates a new post using the postHandler', function(done) {
-      sinon.stub(postHandler, 'createOrUpdatePost', function(req, res) {
+  describe('PUT /posts/', function() {
+    it('redirects to the login page when the user is not authenticated', function(done) {
+      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
+        .post('/posts/')
+        .type('form')
+        .send({
+          _method: 'PUT',
+          title: 'Hey',
+          slug: 'some-slug',
+          text: 'Here is some text'
+        })
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(302);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+    });
+
+    it ('creates a new post using the postHandler when the user is authenticated', function(done) {
+      authorise();
+      sandbox.stub(postHandler, 'createOrUpdatePost', function(req, res) {
         res.redirect(303, '/posts/some-slug');
       });
-      request(new WriteItDown({postHandler: postHandler}).app)
+      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
         .post('/posts/')
         .type('form')
         .send({

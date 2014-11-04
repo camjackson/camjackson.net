@@ -12,9 +12,11 @@ html
         h1#heading= config.heading
         nav
           ol
-            li: a(href='/') Home
-            li: a(href='/write') New Post
-            li: a(href='/login') Log In
+            li: a(href='/' class='nav-left') Home
+            if user
+              li: a(href='/write' class='nav-left') New Post
+            else
+              li: a(href='/login' class='nav-right') Log In
       section
         block content
       hr
