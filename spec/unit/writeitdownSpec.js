@@ -65,6 +65,24 @@ describe('WriteItDown', function() {
     });
   });
 
+  describe('POST /logout', function () {
+    it('logs out using the authHandler', function (done) {
+      sandbox.stub(authHandler, 'logOut', function(req, res) {
+        res.redirect(303, '/');
+      });
+
+      request(new WriteItDown({authHandler: authHandler}).app)
+        .post('/logout')
+        .type('form')
+        .send({})
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(303);
+          expect(res.headers.location).to.equal('/');
+          done()
+        })
+    });
+  });
+
   describe('GET /', function () {
     it('returns the homepage using the postHandler', function (done) {
       sandbox.stub(postHandler, 'getRoot', function(req, res) {
@@ -102,7 +120,7 @@ describe('WriteItDown', function() {
       request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
         .get('/write')
         .end(function(err, res) {
-          expect(res.statusCode).to.equal(302);
+          expect(res.statusCode).to.equal(303);
           expect(res.headers.location).to.equal('/login');
           done();
         });
@@ -136,7 +154,7 @@ describe('WriteItDown', function() {
           text: 'Here is some text'
         })
         .end(function(err, res) {
-          expect(res.statusCode).to.equal(302);
+          expect(res.statusCode).to.equal(303);
           expect(res.headers.location).to.equal('/login');
           done();
         });
@@ -145,7 +163,7 @@ describe('WriteItDown', function() {
     it ('creates a new post using the postHandler when the user is authenticated', function(done) {
       authorise();
       sandbox.stub(postHandler, 'createOrUpdatePost', function(req, res) {
-        res.redirect(303, '/posts/some-slug');
+        res.redirect(303, '/post/some-slug');
       });
       request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
         .post('/posts/')
@@ -158,7 +176,7 @@ describe('WriteItDown', function() {
         })
         .end(function (err, res) {
           expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/posts/some-slug');
+          expect(res.headers.location).to.equal('/post/some-slug');
           done();
         });
     })

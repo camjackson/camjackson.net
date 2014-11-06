@@ -29,7 +29,7 @@ describe('AuthHandler', function() {
     it('redirects to the home page if the user is already authenticated', function() {
       var reqWithAuth = { isAuthenticated: function() {return true} };
       new AuthHandler(createResponder).getLogin(reqWithAuth, result);
-      expect(result.redirect).to.have.been.calledWithExactly('/');
+      expect(result.redirect).to.have.been.calledWithExactly(303, '/');
     });
 
     it('sends the login page with correct data when the user is not already authenticated', function() {
@@ -58,7 +58,18 @@ describe('AuthHandler', function() {
       var reqWithoutAuth = { isAuthenticated: function() {return false} };
       var res = { redirect: sandbox.spy() };
       new AuthHandler().authorise(reqWithoutAuth, res);
-      expect(res.redirect).to.have.been.calledWithExactly('/login');
+      expect(res.redirect).to.have.been.calledWithExactly(303, '/login');
     });
-  })
+  });
+
+  describe('logOut', function () {
+    it('logs the user out and redirects to the home page', function () {
+      var reqWithLogout = { logout: sandbox.spy() };
+      var res = { redirect: sandbox.spy() };
+      new AuthHandler().logOut(reqWithLogout, res);
+      expect(reqWithLogout.logout).to.have.been.calledOnce;
+      expect(res.redirect).to.have.been.calledWithExactly(303, '/');
+    });
+  });
+
 });

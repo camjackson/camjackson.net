@@ -74,7 +74,7 @@ describe('Integration Test', function() {
             password: 'test-password'
           })
           .end(function (err, res) {
-            expect(res.statusCode).to.equal(302);
+            expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request
             expect(res.headers.location).to.equal('/');
             done();
           });
@@ -89,11 +89,25 @@ describe('Integration Test', function() {
             password: 'bad-password'
           })
           .end(function (err, res) {
-            expect(res.statusCode).to.equal(302);
+            expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request.
             expect(res.headers.location).to.equal('/login');
             done();
           });
       });
+    });
+
+    describe('POST /logout', function() {
+      it('redirects to the home page', function(done) {
+        request(app)
+          .post('/logout')
+          .type('form')
+          .send({})
+          .end(function (err, res) {
+            expect(res.statusCode).to.equal(303);
+            expect(res.headers.location).to.equal('/');
+            done();
+          });
+      })
     });
 
     describe('GET /', function () {
@@ -170,7 +184,7 @@ describe('Integration Test', function() {
             })
             .end(function (err, res) {
               expect(res.statusCode).to.equal(303);
-              expect(res.headers.location).to.equal('/posts/new-post');
+              expect(res.headers.location).to.equal('/post/new-post');
 
               Post.find({}).exec().then(function(posts) {
                 expect(posts).to.have.length(3);
@@ -198,7 +212,7 @@ describe('Integration Test', function() {
             })
             .end(function (err, res) {
               expect(res.statusCode).to.equal(303);
-              expect(res.headers.location).to.equal('/posts/post-slug');
+              expect(res.headers.location).to.equal('/post/post-slug');
 
               Post.find({}).exec().then(function(posts) {
                 expect(posts).to.have.length(2);

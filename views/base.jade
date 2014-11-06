@@ -12,11 +12,13 @@ html
         h1#heading= config.heading
         nav
           ol
-            li: a(href='/' class='nav-left') Home
+            li: a(href='/', class='nav-left') Home
             if user
-              li: a(href='/write' class='nav-left') New Post
+              li: a(href='/write', class='nav-left') New Post
+              li: a(href='#', class='nav-right', onclick='document.getElementById("logout-form").submit();') Log Out
             else
-              li: a(href='/login' class='nav-right') Log In
+              li: a(href='/login', class='nav-right') Log In
+        form(id='logout-form', action='/logout', method='post')
       section
         block content
       hr

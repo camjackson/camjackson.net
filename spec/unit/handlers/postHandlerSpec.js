@@ -79,7 +79,7 @@ describe('PostHandler', function() {
       };
       postHandler.createOrUpdatePost({body: postBody}, result).then(function() {
         expect(Post.update).to.have.been.calledWithExactly({slug: 'some-slug'}, postBody, {upsert: true});
-        expect(result.redirect).to.have.been.calledWithExactly(303, '/posts/some-slug');
+        expect(result.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
         done();
       });
     });
