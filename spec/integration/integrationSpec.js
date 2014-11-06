@@ -10,6 +10,7 @@ var User = models.User;
 var db_host = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
+var helpers = require('../../lib/helpers');
 
 describe('Integration Test', function() {
   beforeEach(function () {
@@ -65,7 +66,7 @@ describe('Integration Test', function() {
     });
 
     describe('POST /login', function() {
-      it('redirects to the home page when credentials are valid', function(done) {
+      it('redirects to the profile page when credentials are valid', function(done) {
         request(app)
           .post('/login')
           .type('form')
@@ -75,7 +76,7 @@ describe('Integration Test', function() {
           })
           .end(function (err, res) {
             expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request
-            expect(res.headers.location).to.equal('/');
+            expect(res.headers.location).to.equal('/profile');
             done();
           });
       });
@@ -154,7 +155,26 @@ describe('Integration Test', function() {
     sinon.stub(authHandler, 'authorise', function(req, res, next) {
       next();
     });
+    sinon.stub(helpers, 'addUserToResLocals', function(req, res, next) {
+      res.locals.user = { username: 'test-user', password: 'test-password' }
+      next();
+    });
     var app = new WriteItDown({authHandler: authHandler}).app;
+
+    describe('GET /profile', function () {
+      it('renders the profile page successfully', function (done) {
+        request(app)
+          .get('/profile')
+          .end(function(err, res) {
+            expect(res.statusCode).to.equal(200);
+            expect(res.text).to.include('<title>site title<\/title>');
+            expect(res.text).to.include('Welcome, test-user!');
+            expect(res.text).to.include('name="confirmPassword"');
+            expect(res.text).to.include('<input type="submit"');
+            done();
+          });
+      });
+    });
 
     describe('GET /write', function () {
       it('renders the post creation page successfully', function(done) {

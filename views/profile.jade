@@ -1,0 +1,13 @@
+extends ./base
+block content
+  h3= 'Welcome, ' + user.username + '!'
+  p View or update your details below.
+  form(method='post', action='/user/'+user.username)
+    input(type='hidden', name='_method', value='PUT')
+    label(for='username') Username
+    input(type='text', id='username', name='username', value=user.username)
+    label(for='password') Password
+    input(type='password', id='password', name='password')
+    label(for='confirm-password') Confirm Password
+    input(type='password', id='confirm-password', name='confirmPassword')
+    input(type='submit', class='p')

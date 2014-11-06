@@ -6,12 +6,14 @@ chai.use(sinonChai);
 var expect = chai.expect;
 
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
-var PostHandler = require('../../lib/handlers/postHandler').PostHandler;
 var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
+var UserHandler = require('../../lib/handlers/userHandler').UserHandler;
+var PostHandler = require('../../lib/handlers/postHandler').PostHandler;
 
 describe('WriteItDown', function() {
   var sandbox;
   var authHandler = new AuthHandler();
+  var userHandler = new UserHandler();
   var postHandler = new PostHandler();
 
   beforeEach(function() {
@@ -47,7 +49,7 @@ describe('WriteItDown', function() {
   describe('POST /login', function() {
     it('authenticates using the authHandler', function(done) {
       sandbox.stub(authHandler, 'authenticate', function(req, res) {
-        res.redirect(303, '/');
+        res.redirect(303, '/profile');
       });
 
       request(new WriteItDown({authHandler: authHandler}).app)
@@ -59,7 +61,7 @@ describe('WriteItDown', function() {
         })
         .end(function(err, res) {
           expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/');
+          expect(res.headers.location).to.equal('/profile');
           done();
         });
     });
@@ -94,6 +96,33 @@ describe('WriteItDown', function() {
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.equal('This is the home page');
+          done();
+        });
+    });
+  });
+
+  describe('GET /profile', function () {
+    it('redirects to the login page when the user is not authenticated', function(done) {
+      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
+        .get('/profile')
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(303);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+    });
+
+    it('renders the profile page using the userHandler when the user is authenticated', function (done) {
+      authorise();
+      sandbox.stub(userHandler, 'getProfile', function(req, res) {
+        res.status(200).send("This is the current user's profile");
+      });
+
+      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
+        .get('/profile')
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.equal("This is the current user's profile");
           done();
         });
     });
