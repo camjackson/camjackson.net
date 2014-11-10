@@ -3,6 +3,7 @@ var sinon = require('sinon');
 var chai = require('chai');
 var expect = chai.expect;
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
 var models = require('../../lib/models');
 var Config = models.Config;
 var Post = models.Post;
@@ -75,7 +76,7 @@ describe('Integration Test', function() {
             password: 'test-password'
           })
           .end(function (err, res) {
-            expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request
+            expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
             expect(res.headers.location).to.equal('/profile');
             done();
           });
@@ -90,7 +91,7 @@ describe('Integration Test', function() {
             password: 'bad-password'
           })
           .end(function (err, res) {
-            expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request.
+            expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
             expect(res.headers.location).to.equal('/login');
             done();
           });
@@ -156,7 +157,7 @@ describe('Integration Test', function() {
       next();
     });
     sinon.stub(helpers, 'addUserToResLocals', function(req, res, next) {
-      res.locals.user = { username: 'test-user', password: 'test-password' }
+      res.locals.user = { username: 'test-user', password: 'test-password' };
       next();
     });
     var app = new WriteItDown({authHandler: authHandler}).app;
@@ -173,6 +174,31 @@ describe('Integration Test', function() {
             expect(res.text).to.include('<input type="submit"');
             done();
           });
+      });
+    });
+
+    describe('PUT /user/:username', function () {
+      it('updates the given user', function (done) {
+        request(app)
+          .post('/user/test-user')
+          .type('form')
+          .send({
+            _method: 'PUT',
+            username: 'new-username',
+            password: 'new-password',
+            confirmPassword: 'new-password'
+          })
+          .end(function (err, res) {
+            expect(res.statusCode).to.equal(303);
+            expect(res.headers.location).to.equal('/profile');
+
+            User.find().exec().then(function(users) {
+              expect(users).to.have.length(1);
+              expect(users[0].username).to.equal('new-username');
+              expect(bcrypt.compareSync('new-password', users[0].password)).to.be.true;
+              done();
+            });
+          })
       });
     });
 

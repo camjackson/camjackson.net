@@ -91,4 +91,4 @@ function seed() {
 }
 
 var firstPostText = 'This is your first post.\n\n Log in with the default credentials to ' +
-  'edit or delete it, and to start making posts of your own.'
+  'edit or delete it, and to start making posts of your own.';

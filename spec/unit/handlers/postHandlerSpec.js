@@ -13,13 +13,13 @@ var Post = require('../../../lib/models').Post;
 
 describe('PostHandler', function() {
   var sandbox;
-  var result;
+  var response;
   var postHandler = new PostHandler(function(){return 'a responder';});
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
     sandbox.stub(Config, 'findOne').returns('the config');
-    result = {
+    response = {
       render: sandbox.spy(),
       redirect: sandbox.spy()
     };
@@ -32,9 +32,9 @@ describe('PostHandler', function() {
   describe('getRoot', function() {
     it('renders the index page with correct data', function() {
       sandbox.stub(Post, 'find').returns('some posts');
-      postHandler.getRoot(null, result);
+      postHandler.getRoot(null, response);
 
-      expect(result.render).to.have.been.calledWith(
+      expect(response.render).to.have.been.calledWith(
         'index.jade',
         { marked: marked, config: 'the config', posts: 'some posts' },
         'a responder'
@@ -45,10 +45,10 @@ describe('PostHandler', function() {
   describe('getPost', function() {
     it('sends the single post page with the correct data', function() {
       sandbox.stub(Post, 'findOne').returns('the post');
-      postHandler.getPost({params: {slug: 'some-slug'}}, result);
+      postHandler.getPost({params: {slug: 'some-slug'}}, response);
 
       expect(Post.findOne).to.have.been.calledWithExactly({slug: 'some-slug'});
-      expect(result.render).to.have.been.calledWith(
+      expect(response.render).to.have.been.calledWith(
         'post.jade',
         { marked: marked, config: 'the config', post: 'the post' },
         'a responder'
@@ -58,8 +58,8 @@ describe('PostHandler', function() {
 
   describe('getWrite', function() {
     it('sends the write page with config', function() {
-      postHandler.getWrite(null, result);
-      expect(result.render).to.have.been.calledWith(
+      postHandler.getWrite(null, response);
+      expect(response.render).to.have.been.calledWith(
         'write.jade',
         { config: 'the config' },
         'a responder'
@@ -77,9 +77,9 @@ describe('PostHandler', function() {
         slug: 'some-slug',
         text: 'Some text.'
       };
-      postHandler.createOrUpdatePost({body: postBody}, result).then(function() {
+      postHandler.createOrUpdatePost({body: postBody}, response).then(function() {
         expect(Post.update).to.have.been.calledWithExactly({slug: 'some-slug'}, postBody, {upsert: true});
-        expect(result.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
+        expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
         done();
       });
     });

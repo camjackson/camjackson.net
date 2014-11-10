@@ -128,6 +128,47 @@ describe('WriteItDown', function() {
     });
   });
 
+  describe('PUT /user/:username', function() {
+    it('redirects to the login page when the user is not authenticated', function(done) {
+      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
+        .post('/user/test-user')
+        .type('form')
+        .send({
+          _method: 'PUT',
+          username: 'new-username',
+          password: 'new-password',
+          confirmPassword: 'new-password'
+        })
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(303);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+    });
+
+    it ('updates the user and redirects to the profile page using the userHandler when the user is authenticated', function(done) {
+      authorise();
+      sandbox.stub(userHandler, 'updateUser', function(req, res) {
+        res.redirect(303, '/profile');
+      });
+
+      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
+        .post('/user/test-user')
+        .type('form')
+        .send({
+          _method: 'PUT',
+          username: 'new-username',
+          password: 'new-password',
+          confirmPassword: 'new-password'
+        })
+        .end(function (err, res) {
+          expect(res.statusCode).to.equal(303);
+          expect(res.headers.location).to.equal('/profile');
+          done();
+        });
+    })
+  });
+
   describe('GET /post/:slug', function() {
     it('renders the post using the postHandler', function(done) {
       sandbox.stub(postHandler, 'getPost', function(req, res) {
@@ -189,7 +230,7 @@ describe('WriteItDown', function() {
         });
     });
 
-    it ('creates a new post using the postHandler when the user is authenticated', function(done) {
+    it ('creates and redirects to a new post using the postHandler when the user is authenticated', function(done) {
       authorise();
       sandbox.stub(postHandler, 'createOrUpdatePost', function(req, res) {
         res.redirect(303, '/post/some-slug');
