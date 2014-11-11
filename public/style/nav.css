@@ -1,0 +1,36 @@
+/* Nav bar */
+nav ol {
+    margin-left: 15px;
+    margin-right: 15px;
+    border: 1px solid dimgrey;
+    padding-left: 0;
+}
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    padding: 5px 10px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+nav a.nav-left {
+    border-right: 1px solid dimgrey;
+}
+
+nav a.nav-right {
+    float: right;
+    border-left: 1px solid dimgrey;
+}
+
+nav a:visited {
+    color: inherit;
+}
+
+nav a:hover
+{
+    background-color: dimgrey;
+    color: white;
+}

@@ -1,0 +1,40 @@
+/* General appearance/look & feel stuff, with classes matching tags.
+ This allows e.g. form elements to match h2 or p elements */
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+a {
+    color: inherit;
+}
+
+#heading {
+    margin: 10px;
+    font-size: 2em;
+}
+
+h1, .h1 {
+    margin-bottom: 8px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+a h1 {
+    color: black;
+}
+
+p, .p {
+    font-size: 1em;
+}
+
+.error {
+    color: red;
+}
+
+.underline-hover-only {
+    text-decoration: none;
+}
+
+.underline-hover-only:hover {
+    text-decoration: underline;
+}

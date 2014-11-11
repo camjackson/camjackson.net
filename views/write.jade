@@ -1,5 +1,6 @@
 extends ./base
-
+block style
+  link(rel='stylesheet', href='/style/write.css', type='text/css')
 block content
   form(method='post', action='/posts/')
     input(type='hidden', name='_method', value='PUT')
