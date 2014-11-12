@@ -1,0 +1,53 @@
+/* General appearance/look & feel stuff, with classes matching tags.
+ This allows e.g. form elements to match h2 or p elements */
+/* Colour palette:
+#DDE5F0
+
+*/
+
+#palette {
+    color1: #272727;
+    color2: #745138;
+    color3: #D9AA80;
+    color4: #7C91A5;
+    color5: #DDE5F0;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+a {
+    color: inherit;
+}
+
+#heading {
+    margin: 10px;
+    font-size: 2em;
+}
+
+h1, .h1 {
+    margin-bottom: 8px;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+a h1 {
+    color: black;
+}
+
+p, .p {
+    font-size: 1em;
+}
+
+.error {
+    color: red;
+}
+
+.underline-hover-only {
+    text-decoration: none;
+}
+
+.underline-hover-only:hover {
+    text-decoration: underline;
+}
