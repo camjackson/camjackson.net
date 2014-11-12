@@ -6,48 +6,48 @@
 */
 
 #palette {
-    color1: #272727;
-    color2: #745138;
-    color3: #D9AA80;
-    color4: #7C91A5;
-    color5: #DDE5F0;
+  color1: #272727;
+  color2: #745138;
+  color3: #D9AA80;
+  color4: #7C91A5;
+  color5: #DDE5F0;
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
-    color: inherit;
+  color: inherit;
 }
 
 #heading {
-    margin: 10px;
-    font-size: 2em;
+  margin: 10px;
+  font-size: 2em;
 }
 
 h1, .h1 {
-    margin-bottom: 8px;
-    font-size: 1.5em;
-    font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 1.5em;
+  font-weight: bold;
 }
 
 a h1 {
-    color: black;
+  color: black;
 }
 
 p, .p {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 .error {
-    color: red;
+  color: red;
 }
 
 .underline-hover-only {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .underline-hover-only:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }

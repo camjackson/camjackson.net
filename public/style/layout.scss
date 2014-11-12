@@ -1,21 +1,21 @@
 /* Overall layout stuff */
 body, main, #heading {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (min-width: 1000px) {
-    main {
-        width: 1000px;
-        box-shadow: 0 0 25px 5px rgba(0,0,0,1);
-        border-width: 0 30px;
-        border-color: grey;
-        margin: 0 auto;
-    }
+  main {
+    width: 1000px;
+    box-shadow: 0 0 25px 5px rgba(0, 0, 0, 1);
+    border-width: 0 30px;
+    border-color: grey;
+    margin: 0 auto;
+  }
 }
 
 main {
-    padding: 15px;
+  padding: 15px;
 }
