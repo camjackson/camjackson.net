@@ -1,16 +1,5 @@
 /* General appearance/look & feel stuff, with classes matching tags.
  This allows e.g. form elements to match h2 or p elements */
-/* Colour palette:
-#DDE5F0
-
-*/
-#palette {
-  color1: #272727;
-  color2: #745138;
-  color3: #D9AA80;
-  color4: #7C91A5;
-  color5: #DDE5F0; }
-
 body {
   font-family: 'Open Sans', sans-serif; }
 
