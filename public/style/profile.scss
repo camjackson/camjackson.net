@@ -1,0 +1,11 @@
+@import 'forms';
+
+label {
+  display: inline-block;
+  width: 10em;
+  text-align: right;
+}
+
+input[type='submit'] {
+  margin-left: 170px;
+}

@@ -1,17 +1,18 @@
 extends ./base
+block style
+  link(rel='stylesheet', href='/style/profile.css', type='text/css')
 block content
   h3= 'Welcome, ' + user.username + '!'
-  p View or update your details below.
   form(method='post', action='/user/'+user.username)
     input(type='hidden', name='_method', value='PUT')
     div
-      label(for='username') Username
-      input(type='text', id='username', name='username', value=user.username)
+      label(for='username', class='p') Username:
+      input(type='text', class='p', id='username', name='username', value=user.username)
     div
-      label(for='password') Password
-      input(type='password', id='password', name='password')
+      label(for='password', class='p') Password:
+      input(type='password', class='p', id='password', name='password')
     div
-      label(for='confirm-password') Confirm Password
-      input(type='password', id='confirm-password', name='confirmPassword')
+      label(for='confirm-password', class='p') Confirm Password:
+      input(type='password', class='p', id='confirm-password', name='confirmPassword')
     input(type='submit', class='p')
-  p(class='error')= errorMessage
+    p(class='error')= errorMessage

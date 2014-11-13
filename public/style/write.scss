@@ -1,29 +1,11 @@
-@import 'appearance';
-
-form {
-  padding: 5px;
-}
-
-form > div {
-  margin-bottom: 5px;
-}
-
-label.h2 {
-  margin-right: 10px;
-}
+@import 'forms';
 
 label[for='slug'] {
+  margin-right: 0;
   margin-left: 30px;
 }
 
 textarea {
   width: 100%;
   margin-top: 5px;
-}
-
-input[type='submit'] {
-  cursor: pointer;
-  background-color: $light-brown;
-  width: 80px;
-  border: 2px solid $dark-brown;
 }

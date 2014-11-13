@@ -60,4 +60,7 @@ nav a:hover {
   background-color: #745138;
   color: white; }
 
+#logout-form {
+  display: none; }
+
 /*# sourceMappingURL=nav.css.map */

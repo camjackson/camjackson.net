@@ -48,12 +48,15 @@ input[type='submit'] {
   width: 80px;
   border: 2px solid #745138; }
 
-label[for='slug'] {
-  margin-right: 0;
-  margin-left: 30px; }
+form {
+  margin-top: 30px;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 2px solid #745138;
+  text-align: center; }
 
-textarea {
-  width: 100%;
+input[type='submit'] {
   margin-top: 5px; }
 
-/*# sourceMappingURL=write.css.map */
+/*# sourceMappingURL=login.css.map */
