@@ -8,14 +8,13 @@ var models = require('../../lib/models');
 var Config = models.Config;
 var Post = models.Post;
 var User = models.User;
-var db_host = process.env.DB_HOST ? process.env.DB_HOST : 'localhost';
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
 var helpers = require('../../lib/helpers');
 
 describe('Integration Test', function() {
   beforeEach(function () {
-    mongoose.connect('mongodb://'+ db_host +'/writeitdown-test');
+    mongoose.connect('mongodb://localhost/writeitdown-test');
     return Config.remove({}).exec().then(function() {
       return Config.create({
         title: 'site title',
