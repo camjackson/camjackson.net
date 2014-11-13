@@ -1,13 +1,18 @@
-/* Form layout */
+@import 'appearance';
+
 form {
   padding: 5px;
+}
+
+form > div {
+  margin-bottom: 5px;
 }
 
 label.h2 {
   margin-right: 10px;
 }
 
-label.p {
+label[for='slug'] {
   margin-left: 30px;
 }
 
@@ -17,5 +22,8 @@ textarea {
 }
 
 input[type='submit'] {
+  cursor: pointer;
+  background-color: $light-brown;
   width: 80px;
+  border: 2px solid $dark-brown;
 }

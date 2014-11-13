@@ -1,22 +1,20 @@
-/* General appearance/look & feel stuff, with classes matching tags.
- This allows e.g. form elements to match h2 or p elements */
 body {
-  font-family: 'Open Sans', sans-serif; }
+  font-family: 'Open Sans', sans-serif;
+  background-color: #7C91A5; }
+
+main {
+  background-color: #DDE5F0;
+  color: #272727; }
 
 a {
   color: inherit; }
 
 #heading {
-  margin: 10px;
   font-size: 2em; }
 
 h1, .h1 {
-  margin-bottom: 8px;
-  font-size: 1.5em;
-  font-weight: bold; }
-
-a h1 {
-  color: black; }
+  /* font-size: 1.5em; */
+  /* font-weight: bold; */ }
 
 p, .p {
   font-size: 1em; }

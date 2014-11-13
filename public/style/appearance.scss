@@ -1,6 +1,3 @@
-/* General appearance/look & feel stuff, with classes matching tags.
- This allows e.g. form elements to match h2 or p elements */
-
 $grey: #272727;
 $dark-brown: #745138;
 $light-brown: #D9AA80;
@@ -9,6 +6,13 @@ $light-blue: #DDE5F0;
 
 body {
   font-family: 'Open Sans', sans-serif;
+  background-color: $dark-blue;
+}
+
+main {
+  background-color: $light-blue;
+  color: $grey;
+  box-shadow: 0 0 25px 5px $grey;
 }
 
 a {
@@ -16,18 +20,17 @@ a {
 }
 
 #heading {
-  margin: 10px;
   font-size: 2em;
 }
 
-h1, .h1 {
-  margin-bottom: 8px;
+h2, .h2 {
   font-size: 1.5em;
   font-weight: bold;
 }
 
-a h1 {
-  color: black;
+h3, .h3 {
+  font-size: 1.17em;
+  font-weight: bold;
 }
 
 p, .p {
