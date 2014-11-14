@@ -20,6 +20,7 @@ html
               li: a(href='/write', class='nav-left') New Post
               li: a(href='#', class='nav-right', onclick='document.getElementById("logout-form").submit();') Log Out
               li: a(href='/profile', class='nav-right') Profile
+              li: a(href='/settings', class='nav-right') Settings
             else
               li: a(href='/login', class='nav-right') Log In
         form(id='logout-form', action='/logout', method='post')

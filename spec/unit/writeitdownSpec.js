@@ -8,12 +8,14 @@ var expect = chai.expect;
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
 var UserHandler = require('../../lib/handlers/userHandler').UserHandler;
+var SettingsHandler = require('../../lib/handlers/settingsHandler').SettingsHandler;
 var PostHandler = require('../../lib/handlers/postHandler').PostHandler;
 
 describe('WriteItDown', function() {
   var sandbox;
   var authHandler = new AuthHandler();
   var userHandler = new UserHandler();
+  var settingsHandler = new SettingsHandler();
   var postHandler = new PostHandler();
 
   beforeEach(function() {
@@ -123,6 +125,33 @@ describe('WriteItDown', function() {
         .end(function(err, res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.equal("This is the current user's profile");
+          done();
+        });
+    });
+  });
+
+  describe('GET /settings', function () {
+    it('redirects to the login page when the user is not authenticated', function(done) {
+      request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app)
+        .get('/settings')
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(303);
+          expect(res.headers.location).to.equal('/login');
+          done();
+        });
+    });
+
+    it('renders the settings page using the settingsHandler when the user is authenticated', function (done) {
+      authorise();
+      sandbox.stub(settingsHandler, 'getSettings', function(req, res) {
+        res.status(200).send("This is the edit settings page");
+      });
+
+      request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app)
+        .get('/settings')
+        .end(function(err, res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.equal("This is the edit settings page");
           done();
         });
     });
