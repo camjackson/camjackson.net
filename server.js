@@ -1,5 +1,4 @@
-var db_connection_string = process.env.MONGOLAB_URI || 'mongodb://localhost/writeitdown';
-require('mongoose').connect(db_connection_string);
+require('mongoose').connect(process.env.MONGOLAB_URI || 'mongodb://localhost/writeitdown');
 
 process.env.LOGGING = true;
 
