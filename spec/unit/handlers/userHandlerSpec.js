@@ -8,7 +8,7 @@ var Q = require('q');
 var marked = require('marked');
 
 var UserHandler = require('../../../lib/handlers/userHandler').UserHandler;
-var Config = require('../../../lib/models').Config;
+var helpers = require('../../../lib/helpers');
 var User = require('../../../lib/models').User;
 
 describe('UserHandler', function() {
@@ -18,7 +18,7 @@ describe('UserHandler', function() {
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(Config, 'findOne').returns('the config');
+    sandbox.stub(helpers, 'getEnvConfig').returns('the config');
     response = {
       render: sandbox.spy(),
       redirect: sandbox.spy()

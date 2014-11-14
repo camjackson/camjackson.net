@@ -45,6 +45,28 @@ describe('helpers', function() {
     });
   });
 
+  describe('getEnvConfig', function () {
+    before(function() {
+      process.env.SITE_TITLE = 'site title';
+      process.env.SITE_HEADING = 'site heading';
+      process.env.SITE_DOMAIN = 'mysite.com';
+    });
+
+    after(function () {
+      process.env.SITE_TITLE = '';
+      process.env.SITE_HEADING = '';
+      process.env.SITE_DOMAIN = '';
+    });
+
+    it('aggregates all the required environment variables', function () {
+      expect(helpers.getEnvConfig()).to.deep.equal({
+        title: 'site title',
+        heading: 'site heading',
+        domain: 'mysite.com'
+      });
+    });
+  });
+
   describe('errorHandler', function() {
     it('renders a last resort error page with a failure status', function() {
       helpers.errorHandler(null, null, result);

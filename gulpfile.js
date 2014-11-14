@@ -52,7 +52,6 @@ function testIntegration() {
 function seed() {
   var mongoose = require('mongoose');
   var models = require('./lib/models');
-  var Config = models.Config;
   var User = models.User;
   var Post = models.Post;
   var db_connection_string = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/writeitdown';
@@ -61,17 +60,9 @@ function seed() {
   var prompt = '\n\n***WARNING: THIS OPERATION WILL DESTROY DATA!***\nAre you sure you want to seed the database at ' + db_connection_string;
   return confirm(prompt).then(function() {
     connection = mongoose.connect(db_connection_string);
-    return Config.remove({}).exec();
+    return User.remove({}).exec();
   }, function() {
     console.log('Aborting database seed.');
-  }).then(function() {
-    return Config.create({
-      title: 'Site Title',
-      heading: 'Site Heading',
-      domain: 'example.com' //TODO
-    });
-  }).then(function() {
-    return User.remove({}).exec();
   }).then(function() {
     return User.create({
       username: 'defaultUser',

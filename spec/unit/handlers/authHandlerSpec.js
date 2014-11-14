@@ -5,7 +5,7 @@ chai.use(sinonChai);
 var expect = chai.expect;
 
 var AuthHandler = require('../../../lib/handlers/authHandler').AuthHandler;
-var Config = require('../../../lib/models').Config;
+var helpers = require('../../../lib/helpers');
 
 describe('AuthHandler', function() {
   var sandbox;
@@ -14,7 +14,7 @@ describe('AuthHandler', function() {
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(Config, 'findOne').returns('config');
+    sandbox.stub(helpers, 'getEnvConfig').returns('config');
     response = {
       render: sandbox.spy(),
       redirect: sandbox.spy()

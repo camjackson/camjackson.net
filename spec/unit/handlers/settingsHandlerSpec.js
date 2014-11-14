@@ -7,7 +7,7 @@ var expect = chai.expect;
 var marked = require('marked');
 
 var SettingsHandler = require('../../../lib/handlers/settingsHandler').SettingsHandler;
-var Config = require('../../../lib/models').Config;
+var helpers = require('../../../lib/helpers');
 
 describe('SettingsHandler', function() {
   var sandbox;
@@ -18,7 +18,7 @@ describe('SettingsHandler', function() {
 
   beforeEach(function () {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(Config, 'findOne').returns('the config');
+    sandbox.stub(helpers, 'getEnvConfig').returns('the config');
     response = {
       render: sandbox.spy()
     };

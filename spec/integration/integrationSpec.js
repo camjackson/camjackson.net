@@ -5,7 +5,6 @@ var expect = chai.expect;
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var models = require('../../lib/models');
-var Config = models.Config;
 var Post = models.Post;
 var User = models.User;
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
@@ -13,16 +12,21 @@ var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
 var helpers = require('../../lib/helpers');
 
 describe('Integration Test', function() {
+  before(function() {
+    process.env.SITE_TITLE = 'integration title';
+    process.env.SITE_HEADING = 'integration heading';
+    process.env.SITE_DOMAIN = 'integration.com';
+  });
+
+  after(function() {
+    process.env.SITE_TITLE = '';
+    process.env.SITE_HEADING = '';
+    process.env.SITE_DOMAIN = '';
+  });
+
   beforeEach(function () {
     mongoose.connect('mongodb://localhost/writeitdown-test');
-    return Config.remove({}).exec().then(function() {
-      return Config.create({
-        title: 'site title',
-        heading: 'site heading'
-      });
-    }).then(function() {
-      return User.remove({}).exec();
-    }).then(function() {
+    return User.remove({}).exec().then(function() {
       return User.create({
         username: 'test-user',
         password: 'test-password'
@@ -57,7 +61,7 @@ describe('Integration Test', function() {
           .get('/login')
           .end(function (err, res) {
             expect(res.statusCode).to.equal(200);
-            expect(res.text).to.include('<title>site title<\/title>');
+            expect(res.text).to.include('<title>integration title<\/title>');
             expect(res.text).to.include('name="password"');
             expect(res.text).to.include('<input type="submit"');
             done();
@@ -117,7 +121,8 @@ describe('Integration Test', function() {
           .get('/')
           .end(function (err, res) {
             expect(res.statusCode).to.equal(200);
-            expect(res.text).to.include('<title>site title</title>');
+            expect(res.text).to.include('<title>integration title</title>');
+            expect(res.text).to.include('<h1 id="heading">integration heading</h1>');
             expect(res.text).to.include('<em>emphasised</em>');
             expect(res.text).to.include('<strong>strong</strong>');
             done();
@@ -130,7 +135,7 @@ describe('Integration Test', function() {
         request(app)
           .get('/post/post-slug')
           .end(function(req, res) {
-            expect(res.text).to.include('<title>site title</title>');
+            expect(res.text).to.include('<title>integration title</title>');
             expect(res.text).to.include('<em>emphasised</em>');
             expect(res.text).not.to.include('<strong>strong</strong>');
             done();
@@ -167,7 +172,7 @@ describe('Integration Test', function() {
           .get('/profile')
           .end(function(err, res) {
             expect(res.statusCode).to.equal(200);
-            expect(res.text).to.include('<title>site title<\/title>');
+            expect(res.text).to.include('<title>integration title<\/title>');
             expect(res.text).to.include('Welcome, test-user!');
             expect(res.text).to.include('name="confirmPassword"');
             expect(res.text).to.include('<input type="submit"');
@@ -207,7 +212,8 @@ describe('Integration Test', function() {
           .get('/write')
           .end(function(err, res) {
             expect(res.statusCode).to.equal(200);
-            expect(res.text).to.include('<title>site title<\/title>');
+            expect(res.text).to.include('<title>integration title<\/title>');
+            expect(res.text).to.include('integration.com');
             expect(res.text).to.include('name="slug"');
             expect(res.text).to.include('<input type="submit"');
             done();

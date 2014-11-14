@@ -8,7 +8,7 @@ var Q = require('q');
 var marked = require('marked');
 
 var PostHandler = require('../../../lib/handlers/postHandler').PostHandler;
-var Config = require('../../../lib/models').Config;
+var helpers = require('../../../lib/helpers');
 var Post = require('../../../lib/models').Post;
 
 describe('PostHandler', function() {
@@ -18,7 +18,7 @@ describe('PostHandler', function() {
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(Config, 'findOne').returns('the config');
+    sandbox.stub(helpers, 'getEnvConfig').returns('the config');
     response = {
       render: sandbox.spy(),
       redirect: sandbox.spy()
