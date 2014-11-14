@@ -31,12 +31,13 @@ describe('PostHandler', function() {
 
   describe('getRoot', function() {
     it('renders the index page with correct data', function() {
-      sandbox.stub(Post, 'find').returns('some posts');
+      var sortable = { sort: function() {return 'sorted posts'} }
+      sandbox.stub(Post, 'find').returns(sortable);
       postHandler.getRoot(null, response);
 
       expect(response.render).to.have.been.calledWith(
         'index.jade',
-        { marked: marked, config: 'the config', posts: 'some posts' },
+        { marked: marked, config: 'the config', posts: 'sorted posts' },
         'a responder'
       );
     });
