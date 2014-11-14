@@ -66,7 +66,7 @@ describe('Integration Test', function() {
     });
 
     describe('POST /login', function() {
-      it('redirects to the settings page when credentials are valid', function(done) {
+      it('redirects to the profile page when credentials are valid', function(done) {
         request(app)
           .post('/login')
           .type('form')
@@ -76,7 +76,7 @@ describe('Integration Test', function() {
           })
           .end(function (err, res) {
             expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
-            expect(res.headers.location).to.equal('/settings');
+            expect(res.headers.location).to.equal('/profile');
             done();
           });
       });
@@ -161,10 +161,10 @@ describe('Integration Test', function() {
     });
     var app = new WriteItDown({authHandler: authHandler}).app;
 
-    describe('GET /settings', function () {
-      it('renders the settings page successfully', function (done) {
+    describe('GET /profile', function () {
+      it('renders the profile page successfully', function (done) {
         request(app)
-          .get('/settings')
+          .get('/profile')
           .end(function(err, res) {
             expect(res.statusCode).to.equal(200);
             expect(res.text).to.include('<title>site title<\/title>');
@@ -189,7 +189,7 @@ describe('Integration Test', function() {
           })
           .end(function (err, res) {
             expect(res.statusCode).to.equal(303);
-            expect(res.headers.location).to.equal('/settings');
+            expect(res.headers.location).to.equal('/profile');
 
             User.find().exec().then(function(users) {
               expect(users).to.have.length(1);

@@ -1,6 +1,6 @@
 extends ./base
 block style
-  link(rel='stylesheet', href='/style/settings.css', type='text/css')
+  link(rel='stylesheet', href='/style/profile.css', type='text/css')
 block content
   h3= 'Welcome, ' + user.username + '!'
   form(method='post', action='/user/'+user.username)
