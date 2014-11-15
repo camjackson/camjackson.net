@@ -7,6 +7,11 @@ main {
   color: #272727;
   box-shadow: 0 0 25px 5px #272727; }
 
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #a0a0a0; }
+
 a {
   color: inherit; }
 

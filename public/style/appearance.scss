@@ -1,4 +1,5 @@
-$grey: #272727;
+$dark-grey: #272727;
+$light-grey: #a0a0a0;
 $dark-brown: #745138;
 $light-brown: #D9AA80;
 $dark-blue: #7C91A5;
@@ -11,8 +12,14 @@ body {
 
 main {
   background-color: $light-blue;
-  color: $grey;
-  box-shadow: 0 0 25px 5px $grey;
+  color: $dark-grey;
+  box-shadow: 0 0 25px 5px $dark-grey;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: $light-grey;
 }
 
 a {
