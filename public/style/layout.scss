@@ -23,7 +23,11 @@ main {
 }
 
 h1, .h1 {
-  margin-bottom: 8px; /*TODO: Needed?*/
+  margin-bottom: 0;
+}
+
+time {
+  margin-left: 10px;
 }
 
 footer {

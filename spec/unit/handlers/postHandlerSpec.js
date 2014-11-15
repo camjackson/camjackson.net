@@ -5,6 +5,7 @@ chai.use(sinonChai);
 var expect = chai.expect;
 var Q = require('q');
 
+var moment = require('moment');
 var marked = require('marked');
 
 var PostHandler = require('../../../lib/handlers/postHandler').PostHandler;
@@ -37,7 +38,7 @@ describe('PostHandler', function() {
 
       expect(response.render).to.have.been.calledWith(
         'index.jade',
-        { marked: marked, config: 'the config', posts: 'sorted posts' },
+        { moment: moment, marked: marked, config: 'the config', posts: 'sorted posts' },
         'a responder'
       );
     });
@@ -51,7 +52,7 @@ describe('PostHandler', function() {
       expect(Post.findOne).to.have.been.calledWithExactly({slug: 'some-slug'});
       expect(response.render).to.have.been.calledWith(
         'post.jade',
-        { marked: marked, config: 'the config', post: 'the post' },
+        { moment: moment, marked: marked, config: 'the config', post: 'the post' },
         'a responder'
       );
     });

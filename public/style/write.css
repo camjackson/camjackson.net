@@ -13,6 +13,9 @@ a {
 #heading {
   font-size: 2em; }
 
+h1, .h1 {
+  font-size: 1.7em; }
+
 h2, .h2 {
   font-size: 1.5em;
   font-weight: bold; }
@@ -20,6 +23,9 @@ h2, .h2 {
 h3, .h3 {
   font-size: 1.17em;
   font-weight: bold; }
+
+time {
+  font-size: 0.8em; }
 
 p, .p {
   font-size: 1em; }

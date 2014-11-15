@@ -36,7 +36,7 @@ describe('UserHandler', function() {
 
       expect(response.render).to.have.been.calledWith(
         'profile.jade',
-        { marked: marked, config: 'the config', errorMessage: 'some error' },
+        { config: 'the config', errorMessage: 'some error' },
         'a responder'
       );
     });
