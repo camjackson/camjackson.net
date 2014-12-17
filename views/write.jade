@@ -1,16 +1,20 @@
 extends ./base
 block style
   link(rel='stylesheet', href='/style/write.css', type='text/css')
+block script
+  script(type='text/javascript', src='script/marked.min.js')
+  script(type='text/javascript', src='script/write.js')
 block content
   form(method='post', action='/posts/')
     input(type='hidden', name='_method', value='PUT')
     div
       label(for='title', class='h2') Post title:
-      input(type='text', class='h2', id='title', name='title')
+      input(type='text', class='h2', id='title', name='title' onkeyup='updatePreview();')
     div
       label(for='slug', class='p')=config.domain + '/'
       input(type='text', class='p', name='slug', placeholder='slug')
     div
       label(for='text', class='h3') Post Body:
-      textarea(id='text', name='text', class='p', rows='20')
+      textarea(id='text', name='text', class='p', rows='20' onkeyup='updatePreview();')
+    div(id='preview')
     input(type='submit', class='p', value='Post')
