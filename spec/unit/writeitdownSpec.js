@@ -1,4 +1,4 @@
-var request = require('supertest');
+var request = require('supertest-as-promised');
 var sinon = require('sinon');
 var chai = require('chai');
 var sinonChai = require('sinon-chai');
@@ -33,251 +33,221 @@ describe('WriteItDown', function() {
   }
 
   describe('GET /login', function() {
-    it('returns the login page using the authHandler', function(done) {
+    it('returns the login page using the authHandler', function() {
       sandbox.stub(authHandler, 'getLogin', function(req, res) {
         res.status(200).send('This is the login page');
       });
 
-      request(new WriteItDown({authHandler: authHandler}).app)
-        .get('/login')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.equal('This is the login page');
-          done()
-        });
+      var req = request(new WriteItDown({authHandler: authHandler}).app).get('/login');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.text).to.equal('This is the login page');
+      });
     });
   });
 
   describe('POST /login', function() {
-    it('authenticates using the authHandler', function(done) {
+    it('authenticates using the authHandler', function() {
       sandbox.stub(authHandler, 'authenticate', function(req, res) {
         res.redirect(303, '/profile');
       });
 
-      request(new WriteItDown({authHandler: authHandler}).app)
-        .post('/login')
+      var req = request(new WriteItDown({authHandler: authHandler}).app).post('/login')
         .type('form')
         .send({
           username: 'some-user',
           password: 'some-pass'
-        })
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/profile');
-          done();
         });
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/profile');
+      });
     });
   });
 
   describe('POST /logout', function () {
-    it('logs out using the authHandler', function (done) {
+    it('logs out using the authHandler', function () {
       sandbox.stub(authHandler, 'logOut', function(req, res) {
         res.redirect(303, '/');
       });
 
-      request(new WriteItDown({authHandler: authHandler}).app)
-        .post('/logout')
+      var req = request(new WriteItDown({authHandler: authHandler}).app).post('/logout')
         .type('form')
-        .send({})
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/');
-          done()
-        })
+        .send({});
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/');
+      });
     });
   });
 
   describe('GET /', function () {
-    it('returns the homepage using the postHandler', function (done) {
+    it('returns the homepage using the postHandler', function () {
       sandbox.stub(postHandler, 'getRoot', function(req, res) {
         res.status(200).send('This is the home page');
       });
 
-      request(new WriteItDown({postHandler: postHandler}).app)
-        .get('/')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.equal('This is the home page');
-          done();
-        });
+      var req = request(new WriteItDown({postHandler: postHandler}).app).get('/');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.text).to.equal('This is the home page');
+      });
     });
   });
 
   describe('GET /profile', function () {
-    it('redirects to the login page when the user is not authenticated', function(done) {
-      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
-        .get('/profile')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/login');
-          done();
-        });
+    it('redirects to the login page when the user is not authenticated', function() {
+      var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).get('/profile');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/login');
+      });
     });
 
-    it('renders the profile page using the userHandler when the user is authenticated', function (done) {
+    it('renders the profile page using the userHandler when the user is authenticated', function () {
       authorise();
       sandbox.stub(userHandler, 'getProfile', function(req, res) {
         res.status(200).send("This is the current user's profile");
       });
 
-      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
-        .get('/profile')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.equal("This is the current user's profile");
-          done();
-        });
+      var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).get('/profile');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.text).to.equal("This is the current user's profile");
+      });
     });
   });
 
   describe('GET /settings', function () {
-    it('redirects to the login page when the user is not authenticated', function(done) {
-      request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app)
-        .get('/settings')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/login');
-          done();
-        });
+    it('redirects to the login page when the user is not authenticated', function() {
+      var req = request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app).get('/settings');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/login');
+      });
     });
 
-    it('renders the settings page using the settingsHandler when the user is authenticated', function (done) {
+    it('renders the settings page using the settingsHandler when the user is authenticated', function () {
       authorise();
       sandbox.stub(settingsHandler, 'getSettings', function(req, res) {
         res.status(200).send("This is the edit settings page");
       });
 
-      request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app)
-        .get('/settings')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.equal("This is the edit settings page");
-          done();
-        });
+      var req = request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app).get('/settings');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.text).to.equal("This is the edit settings page");
+      });
     });
   });
 
   describe('PUT /user/:username', function() {
-    it('redirects to the login page when the user is not authenticated', function(done) {
-      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
-        .post('/user/test-user')
+    it('redirects to the login page when the user is not authenticated', function() {
+      var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
         .type('form')
         .send({
           _method: 'PUT',
           username: 'new-username',
           password: 'new-password',
           confirmPassword: 'new-password'
-        })
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/login');
-          done();
         });
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/login');
+      });
     });
 
-    it ('updates the user and redirects to the profile page using the userHandler when the user is authenticated', function(done) {
+    it ('updates the user and redirects to the profile page using the userHandler when the user is authenticated', function() {
       authorise();
       sandbox.stub(userHandler, 'updateUser', function(req, res) {
         res.redirect(303, '/profile');
       });
 
-      request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app)
-        .post('/user/test-user')
+      var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
         .type('form')
         .send({
           _method: 'PUT',
           username: 'new-username',
           password: 'new-password',
           confirmPassword: 'new-password'
-        })
-        .end(function (err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/profile');
-          done();
         });
+      return req.then(function (res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/profile');
+      });
     })
   });
 
   describe('GET /post/:slug', function() {
-    it('renders the post using the postHandler', function(done) {
+    it('renders the post using the postHandler', function() {
       sandbox.stub(postHandler, 'getPost', function(req, res) {
         res.status(200).send('This is a single post');
       });
 
-      request(new WriteItDown({postHandler: postHandler}).app)
-        .get('/post/some-post')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.equal('This is a single post');
-          done();
-        });
+      var req = request(new WriteItDown({postHandler: postHandler}).app).get('/post/some-post');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.text).to.equal('This is a single post');
+      });
     });
   });
 
   describe('GET /write', function () {
-    it('redirects to the login page when the user is not authenticated', function(done) {
-      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
-        .get('/write')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/login');
-          done();
-        });
+    it('redirects to the login page when the user is not authenticated', function() {
+      var req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/login');
+      });
     });
 
-    it('returns the new post page using the postHandler when the user is authenticated', function (done) {
+    it('returns the new post page using the postHandler when the user is authenticated', function () {
       authorise();
       sandbox.stub(postHandler, 'getWrite', function(req, res) {
         res.status(200).send('Hi');
       });
 
-      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
-        .get('/write')
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.equal('Hi');
-          done();
-        });
+      var req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(200);
+        expect(res.text).to.equal('Hi');
+      });
     });
   });
 
   describe('PUT /posts/', function() {
-    it('redirects to the login page when the user is not authenticated', function(done) {
-      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
-        .post('/posts/')
+    it('redirects to the login page when the user is not authenticated', function() {
+      var req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).post('/posts/')
         .type('form')
         .send({
           _method: 'PUT',
           title: 'Hey',
           slug: 'some-slug',
           text: 'Here is some text'
-        })
-        .end(function(err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/login');
-          done();
         });
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/login');
+      });
     });
 
-    it ('creates and redirects to a new post using the postHandler when the user is authenticated', function(done) {
+    it ('creates and redirects to a new post using the postHandler when the user is authenticated', function() {
       authorise();
       sandbox.stub(postHandler, 'createOrUpdatePost', function(req, res) {
         res.redirect(303, '/post/some-slug');
       });
-      request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app)
-        .post('/posts/')
+      var req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).post('/posts/')
         .type('form')
         .send({
           _method: 'PUT',
           title: 'Hey',
           slug: 'some-slug',
           text: 'Here is some text'
-        })
-        .end(function (err, res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/post/some-slug');
-          done();
         });
+      return req.then(function (res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/post/some-slug');
+      });
     })
   })
 });
