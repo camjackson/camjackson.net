@@ -3,5 +3,6 @@ extends ./base
 block content
   article
     h1= post.title
-    time(pubdate)= post.posted
+    time(pubdate): em= moment(post.posted).format('Do MMMM YYYY')
+    hr
     != marked(post.text)
