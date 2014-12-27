@@ -86,31 +86,29 @@ describe('UserHandler', function() {
       expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
     });
 
-    it('updates the user and redirects to the profile page when everything is OK', function(done) {
+    it('updates the user and redirects to the profile page when everything is OK', function() {
       var foundUser = { save: sandbox.spy() };
       var promiseWithUser = Q.fcall(function() {return foundUser});
       sandbox.stub(User, 'findOne').returns({exec: function() {return promiseWithUser;}});
       var request = { body: requestBody, params: {username: 'some-user'}};
 
-      userHandler.updateUser(request, response).then(function() {
+      return userHandler.updateUser(request, response).then(function() {
         expect(User.findOne).to.have.been.calledWithExactly({username: 'some-user'});
         expect(foundUser.username).to.equal('new-username');
         expect(foundUser.password).to.equal('new-password');
         expect(foundUser.save).to.have.been.calledOnce;
         expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
-        done();
-      }, function(err) {done(err);});
+      });
     });
 
-    it('flashes an error and redirects to the profile page when the username is taken', function(done) {
+    it('flashes an error and redirects to the profile page when the username is taken', function() {
       var failingPromise = Q.fcall(function() {throw new Error();});
       sandbox.stub(User, 'findOne').returns({ exec: function() {return failingPromise;} });
       var request = { body: requestBody, params: {username: 'some-user'}, flash: sandbox.spy() };
 
-      userHandler.updateUser(request, response).then(function() {
+      return userHandler.updateUser(request, response).then(function() {
         expect(request.flash).to.have.been.calledWithExactly('errorMessage', 'Sorry, that username is taken');
         expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
-        done();
       });
     });
   });

@@ -79,21 +79,20 @@ describe('PostHandler', function() {
       text: 'Some text.'
     };
 
-    it('updates the post if it already exists', function(done) {
+    it('updates the post if it already exists', function() {
       sandbox.stub(Post, 'findOneAndUpdate').returns({exec: function() {return promiseWithData;}});
-      postHandler.createOrUpdatePost({body: requestBody}, response).then(function() {
+      return postHandler.createOrUpdatePost({body: requestBody}, response).then(function() {
         expect(Post.findOneAndUpdate).to.have.been.calledWithExactly({slug: 'some-slug'}, requestBody);
         expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
-        done();
       });
     });
 
-    it('creates the post if it does not already exist', function(done) {
+    it('creates the post if it does not already exist', function() {
       sandbox.stub(Post, 'findOneAndUpdate').returns({exec: function() {return promiseWithoutData;}});
       sandbox.stub(Post, 'create').returns(promiseWithoutData);
       sandbox.useFakeTimers(42);
 
-      postHandler.createOrUpdatePost({body: requestBody}, response).then(function() {
+      return postHandler.createOrUpdatePost({body: requestBody}, response).then(function() {
         expect(Post.create).to.have.been.calledWithExactly({
           title: 'Some Title',
           slug: 'some-slug',
@@ -101,7 +100,6 @@ describe('PostHandler', function() {
           posted: 42
         });
         expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
-        done();
       })
     });
   });
