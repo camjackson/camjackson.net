@@ -38,12 +38,14 @@ describe('Integration Test', function() {
         {
           title: 'Post title',
           slug: 'post-slug',
-          text: '*emphasised*'
+          text: '*emphasised*',
+          posted: Date.now()
         },
         {
           title: 'Second post',
           slug: 'second-slug',
-          text: '**strong**'
+          text: '**strong**',
+          posted: Date.now()
         }
       ]);
     })

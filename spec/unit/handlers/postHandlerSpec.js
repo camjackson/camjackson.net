@@ -70,20 +70,39 @@ describe('PostHandler', function() {
   });
 
   describe('createOrUpdatePost', function() {
-    var promise = Q.fcall(function() {});
+    var promiseWithData = Q.fcall(function() {return 'data'});
+    var promiseWithoutData = Q.fcall(function() {});
 
-    it('upserts the post and redirects to it', function(done) {
-      sandbox.stub(Post, 'update').returns({exec: function() {return promise;}});
-      var postBody = {
-        title: 'Some Title',
-        slug: 'some-slug',
-        text: 'Some text.'
-      };
-      postHandler.createOrUpdatePost({body: postBody}, response).then(function() {
-        expect(Post.update).to.have.been.calledWithExactly({slug: 'some-slug'}, postBody, {upsert: true});
+    var requestBody = {
+      title: 'Some Title',
+      slug: 'some-slug',
+      text: 'Some text.'
+    };
+
+    it('updates the post if it already exists', function(done) {
+      sandbox.stub(Post, 'findOneAndUpdate').returns({exec: function() {return promiseWithData;}});
+      postHandler.createOrUpdatePost({body: requestBody}, response).then(function() {
+        expect(Post.findOneAndUpdate).to.have.been.calledWithExactly({slug: 'some-slug'}, requestBody);
         expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
         done();
       });
+    });
+
+    it('creates the post if it does not already exist', function(done) {
+      sandbox.stub(Post, 'findOneAndUpdate').returns({exec: function() {return promiseWithoutData;}});
+      sandbox.stub(Post, 'create').returns(promiseWithoutData);
+      sandbox.useFakeTimers(42);
+
+      postHandler.createOrUpdatePost({body: requestBody}, response).then(function() {
+        expect(Post.create).to.have.been.calledWithExactly({
+          title: 'Some Title',
+          slug: 'some-slug',
+          text: 'Some text.',
+          posted: 42
+        });
+        expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
+        done();
+      })
     });
   });
 });

@@ -74,7 +74,8 @@ function seed() {
     return Post.create({
       title: 'Hello, world!',
       slug: 'hello-world',
-      text: firstPostText
+      text: firstPostText,
+      posted: Date.now()
     });
   }).then(function() {
     mongoose.disconnect();
