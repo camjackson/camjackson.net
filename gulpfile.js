@@ -65,8 +65,8 @@ function seed() {
     console.log('Aborting database seed.');
   }).then(function() {
     return User.create({
-      username: 'defaultUser',
-      password: 'defaultPassword'
+      username: 'admin',
+      password: 'admin'
     });
   }).then(function() {
     return Post.remove({}).exec();
