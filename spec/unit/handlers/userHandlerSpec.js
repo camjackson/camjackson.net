@@ -35,7 +35,7 @@ describe('UserHandler', function() {
       userHandler.getProfile(request, response);
 
       expect(response.render).to.have.been.calledWith(
-        'profile.jade',
+        'pages/profile.jade',
         { config: 'the config', errorMessage: 'some error' },
         'a responder'
       );

@@ -1,10 +1,10 @@
-extends ./base
-block style
+extends ../common/base
+block page_style
   link(rel='stylesheet', href='/style/write.css', type='text/css')
-block script
+block page_script
   script(type='text/javascript', src='script/marked.min.js')
   script(type='text/javascript', src='script/write.js')
-block content
+block page_content
   form(method='post', action='/posts/')
     input(type='hidden', name='_method', value='PUT')
     div

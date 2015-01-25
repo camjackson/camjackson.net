@@ -37,7 +37,7 @@ describe('PostHandler', function() {
       postHandler.getRoot(null, response);
 
       expect(response.render).to.have.been.calledWith(
-        'index.jade',
+        'pages/index.jade',
         { moment: moment, marked: marked, config: 'the config', posts: 'sorted posts' },
         'a responder'
       );
@@ -51,7 +51,7 @@ describe('PostHandler', function() {
 
       expect(Post.findOne).to.have.been.calledWithExactly({slug: 'some-slug'});
       expect(response.render).to.have.been.calledWith(
-        'post.jade',
+        'pages/post.jade',
         { moment: moment, marked: marked, config: 'the config', post: 'the post' },
         'a responder'
       );
@@ -62,7 +62,7 @@ describe('PostHandler', function() {
     it('sends the write page with config', function() {
       postHandler.getWrite(null, response);
       expect(response.render).to.have.been.calledWith(
-        'write.jade',
+        'pages/write.jade',
         { config: 'the config' },
         'a responder'
       );

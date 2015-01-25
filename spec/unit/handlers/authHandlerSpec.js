@@ -39,7 +39,7 @@ describe('AuthHandler', function() {
       };
       new AuthHandler(createResponder).getLogin(reqWithFlashAndAuth, response);
       expect(response.render).to.have.been.calledWith(
-        'login.jade',
+        'pages/login.jade',
         { config: 'config', errorMessage: 'some auth error' },
         'a responder'
       );

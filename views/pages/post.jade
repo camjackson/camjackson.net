@@ -1,6 +1,6 @@
-extends ./base
+extends ../common/base
 
-block content
+block page_content
   article
     h1= post.title
     time(pubdate): em= moment(post.posted).format('Do MMMM YYYY')

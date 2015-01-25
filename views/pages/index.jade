@@ -1,6 +1,6 @@
-extends ./base
+extends ../common/base
 
-block content
+block page_content
   each post in posts
     article
       h1: a(href='/post/'+post.slug, class='underline-hover-only')= post.title

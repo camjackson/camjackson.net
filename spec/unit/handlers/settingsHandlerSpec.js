@@ -34,7 +34,7 @@ describe('SettingsHandler', function() {
       settingsHandler.getSettings(request, response);
 
       expect(response.render).to.have.been.calledWith(
-        'settings.jade',
+        'pages/settings.jade',
         { config: 'the config', errorMessage: 'some error' },
         'a responder'
       );

@@ -1,7 +1,7 @@
-extends ./base
-block style
+extends ../common/base
+block page_style
   link(rel='stylesheet', href='/style/profile.css', type='text/css')
-block content
+block page_content
   h3= 'Welcome, ' + user.username + '!'
   form(method='post', action='/user/'+user.username)
     input(type='hidden', name='_method', value='PUT')

@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title= config.title
+    include includes
+    block page_style
+    block page_script
+    link(rel='shortcut icon', href='/favicon.ico')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+  body
+    main
+      header
+        include header
+      section
+        block page_content
+      footer
+        hr
+        p Powered by <a href='http://github.com/camjackson/writeitdown'>writeitdown</a>
