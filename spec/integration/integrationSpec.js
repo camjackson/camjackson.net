@@ -228,7 +228,7 @@ describe('Integration Test', function() {
             expect(posts[0].slug).to.equal('new-post');
             expect(posts[0].text).to.equal('This is my newest post.');
             var timeSincePosted = Date.now() - posts[0].posted;
-            expect(timeSincePosted).to.be.within(1, 10); //ms
+            expect(timeSincePosted).to.be.within(1, 20); //ms
           });
         });
       });
