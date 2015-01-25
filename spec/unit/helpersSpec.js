@@ -50,19 +50,22 @@ describe('helpers', function() {
       process.env.SITE_TITLE = 'site title';
       process.env.SITE_HEADING = 'site heading';
       process.env.SITE_DOMAIN = 'mysite.com';
+      process.env.GOOGLE_ANALYTICS_ID = 'UA-12345678-9';
     });
 
     after(function () {
       process.env.SITE_TITLE = '';
       process.env.SITE_HEADING = '';
       process.env.SITE_DOMAIN = '';
+      process.env.GOOGLE_ANALYTICS_ID = '';
     });
 
     it('aggregates all the required environment variables', function () {
       expect(helpers.getEnvConfig()).to.deep.equal({
         title: 'site title',
         heading: 'site heading',
-        domain: 'mysite.com'
+        domain: 'mysite.com',
+        google_analytics_id: 'UA-12345678-9'
       });
     });
   });
