@@ -1,36 +1,15 @@
 @import 'appearance';
 
-nav ol {
-  margin-left: 15px;
-  margin-right: 15px;
-  border: 2px solid $dark-brown;
-  padding-left: 0;
-  background-color: $light-brown;
-  color: $dark-grey;
+footer {
+  padding: 20px;
 }
 
-nav li {
+footer p, nav, nav ol, nav li {
   display: inline;
 }
 
-nav a {
-  padding: 5px 10px;
-  text-decoration: none;
-  display: inline-block;
-}
-
-nav a.nav-left {
-  border-right: 2px solid $dark-brown;
-}
-
-nav a.nav-right {
-  float: right;
-  border-left: 2px solid $dark-brown;
-}
-
-nav a:hover {
-  background-color: $dark-brown;
-  color: white;
+nav li {
+  margin-right: 20px;
 }
 
 #logout-form {

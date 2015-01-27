@@ -3,7 +3,7 @@ body {
   background-color: #e6eef9; }
 
 header, footer {
-  background-color: #7C91A5; }
+  background-color: #7c91a5; }
 
 main {
   background-color: white;
@@ -14,8 +14,11 @@ hr {
   height: 1px;
   background-color: #a0a0a0; }
 
-a {
-  color: inherit; }
+main p > a {
+  color: #744e39; }
+
+main p > a:visited {
+  color: #d9aa80; }
 
 #heading {
   font-size: 2em; }
@@ -57,8 +60,8 @@ label {
 
 input[type='submit'] {
   cursor: pointer;
-  background-color: #D9AA80;
+  background-color: #d9aa80;
   width: 80px;
-  border: 2px solid #745138; }
+  border: 2px solid #744e39; }
 
 /*# sourceMappingURL=forms.css.map */

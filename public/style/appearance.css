@@ -1,20 +1,41 @@
 body {
   font-family: 'Open Sans', sans-serif;
-  background-color: #7C91A5; }
+  background-color: #e6eef9; }
+
+header, footer {
+  background-color: #7c91a5; }
 
 main {
-  background-color: #DDE5F0;
+  background-color: white;
   color: #272727; }
 
-a {
-  color: inherit; }
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #a0a0a0; }
+
+main p > a {
+  color: #744e39; }
+
+main p > a:visited {
+  color: #d9aa80; }
 
 #heading {
   font-size: 2em; }
 
 h1, .h1 {
-  /* font-size: 1.5em; */
-  /* font-weight: bold; */ }
+  font-size: 1.7em; }
+
+h2, .h2 {
+  font-size: 1.5em;
+  font-weight: bold; }
+
+h3, .h3 {
+  font-size: 1.17em;
+  font-weight: bold; }
+
+time {
+  font-size: 0.8em; }
 
 p, .p {
   font-size: 1em; }

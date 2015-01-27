@@ -1,19 +1,22 @@
 $dark-grey: #272727;
 $light-grey: #a0a0a0;
-$dark-brown: #745138;
-$light-brown: #D9AA80;
-$dark-blue: #7C91A5;
-$light-blue: #DDE5F0;
+$dark-brown: #744e39;
+$light-brown: #d9aa80;
+$dark-blue: #7c91a5;
+$light-blue: #e6eef9;
 
 body {
   font-family: 'Open Sans', sans-serif;
+  background-color: $light-blue;
+}
+
+header, footer {
   background-color: $dark-blue;
 }
 
 main {
-  background-color: $light-blue;
+  background-color: white;
   color: $dark-grey;
-  box-shadow: 0 0 25px 5px $dark-grey;
 }
 
 hr {
@@ -22,8 +25,12 @@ hr {
   background-color: $light-grey;
 }
 
-a {
-  color: inherit;
+main p > a {
+  color: $dark-brown;
+}
+
+main p > a:visited {
+  color: $light-brown;
 }
 
 #heading {
@@ -42,6 +49,10 @@ h2, .h2 {
 h3, .h3 {
   font-size: 1.17em;
   font-weight: bold;
+}
+
+h1 > a, footer a {
+  color: inherit;
 }
 
 time {
