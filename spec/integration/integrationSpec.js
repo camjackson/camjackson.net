@@ -117,7 +117,7 @@ describe('Integration Test', function() {
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<title>integration title</title>');
-          expect(res.text).to.include('<h1 id="heading">integration heading</h1>');
+          expect(res.text).to.match(/<h1 id="heading".*integration heading.*<\/h1>/);
           expect(res.text).to.include('<em>emphasised</em>');
           expect(res.text).to.include('<strong>strong</strong>');
         });
