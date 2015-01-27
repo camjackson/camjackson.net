@@ -49,6 +49,7 @@ describe('helpers', function() {
     before(function() {
       process.env.SITE_TITLE = 'site title';
       process.env.SITE_HEADING = 'site heading';
+      process.env.SITE_SUB_HEADING = 'site sub-heading';
       process.env.SITE_DOMAIN = 'mysite.com';
       process.env.GOOGLE_ANALYTICS_ID = 'UA-12345678-9';
     });
@@ -56,6 +57,7 @@ describe('helpers', function() {
     after(function () {
       process.env.SITE_TITLE = '';
       process.env.SITE_HEADING = '';
+      process.env.SITE_SUB_HEADING = '';
       process.env.SITE_DOMAIN = '';
       process.env.GOOGLE_ANALYTICS_ID = '';
     });
@@ -64,6 +66,7 @@ describe('helpers', function() {
       expect(helpers.getEnvConfig()).to.deep.equal({
         title: 'site title',
         heading: 'site heading',
+        sub_heading: 'site sub-heading',
         domain: 'mysite.com',
         google_analytics_id: 'UA-12345678-9'
       });
