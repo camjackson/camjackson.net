@@ -52,6 +52,9 @@ p, .p {
 .underline-hover-only:hover {
   text-decoration: underline; }
 
+strong {
+  letter-spacing: -0.1em; }
+
 footer {
   padding: 20px; }
 
