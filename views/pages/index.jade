@@ -1,6 +1,10 @@
 extends ../common/base
 
 block page_content
+  if profile
+    #about_box
+      img(src=profile.image)
+      != marked(profile.text)
   each post in posts
     article
       h1: a(href='/post/'+post.slug, class='underline-hover-only')= post.title

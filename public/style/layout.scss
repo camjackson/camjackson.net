@@ -1,3 +1,4 @@
+@import 'appearance';
 $footer_height: 60px;
 
 html, body, main {
@@ -40,6 +41,20 @@ h1, .h1 {
 main {
   padding-top: 10px;
   padding-bottom: $footer_height;
+}
+
+#about_box {
+  float: right;
+  width: 300px;
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid $dark-grey;
+}
+
+#about_box > img {
+  float: right;
+  width: 150px;
+  height: 200px;
 }
 
 time {

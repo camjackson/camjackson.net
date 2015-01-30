@@ -5,8 +5,9 @@ var expect = chai.expect;
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var models = require('../../lib/models');
-var Post = models.Post;
 var User = models.User;
+var Post = models.Post;
+var Profile = models.Profile;
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
 var helpers = require('../../lib/helpers');
@@ -112,14 +113,36 @@ describe('Integration Test', function() {
     });
 
     describe('GET /', function() {
-      it('renders the home page successfully', function() {
-        var req = request(app).get('/');
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.include('<title>integration title</title>');
-          expect(res.text).to.match(/<h1 id="heading".*integration heading.*<\/h1>/);
-          expect(res.text).to.include('<em>emphasised</em>');
-          expect(res.text).to.include('<strong>strong</strong>');
+      describe('without any profile set', function() {
+        it('renders the home page successfully', function() {
+          var req = request(app).get('/');
+          return req.then(function(res) {
+            expect(res.statusCode).to.equal(200);
+            expect(res.text).to.include('<title>integration title</title>');
+            expect(res.text).to.match(/<h1 id="heading".*integration heading.*<\/h1>/);
+            expect(res.text).to.include('<em>emphasised</em>');
+            expect(res.text).to.include('<strong>strong</strong>');
+          });
+        });
+      });
+
+      describe('with profile set', function() {
+        beforeEach(function() {
+          return Profile.remove({}).exec().then(function() {
+            return Profile.create({
+              text: 'profile text',
+              image: 'http://www.example.com/profile_image.jpg'
+            });
+          });
+        });
+
+        it('renders the home page with profile data', function() {
+          var req = request(app).get('/');
+          return req.then(function(res) {
+            expect(res.statusCode).to.equal(200);
+            expect(res.text).to.include('<p>profile text</p>');
+            expect(res.text).to.include('<img src="http://www.example.com/profile_image.jpg">');
+          });
         });
       });
     });

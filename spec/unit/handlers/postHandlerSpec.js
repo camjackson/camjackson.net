@@ -11,6 +11,7 @@ var marked = require('marked');
 var PostHandler = require('../../../lib/handlers/postHandler').PostHandler;
 var helpers = require('../../../lib/helpers');
 var Post = require('../../../lib/models').Post;
+var Profile = require('../../../lib/models').Profile;
 
 describe('PostHandler', function() {
   var sandbox;
@@ -32,13 +33,14 @@ describe('PostHandler', function() {
 
   describe('getRoot', function() {
     it('renders the index page with correct data', function() {
-      var sortable = { sort: function() {return 'sorted posts'} }
-      sandbox.stub(Post, 'find').returns(sortable);
+      var posts = { sort: function() {return 'sorted posts'} };
+      sandbox.stub(Post, 'find').returns(posts);
+      sandbox.stub(Profile, 'findOne').returns('profile');
       postHandler.getRoot(null, response);
 
       expect(response.render).to.have.been.calledWith(
         'pages/index.jade',
-        { moment: moment, marked: marked, config: 'the config', posts: 'sorted posts' },
+        { moment: moment, marked: marked, config: 'the config', posts: 'sorted posts', profile: 'profile' },
         'a responder'
       );
     });
