@@ -29,19 +29,6 @@ describe('UserHandler', function() {
     sandbox.restore();
   });
 
-  describe('getProfile', function() {
-    it('renders the profile page with the correct data', function() {
-      var request = { flash: sandbox.stub().withArgs('errorMessage').returns('some error') };
-      userHandler.getProfile(request, response);
-
-      expect(response.render).to.have.been.calledWith(
-        'pages/profile.jade',
-        { config: 'the config', errorMessage: 'some error' },
-        'a responder'
-      );
-    });
-  });
-
   describe('updateUser', function() {
     var requestBody;
 
@@ -53,7 +40,7 @@ describe('UserHandler', function() {
       };
     });
 
-    it('flashes an error and redirects to the profile page when the username field is blank', function() {
+    it('flashes an error and redirects to the settings page when the username field is blank', function() {
       sandbox.spy(User, 'update');
       requestBody.username = '';
       var request = { body: requestBody, params: {username: 'some-user'}, flash: sandbox.spy() };
@@ -61,10 +48,10 @@ describe('UserHandler', function() {
       userHandler.updateUser(request, response);
       expect(User.update).not.to.have.been.called;
       expect(request.flash).to.have.been.calledWithExactly('errorMessage', 'Please enter a username');
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
+      expect(response.redirect).to.have.been.calledWithExactly(303, '/settings');
     });
 
-    it('flashes an error and redirects to the profile page when the password field is blank', function() {
+    it('flashes an error and redirects to the settings page when the password field is blank', function() {
       sandbox.spy(User, 'update');
       requestBody.password = '';
       var request = { body: requestBody, params: {username: 'some-user'}, flash: sandbox.spy() };
@@ -72,10 +59,10 @@ describe('UserHandler', function() {
       userHandler.updateUser(request, response);
       expect(User.update).not.to.have.been.called;
       expect(request.flash).to.have.been.calledWithExactly('errorMessage', 'Please enter a password');
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
+      expect(response.redirect).to.have.been.calledWithExactly(303, '/settings');
     });
 
-    it('flashes an error and redirects to the profile page when the passwords do not match', function() {
+    it('flashes an error and redirects to the settings page when the passwords do not match', function() {
       sandbox.spy(User, 'update');
       requestBody.confirmPassword = 'typo-password';
       var request = { body: requestBody, params: {username: 'some-user'}, flash: sandbox.spy() };
@@ -83,10 +70,10 @@ describe('UserHandler', function() {
       userHandler.updateUser(request, response);
       expect(User.update).not.to.have.been.called;
       expect(request.flash).to.have.been.calledWithExactly('errorMessage', 'Passwords do not match');
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
+      expect(response.redirect).to.have.been.calledWithExactly(303, '/settings');
     });
 
-    it('updates the user and redirects to the profile page when everything is OK', function() {
+    it('updates the user and redirects to the settings page when everything is OK', function() {
       var foundUser = { save: sandbox.spy() };
       var promiseWithUser = Q.fcall(function() {return foundUser});
       sandbox.stub(User, 'findOne').returns({exec: function() {return promiseWithUser;}});
@@ -97,18 +84,18 @@ describe('UserHandler', function() {
         expect(foundUser.username).to.equal('new-username');
         expect(foundUser.password).to.equal('new-password');
         expect(foundUser.save).to.have.been.calledOnce;
-        expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
+        expect(response.redirect).to.have.been.calledWithExactly(303, '/settings');
       });
     });
 
-    it('flashes an error and redirects to the profile page when the username is taken', function() {
+    it('flashes an error and redirects to the settings page when the username is taken', function() {
       var failingPromise = Q.fcall(function() {throw new Error();});
       sandbox.stub(User, 'findOne').returns({ exec: function() {return failingPromise;} });
       var request = { body: requestBody, params: {username: 'some-user'}, flash: sandbox.spy() };
 
       return userHandler.updateUser(request, response).then(function() {
         expect(request.flash).to.have.been.calledWithExactly('errorMessage', 'Sorry, that username is taken');
-        expect(response.redirect).to.have.been.calledWithExactly(303, '/profile');
+        expect(response.redirect).to.have.been.calledWithExactly(303, '/settings');
       });
     });
   });

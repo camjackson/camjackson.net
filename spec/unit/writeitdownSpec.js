@@ -8,12 +8,14 @@ var expect = chai.expect;
 var WriteItDown = require('../../lib/writeitdown').WriteItDown;
 var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
 var UserHandler = require('../../lib/handlers/userHandler').UserHandler;
+var SettingsHandler = require('../../lib/handlers/settingsHandler').SettingsHandler;
 var PostHandler = require('../../lib/handlers/postHandler').PostHandler;
 
 describe('WriteItDown', function() {
   var sandbox;
   var authHandler = new AuthHandler();
   var userHandler = new UserHandler();
+  var settingsHandler = new SettingsHandler();
   var postHandler = new PostHandler();
 
   beforeEach(function() {
@@ -47,7 +49,7 @@ describe('WriteItDown', function() {
   describe('POST /login', function() {
     it('authenticates using the authHandler', function() {
       sandbox.stub(authHandler, 'authenticate', function(req, res) {
-        res.redirect(303, '/profile');
+        res.redirect(303, '/settings');
       });
 
       var req = request(new WriteItDown({authHandler: authHandler}).app).post('/login')
@@ -58,7 +60,7 @@ describe('WriteItDown', function() {
         });
       return req.then(function(res) {
         expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/profile');
+        expect(res.headers.location).to.equal('/settings');
       });
     });
   });
@@ -93,25 +95,25 @@ describe('WriteItDown', function() {
     });
   });
 
-  describe('GET /profile', function () {
+  describe('GET /settings', function () {
     it('redirects to the login page when the user is not authenticated', function() {
-      var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).get('/profile');
+      var req = request(new WriteItDown({authHandler: authHandler}).app).get('/settings');
       return req.then(function(res) {
         expect(res.statusCode).to.equal(303);
         expect(res.headers.location).to.equal('/login');
       });
     });
 
-    it('renders the profile page using the userHandler when the user is authenticated', function () {
+    it('renders the settings page using the settingsHandler when the user is authenticated', function () {
       authorise();
-      sandbox.stub(userHandler, 'getProfile', function(req, res) {
-        res.status(200).send("This is the current user's profile");
+      sandbox.stub(settingsHandler, 'getSettings', function(req, res) {
+        res.status(200).send("This is the settings page");
       });
 
-      var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).get('/profile');
+      var req = request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app).get('/settings');
       return req.then(function(res) {
         expect(res.statusCode).to.equal(200);
-        expect(res.text).to.equal("This is the current user's profile");
+        expect(res.text).to.equal("This is the settings page");
       });
     });
   });
@@ -132,10 +134,10 @@ describe('WriteItDown', function() {
       });
     });
 
-    it ('updates the user and redirects to the profile page using the userHandler when the user is authenticated', function() {
+    it ('updates the user and redirects to the settings page using the userHandler when the user is authenticated', function() {
       authorise();
       sandbox.stub(userHandler, 'updateUser', function(req, res) {
-        res.redirect(303, '/profile');
+        res.redirect(303, '/settings');
       });
 
       var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
@@ -148,7 +150,7 @@ describe('WriteItDown', function() {
         });
       return req.then(function (res) {
         expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/profile');
+        expect(res.headers.location).to.equal('/settings');
       });
     })
   });
