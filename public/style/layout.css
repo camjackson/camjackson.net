@@ -92,7 +92,7 @@ main {
 
 #about_box {
   float: right;
-  width: 300px;
+  max-width: 300px;
   margin-left: 10px;
   padding: 5px;
   border: 1px solid #272727; }

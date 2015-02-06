@@ -1,9 +1,10 @@
 extends ../common/base
 
 block page_content
-  if profile
+  if profile && (profile.text || profile.image)
     #about_box
-      img(src=profile.image)
+      if profile.image
+        img(src=profile.image)
       != marked(profile.text)
   each post in posts
     article
