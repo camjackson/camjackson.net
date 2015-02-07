@@ -23,6 +23,34 @@ describe('helpers', function() {
     sandbox.restore();
   });
 
+  describe('trimPost', function() {
+    describe('the post has no fold', function() {
+      it('does not modify the post', function(){
+        expect(helpers.trimPost('whatever', 'blah')).to.equal('whatever');
+      });
+    });
+
+    describe('the post has a fold', function() {
+      var postBody = '**before**\n\n' +
+        '[//]: # (fold)\n\n' +
+        'after';
+
+      it('leaves the before text unmodified', function() {
+        expect(helpers.trimPost(postBody, '/link')).to.include('**before**\n\n');
+      });
+
+      it('replaces the fold indicator with a link to the post', function() {
+        var trimmed = helpers.trimPost(postBody, '/link');
+        expect(trimmed).to.not.include('fold');
+        expect(trimmed).to.include('[Read more...](/link)')
+      });
+
+      it('removes the text after the fold', function() {
+        expect(helpers.trimPost(postBody, '/link')).to.not.include('after');
+      });
+    });
+  });
+
   describe('bodyMethodOverrider', function() {
     it('returns nothing when the request has no body', function() {
       var method = helpers.bodyMethodOverrider({});

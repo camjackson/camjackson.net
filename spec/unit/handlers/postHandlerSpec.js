@@ -40,7 +40,7 @@ describe('PostHandler', function() {
 
       expect(response.render).to.have.been.calledWith(
         'pages/index.jade',
-        { moment: moment, marked: marked, config: 'the config', posts: 'sorted posts', profile: 'profile' },
+        { moment: moment, marked: marked, trimPost: helpers.trimPost, config: 'the config', posts: 'sorted posts', profile: 'profile' },
         'a responder'
       );
     });

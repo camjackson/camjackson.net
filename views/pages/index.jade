@@ -12,4 +12,4 @@ block page_content
       time(pubdate): em= moment(post.posted).format('Do MMMM YYYY')
       hr
       #article_body
-        != marked(post.text)
+        != marked(trimPost(post.text, '/post/' + post.slug))

@@ -25,6 +25,10 @@ describe('Integration Test', function() {
     process.env.SITE_DOMAIN = '';
   });
 
+  var first_body_text = '*emphasised*\n\n' +
+    '[//]: # (fold)\n\n' +
+    'behind a click';
+
   beforeEach(function () {
     mongoose.connect('mongodb://localhost/writeitdown-test');
     return User.remove({}).exec().then(function() {
@@ -39,7 +43,7 @@ describe('Integration Test', function() {
         {
           title: 'Post title',
           slug: 'post-slug',
-          text: '*emphasised*',
+          text: first_body_text,
           posted: Date.now()
         },
         {
@@ -125,6 +129,18 @@ describe('Integration Test', function() {
             expect(res.text).to.include('<em>emphasised</em>');
             expect(res.text).to.include('<strong>strong</strong>');
           });
+        });
+
+        it('cuts articles off with a "read more" link', function() {
+          var req = request(app).get('/');
+          return req.then(function(res) {
+            expect(res.statusCode).to.equal(200);
+            expect(res.text).to.include('<em>emphasised</em>');
+            expect(res.text).to.include('<a href="/post/post-slug">Read more...</a>');
+            expect(res.text).to.not.include('fold');
+            expect(res.text).to.not.include('behind a click');
+          });
+
         });
       });
 
