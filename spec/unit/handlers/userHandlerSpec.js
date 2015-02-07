@@ -19,10 +19,7 @@ describe('UserHandler', function() {
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
     sandbox.stub(helpers, 'getEnvConfig').returns('the config');
-    response = {
-      render: sandbox.spy(),
-      redirect: sandbox.spy()
-    };
+    response = { redirect: sandbox.spy() };
   });
 
   afterEach(function() {
