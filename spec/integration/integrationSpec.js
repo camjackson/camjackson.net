@@ -49,7 +49,9 @@ describe('Integration Test', function() {
           posted: Date.now()
         }
       ]);
-    })
+    }).then(function() {
+      return Profile.remove({}).exec();
+    });
   });
 
   afterEach(function (done) {
@@ -128,11 +130,9 @@ describe('Integration Test', function() {
 
       describe('with profile set', function() {
         beforeEach(function() {
-          return Profile.remove({}).exec().then(function() {
-            return Profile.create({
-              text: 'profile text',
-              image: 'http://www.example.com/profile_image.jpg'
-            });
+          return Profile.create({
+            text: 'profile text',
+            image: 'http://www.example.com/profile_image.jpg'
           });
         });
 
@@ -188,6 +188,52 @@ describe('Integration Test', function() {
           expect(res.text).to.include('Welcome, test-user!');
           expect(res.text).to.include('name="confirmPassword"');
           expect(res.text).to.include('<input type="submit"');
+        });
+      });
+    });
+
+    describe('PUT /settings', function() {
+      describe('with no existing profile exists', function() {
+        it('creates the user profile', function() {
+          var req = request(app).post('/settings')
+            .type('form')
+            .send({
+              _method: 'PUT',
+              profileImage: 'an image',
+              profileText: 'the text'
+            });
+          return req.then(function(res) {
+            expect(res.statusCode).to.equal(303);
+            return Profile.find({}).exec().then(function(profiles) {
+              expect(profiles).to.have.length(1);
+              expect(profiles[0].text).to.equal('the text');
+              expect(profiles[0].image).to.equal('an image');
+            });
+          });
+        });
+      });
+
+      describe('with an existing profile', function() {
+        beforeEach(function() {
+          return Profile.create({ text: 'old text', image: 'old image' })
+        });
+
+        it('updates the existing profile', function() {
+          var req = request(app).post('/settings')
+            .type('form')
+            .send({
+              _method: 'PUT',
+              profileImage: 'new image',
+              profileText: 'new text'
+            });
+          return req.then(function(res) {
+            expect(res.statusCode).to.equal(303);
+            return Profile.find({}).exec().then(function(profiles) {
+              expect(profiles).to.have.length(1);
+              expect(profiles[0].text).to.equal('new text');
+              expect(profiles[0].image).to.equal('new image');
+            });
+          });
         });
       });
     });
