@@ -14,10 +14,10 @@ hr {
   height: 1px;
   background-color: #a0a0a0; }
 
-main p > a {
+main p > a, #profile_box a {
   color: #744e39; }
 
-main p > a:visited {
+main p > a:visited, #profile_box a:visited {
   color: #d9aa80; }
 
 #heading {
