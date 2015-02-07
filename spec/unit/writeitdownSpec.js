@@ -118,6 +118,35 @@ describe('WriteItDown', function() {
     });
   });
 
+  describe('PUT /settings', function() {
+    it('redirects to the login page when the user is not authenticated', function() {
+      var req = request(new WriteItDown({authHandler: authHandler}).app).put('/settings');
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/login');
+      });
+    });
+
+    it('updates the settings and redirects to the settings page using the settingsHandler when the user is authenticated', function() {
+      authorise();
+      sandbox.stub(settingsHandler, 'updateSettings', function(req, res) {
+        res.redirect(303, '/settings');
+      });
+
+      var req = request(new WriteItDown({authHandler: authHandler, settingsHandler: settingsHandler}).app).post('/settings')
+        .type('form')
+        .send({
+          _method: 'PUT',
+          profileImage: 'profile-image',
+          profileText: 'profile-text'
+        });
+      return req.then(function(res) {
+        expect(res.statusCode).to.equal(303);
+        expect(res.headers.location).to.equal('/settings');
+      })
+    });
+  });
+
   describe('PUT /user/:username', function() {
     it('redirects to the login page when the user is not authenticated', function() {
       var req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
@@ -134,7 +163,7 @@ describe('WriteItDown', function() {
       });
     });
 
-    it ('updates the user and redirects to the settings page using the userHandler when the user is authenticated', function() {
+    it('updates the user and redirects to the settings page using the userHandler when the user is authenticated', function() {
       authorise();
       sandbox.stub(userHandler, 'updateUser', function(req, res) {
         res.redirect(303, '/settings');
@@ -148,7 +177,7 @@ describe('WriteItDown', function() {
           password: 'new-password',
           confirmPassword: 'new-password'
         });
-      return req.then(function (res) {
+      return req.then(function(res) {
         expect(res.statusCode).to.equal(303);
         expect(res.headers.location).to.equal('/settings');
       });

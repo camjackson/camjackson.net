@@ -2,7 +2,7 @@ extends ../common/base
 
 block page_content
   if profile && (profile.text || profile.image)
-    #about_box
+    #profile_box
       if profile.image
         img(src=profile.image)
       != marked(profile.text)

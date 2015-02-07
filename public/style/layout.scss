@@ -43,15 +43,21 @@ main {
   padding-bottom: $footer_height;
 }
 
-#about_box {
+$profile_width: 300px;
+
+form #profile_text {
+  width: $profile_width;
+}
+
+#profile_box {
   float: right;
-  max-width: 300px;
+  max-width: $profile_width;
   margin-left: 10px;
   padding: 5px;
   border: 1px solid $dark-grey;
 }
 
-#about_box > img {
+#profile_box > img {
   float: right;
   width: 150px;
   height: 200px;

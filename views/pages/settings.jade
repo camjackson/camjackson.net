@@ -3,6 +3,8 @@ block page_style
   link(rel='stylesheet', href='/style/settings.css', type='text/css')
 block page_content
   h3= 'Welcome, ' + user.username + '!'
+
+  hr
   form(method='post', action='/user/'+user.username)
     input(type='hidden', name='_method', value='PUT')
     div
@@ -16,3 +18,14 @@ block page_content
       input(type='password', class='p', id='confirm-password', name='confirmPassword')
     input(type='submit', class='p')
     p(class='error')= errorMessage
+
+  hr
+  form(method='post', action='/settings')
+    input(type='hidden', name='_method', value='PUT')
+    div
+      label(for='profile-image', class='p') Profile image URL:
+      input(type='text', class='p', id='profile-image', name='profileImage')
+    div
+      label(for='profile-text', class='p') Profile text:
+      textarea(class='p', id='profile-text', name='profileText', rows='10')
+    input(type='submit', class='p', value='Submit')
