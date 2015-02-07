@@ -11,4 +11,5 @@ block page_content
       h1: a(href='/post/'+post.slug, class='underline-hover-only')= post.title
       time(pubdate): em= moment(post.posted).format('Do MMMM YYYY')
       hr
-      != marked(post.text)
+      #article_body
+        != marked(post.text)

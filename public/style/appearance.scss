@@ -25,11 +25,11 @@ hr {
   background-color: $light-grey;
 }
 
-main p > a, #profile_box a {
+#article_body a, #profile_box a, #preview a {
   color: $dark-brown;
 }
 
-main p > a:visited, #profile_box a:visited {
+#article_body a:visited, #profile_box a:visited, #preview a:visited {
   color: $light-brown;
 }
 
