@@ -25,11 +25,11 @@ hr {
   background-color: $light-grey;
 }
 
-#article_body a, #profile_box a, #preview a {
+a {
   color: $dark-brown;
 }
 
-#article_body a:visited, #profile_box a:visited, #preview a:visited {
+a:visited {
   color: $light-brown;
 }
 
@@ -52,7 +52,7 @@ h3, .h3 {
 }
 
 h1 > a, footer a {
-  color: inherit;
+  color: inherit !important;
 }
 
 time {

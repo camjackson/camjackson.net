@@ -25,8 +25,8 @@ describe('Integration Test', function() {
     process.env.SITE_DOMAIN = '';
   });
 
-  var first_body_text = '*emphasised*\n\n' +
-    '[//]: # (fold)\n\n' +
+  var first_body_text = '*emphasised*\r\n\r\n' +
+    '[//]: # (fold)\r\n\r\n' +
     'behind a click';
 
   beforeEach(function () {
@@ -277,7 +277,7 @@ describe('Integration Test', function() {
     });
 
     describe('GET /write', function() {
-      it('renders the post creation page successfully', function() {
+      it('renders the post creation page successfully with no post paramater', function() {
         var req = request(app).get('/write');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
@@ -285,6 +285,16 @@ describe('Integration Test', function() {
           expect(res.text).to.include('integration.com');
           expect(res.text).to.include('name="slug"');
           expect(res.text).to.include('<input type="submit"');
+        });
+      });
+
+      it('renders the post creation page with existing data when there is a post parameter', function() {
+        var req = request(app).get('/write?post=second-slug');
+        return req.then(function(res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.match(/input.*id="title".*value="Second post"/);
+          expect(res.text).to.match(/input.*id="slug".*value="second-slug".*readonly="true"/);
+          expect(res.text).to.match(/textarea.*\*\*strong\*\*/);
         });
       });
     });

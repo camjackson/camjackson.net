@@ -14,10 +14,10 @@ hr {
   height: 1px;
   background-color: #a0a0a0; }
 
-#article_body a, #profile_box a, #preview a {
+a {
   color: #744e39; }
 
-#article_body a:visited, #profile_box a:visited, #preview a:visited {
+a:visited {
   color: #d9aa80; }
 
 #heading {
@@ -35,7 +35,7 @@ h3, .h3 {
   font-weight: bold; }
 
 h1 > a, footer a {
-  color: inherit; }
+  color: inherit !important; }
 
 time {
   font-size: 0.8em; }

@@ -24,19 +24,26 @@ describe('helpers', function() {
   });
 
   describe('trimPost', function() {
-    describe('the post has no fold', function() {
-      it('does not modify the post', function(){
+    describe('the post has no valid fold', function() {
+      it('does not modify the post when there is no fold', function(){
         expect(helpers.trimPost('whatever', 'blah')).to.equal('whatever');
+      });
+
+      it('does not modify the post when the fold is not on its own line', function() {
+        var postBody ='**before**\r\n\r\n' +
+          '`[//]: # (fold)`\r\n\r\n' +
+          'after';
+        expect(helpers.trimPost(postBody, 'blah')).to.equal(postBody);
       });
     });
 
     describe('the post has a fold', function() {
-      var postBody = '**before**\n\n' +
-        '[//]: # (fold)\n\n' +
+      var postBody = '**before**\r\n\r\n' +
+        '[//]: # (fold)\r\n\r\n' +
         'after';
 
       it('leaves the before text unmodified', function() {
-        expect(helpers.trimPost(postBody, '/link')).to.include('**before**\n\n');
+        expect(helpers.trimPost(postBody, '/link')).to.include('**before**\r\n\r\n');
       });
 
       it('replaces the fold indicator with a link to the post', function() {

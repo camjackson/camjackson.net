@@ -38,7 +38,7 @@ describe('PostHandler', function() {
       sandbox.stub(Profile, 'findOne').returns('profile');
       postHandler.getRoot(null, response);
 
-      expect(response.render).to.have.been.calledWith(
+      expect(response.render).to.have.been.calledWithExactly(
         'pages/index.jade',
         { moment: moment, marked: marked, trimPost: helpers.trimPost, config: 'the config', posts: 'sorted posts', profile: 'profile' },
         'a responder'
@@ -52,7 +52,7 @@ describe('PostHandler', function() {
       postHandler.getPost({params: {slug: 'some-slug'}}, response);
 
       expect(Post.findOne).to.have.been.calledWithExactly({slug: 'some-slug'});
-      expect(response.render).to.have.been.calledWith(
+      expect(response.render).to.have.been.calledWithExactly(
         'pages/post.jade',
         { moment: moment, marked: marked, config: 'the config', post: 'the post' },
         'a responder'
@@ -61,13 +61,45 @@ describe('PostHandler', function() {
   });
 
   describe('getWrite', function() {
-    it('sends the write page with config', function() {
-      postHandler.getWrite(null, response);
-      expect(response.render).to.have.been.calledWith(
-        'pages/write.jade',
-        { config: 'the config' },
-        'a responder'
-      );
+    describe('with no post parameter', function() {
+      it('renders the write page with config', function() {
+        var promise_without_data = Q.fcall(function() {});
+        sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_without_data} });
+        return postHandler.getWrite({ query: {} }, response).then(function() {
+          expect(response.render).to.have.been.calledWithExactly(
+            'pages/write.jade',
+            { config: 'the config' },
+            'a responder'
+          );
+        });
+      });
+    });
+
+    describe('with a post parameter', function() {
+      it('renders the write page without a post when the post does not exist', function() {
+        var promise_without_data = Q.fcall(function() {});
+        sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_without_data} });
+        return postHandler.getWrite({ query: { post: 'does_not_exist' } }, response).then(function() {
+          expect(response.render).to.have.been.calledWithExactly(
+            'pages/write.jade',
+            { config: 'the config' },
+            'a responder'
+          );
+        });
+      });
+
+      it('renders the write page with the given post when the post does exist', function() {
+        var existing_post = { title: 'some title', slug: 'some slug', text: 'some text' };
+        var promise_with_data = Q.fcall(function() {return existing_post});
+        sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_with_data} });
+        return postHandler.getWrite({ query: { post: 'does_exist' } }, response).then(function() {
+          expect(response.render).to.have.been.calledWithExactly(
+            'pages/write.jade',
+            { config: 'the config', postTitle: 'some title', postSlug: 'some slug', postText: 'some text'  },
+            'a responder'
+          );
+        });
+      });
     });
   });
 
