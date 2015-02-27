@@ -24,8 +24,8 @@ block page_content
     input(type='hidden', name='_method', value='PUT')
     div
       label(for='profile-image', class='p') Profile image URL:
-      input(type='text', class='p', id='profile-image', name='profileImage')
+      input(type='text', class='p', id='profile-image', name='profileImage', value=profile.image)
     div
       label(for='profile-text', class='p') Profile text:
-      textarea(class='p', id='profile-text', name='profileText', rows='10')
+      textarea(class='p', id='profile-text', name='profileText', rows='10')= profile.text
     input(type='submit', class='p', value='Submit')

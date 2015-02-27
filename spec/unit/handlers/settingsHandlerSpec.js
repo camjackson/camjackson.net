@@ -26,12 +26,13 @@ describe('SettingsHandler', function() {
 
   describe('getSettings', function() {
     it('renders the settings page with the correct data', function() {
+      sandbox.stub(Profile, 'findOne').returns('the profile');
       var request = { flash: sandbox.stub().withArgs('errorMessage').returns('some error') };
       settingsHandler.getSettings(request, response);
 
       expect(response.render).to.have.been.calledWith(
         'pages/settings.jade',
-        { config: 'the config', errorMessage: 'some error' },
+        { config: 'the config', errorMessage: 'some error', profile: 'the profile' },
         'a responder'
       );
     });

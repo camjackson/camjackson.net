@@ -55,6 +55,11 @@ describe('Integration Test', function() {
       ]);
     }).then(function() {
       return Profile.remove({}).exec();
+    }).then(function() {
+      return Profile.create({
+        text: 'profile text',
+        image: 'http://www.example.com/profile_image.jpg'
+      });
     });
   });
 
@@ -119,45 +124,48 @@ describe('Integration Test', function() {
     });
 
     describe('GET /', function() {
-      describe('without any profile set', function() {
-        it('renders the home page successfully', function() {
-          var req = request(app).get('/');
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(200);
-            expect(res.text).to.include('<title>integration title</title>');
-            expect(res.text).to.match(/<h1 id="heading".*integration heading.*<\/h1>/);
-            expect(res.text).to.include('<em>emphasised</em>');
-            expect(res.text).to.include('<strong>strong</strong>');
-          });
-        });
 
-        it('cuts articles off with a "read more" link', function() {
-          var req = request(app).get('/');
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(200);
-            expect(res.text).to.include('<em>emphasised</em>');
-            expect(res.text).to.include('<a href="/post/post-slug">Read more...</a>');
-            expect(res.text).to.not.include('fold');
-            expect(res.text).to.not.include('behind a click');
-          });
-
+      it('renders the home page successfully', function() {
+        var req = request(app).get('/');
+        return req.then(function(res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.include('<title>integration title</title>');
+          expect(res.text).to.match(/<h1 id="heading".*integration heading.*<\/h1>/);
+          expect(res.text).to.include('<em>emphasised</em>');
+          expect(res.text).to.include('<strong>strong</strong>');
         });
       });
 
-      describe('with profile set', function() {
+      it('includes profile data', function() {
+        var req = request(app).get('/');
+        return req.then(function(res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.include('<p>profile text</p>');
+          expect(res.text).to.include('<img src="http://www.example.com/profile_image.jpg">');
+        });
+      });
+
+      it('cuts articles off with a "read more" link', function() {
+        var req = request(app).get('/');
+        return req.then(function(res) {
+          expect(res.statusCode).to.equal(200);
+          expect(res.text).to.include('<em>emphasised</em>');
+          expect(res.text).to.include('<a href="/post/post-slug">Read more...</a>');
+          expect(res.text).to.not.include('fold');
+          expect(res.text).to.not.include('behind a click');
+        });
+      });
+
+      describe('without any profile set', function() {
         beforeEach(function() {
-          return Profile.create({
-            text: 'profile text',
-            image: 'http://www.example.com/profile_image.jpg'
-          });
+          return Profile.remove({}).exec();
         });
 
-        it('renders the home page with profile data', function() {
+        it('does not include the profile box', function() {
           var req = request(app).get('/');
           return req.then(function(res) {
             expect(res.statusCode).to.equal(200);
-            expect(res.text).to.include('<p>profile text</p>');
-            expect(res.text).to.include('<img src="http://www.example.com/profile_image.jpg">');
+            expect(res.text).to.not.include('profile_box');
           });
         });
       });
@@ -196,7 +204,7 @@ describe('Integration Test', function() {
     var app = new WriteItDown({authHandler: authHandler}).app;
 
     describe('GET /settings', function() {
-      it('renders the settings page successfully', function() {
+      it('renders the settings page correctly', function() {
         var req = request(app).get('/settings');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
@@ -204,12 +212,19 @@ describe('Integration Test', function() {
           expect(res.text).to.include('Welcome, test-user!');
           expect(res.text).to.include('name="confirmPassword"');
           expect(res.text).to.include('<input type="submit"');
+          expect(res.text).to.include('value="http://www.example.com/profile_image.jpg"');
+          expect(res.text).to.include('>profile text</textarea>');
         });
       });
     });
 
     describe('PUT /settings', function() {
       describe('with no existing profile exists', function() {
+
+        beforeEach(function() {
+          return Profile.remove({}).exec();
+        });
+
         it('creates the user profile', function() {
           var req = request(app).post('/settings')
             .type('form')
@@ -230,10 +245,6 @@ describe('Integration Test', function() {
       });
 
       describe('with an existing profile', function() {
-        beforeEach(function() {
-          return Profile.create({ text: 'old text', image: 'old image' })
-        });
-
         it('updates the existing profile', function() {
           var req = request(app).post('/settings')
             .type('form')
