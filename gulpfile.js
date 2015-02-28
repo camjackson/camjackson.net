@@ -83,7 +83,7 @@ function seed() {
   }).then(function() {
     return Profile.create({
       text: profileText,
-      image: 'http://placehold.it/150x300'
+      image: 'http://placehold.it/150x200'
     });
   }).then(function() {
     mongoose.disconnect();
@@ -94,5 +94,5 @@ var firstPostText = 'This is your first post.\n\n Log in with the default creden
   'edit or delete it, and to start making posts of your own.';
 var profileText = 'This is some profile text. Write a short intro on the profile ' +
   'page to explain who you are, and what your blog is about.\n\n You can also specify an ' +
-  'image url, to fit in a 150x300 pixel area. Larger images will be squashed into the box.\n\n' +
+  'image url, to fit in a 150x200 pixel area. Larger images will be squashed into the box.\n\n' +
   '*Markdown works here, too!*';
