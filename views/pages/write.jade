@@ -12,7 +12,7 @@ block page_content
       input(type='text', class='h2', id='title', name='title', value=postTitle, onkeyup='updatePreview();')
     div
       label(for='slug', class='p')=config.domain + '/'
-      input(type='text', class='p', id='slug', name='slug', placeholder='slug', value=postSlug, readonly=''+Boolean(postSlug))
+      input(type='text', class='p', id='slug', name='slug', placeholder='slug', value=postSlug, readonly=Boolean(postSlug))
     div
       label(for='text', class='h3') Post Body:
       textarea(id='text', name='text', class='p', rows='20' onkeyup='updatePreview();')=postText

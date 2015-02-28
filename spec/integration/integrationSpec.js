@@ -288,7 +288,7 @@ describe('Integration Test', function() {
     });
 
     describe('GET /write', function() {
-      it('renders the post creation page successfully with no post paramater', function() {
+      it('renders the post creation page successfully with no post parameter', function() {
         var req = request(app).get('/write');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
@@ -299,12 +299,19 @@ describe('Integration Test', function() {
         });
       });
 
+      it('allows slug editing with no post parameter', function() {
+        var req = request(app).get('/write');
+        return req.then(function(res) {
+          expect(res.text).to.not.include('readonly');
+        });
+      });
+
       it('renders the post creation page with existing data when there is a post parameter', function() {
         var req = request(app).get('/write?post=second-slug');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.match(/input.*id="title".*value="Second post"/);
-          expect(res.text).to.match(/input.*id="slug".*value="second-slug".*readonly="true"/);
+          expect(res.text).to.match(/input.*id="slug".*value="second-slug".*readonly/);
           expect(res.text).to.match(/textarea.*\*\*strong\*\*/);
         });
       });
