@@ -63,6 +63,16 @@ blockquote {
   font-style: italic;
 }
 
+code {
+  font-size: 1.2em;
+}
+
+pre > code {
+  //These go with the darkula theme from highlight.js
+  color: #BABABA;
+  background-color: #2B2B2B;
+}
+
 p, .p {
   font-size: 1em;
 }

@@ -72,6 +72,12 @@ time {
   margin-left: 10px;
 }
 
+pre > code {
+  display: block;
+  padding: 5px;
+  margin: 20px;
+}
+
 footer {
   clear: both;
   position: relative;

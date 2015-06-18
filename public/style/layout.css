@@ -43,6 +43,13 @@ time {
 blockquote {
   font-style: italic; }
 
+code {
+  font-size: 1.2em; }
+
+pre > code {
+  color: #BABABA;
+  background-color: #2B2B2B; }
+
 p, .p {
   font-size: 1em; }
 
@@ -111,6 +118,11 @@ form #profile_text {
 
 time {
   margin-left: 10px; }
+
+pre > code {
+  display: block;
+  padding: 5px;
+  margin: 20px; }
 
 footer {
   clear: both;
