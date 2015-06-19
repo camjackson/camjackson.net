@@ -89,9 +89,9 @@ describe('Integration Test', function() {
             username: 'test-user',
             password: 'test-password'
           });
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
-          expect(res.headers.location).to.equal('/settings');
+        return req.then(null, function(err) {
+          expect(err.response.res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
+          expect(err.response.res.headers.location).to.equal('/settings');
         });
       });
 
@@ -103,9 +103,9 @@ describe('Integration Test', function() {
             username: 'bad-user',
             password: 'bad-password'
           });
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
-          expect(res.headers.location).to.equal('/login');
+        return req.then(null, function(err) {
+          expect(err.response.res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
+          expect(err.response.res.headers.location).to.equal('/login');
         });
       });
     });
@@ -116,9 +116,9 @@ describe('Integration Test', function() {
           .post('/logout')
           .type('form')
           .send({});
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/');
+        return req.then(null, function(err) {
+          expect(err.response.res.statusCode).to.equal(303);
+          expect(err.response.res.headers.location).to.equal('/');
         });
       })
     });
@@ -185,8 +185,8 @@ describe('Integration Test', function() {
     describe('non-existent endpoint', function() {
       it('gives a 404', function() {
         var req = request(app).get('/does-not-exist');
-        return req.then(function(res) {
-            expect(res.statusCode).to.equal(404);
+        return req.then(null, function(err) {
+            expect(err.response.res.statusCode).to.equal(404);
         });
       });
     });
@@ -233,8 +233,8 @@ describe('Integration Test', function() {
               profileImage: 'an image',
               profileText: 'the text'
             });
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(303);
+          return req.then(null, function(err) {
+            expect(err.response.res.statusCode).to.equal(303);
             return Profile.find({}).exec().then(function(profiles) {
               expect(profiles).to.have.length(1);
               expect(profiles[0].text).to.equal('the text');
@@ -253,8 +253,8 @@ describe('Integration Test', function() {
               profileImage: 'new image',
               profileText: 'new text'
             });
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(303);
+          return req.then(null, function(err) {
+            expect(err.response.res.statusCode).to.equal(303);
             return Profile.find({}).exec().then(function(profiles) {
               expect(profiles).to.have.length(1);
               expect(profiles[0].text).to.equal('new text');
@@ -275,9 +275,9 @@ describe('Integration Test', function() {
             password: 'new-password',
             confirmPassword: 'new-password'
           });
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/settings');
+        return req.then(null, function(err) {
+          expect(err.response.res.statusCode).to.equal(303);
+          expect(err.response.res.headers.location).to.equal('/settings');
           return User.find().exec();
         }).then(function(users) {
           expect(users).to.have.length(1);
@@ -328,9 +328,9 @@ describe('Integration Test', function() {
               slug: 'new-post',
               text: 'This is my newest post.'
             });
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(303);
-            expect(res.headers.location).to.equal('/post/new-post');
+          return req.then(null, function(err) {
+            expect(err.response.res.statusCode).to.equal(303);
+            expect(err.response.res.headers.location).to.equal('/post/new-post');
             return Post.find({}).exec();
           }).then(function(posts) {
             expect(posts).to.have.length(3);
@@ -359,9 +359,9 @@ describe('Integration Test', function() {
                 slug: 'post-slug',
                 text: '*still emphasised*'
               });
-          }).then(function(res) {
-            expect(res.statusCode).to.equal(303);
-            expect(res.headers.location).to.equal('/post/post-slug');
+          }).then(null, function(err) {
+            expect(err.response.res.statusCode).to.equal(303);
+            expect(err.response.res.headers.location).to.equal('/post/post-slug');
             return Post.find({}).exec();
           }).then(function(posts) {
             expect(posts).to.have.length(2);

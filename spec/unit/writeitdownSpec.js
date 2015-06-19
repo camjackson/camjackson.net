@@ -58,9 +58,9 @@ describe('WriteItDown', function() {
           username: 'some-user',
           password: 'some-pass'
         });
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/settings');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/settings');
       });
     });
   });
@@ -74,9 +74,9 @@ describe('WriteItDown', function() {
       var req = request(new WriteItDown({authHandler: authHandler}).app).post('/logout')
         .type('form')
         .send({});
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/');
       });
     });
   });
@@ -98,9 +98,9 @@ describe('WriteItDown', function() {
   describe('GET /settings', function () {
     it('redirects to the login page when the user is not authenticated', function() {
       var req = request(new WriteItDown({authHandler: authHandler}).app).get('/settings');
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/login');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/login');
       });
     });
 
@@ -121,9 +121,9 @@ describe('WriteItDown', function() {
   describe('PUT /settings', function() {
     it('redirects to the login page when the user is not authenticated', function() {
       var req = request(new WriteItDown({authHandler: authHandler}).app).put('/settings');
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/login');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/login');
       });
     });
 
@@ -140,9 +140,9 @@ describe('WriteItDown', function() {
           profileImage: 'profile-image',
           profileText: 'profile-text'
         });
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/settings');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/settings');
       })
     });
   });
@@ -157,9 +157,9 @@ describe('WriteItDown', function() {
           password: 'new-password',
           confirmPassword: 'new-password'
         });
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/login');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/login');
       });
     });
 
@@ -177,9 +177,9 @@ describe('WriteItDown', function() {
           password: 'new-password',
           confirmPassword: 'new-password'
         });
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/settings');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/settings');
       });
     })
   });
@@ -201,9 +201,9 @@ describe('WriteItDown', function() {
   describe('GET /write', function () {
     it('redirects to the login page when the user is not authenticated', function() {
       var req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/login');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/login');
       });
     });
 
@@ -231,9 +231,9 @@ describe('WriteItDown', function() {
           slug: 'some-slug',
           text: 'Here is some text'
         });
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/login');
+      return req.then(null, function(err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/login');
       });
     });
 
@@ -250,9 +250,9 @@ describe('WriteItDown', function() {
           slug: 'some-slug',
           text: 'Here is some text'
         });
-      return req.then(function (res) {
-        expect(res.statusCode).to.equal(303);
-        expect(res.headers.location).to.equal('/post/some-slug');
+      return req.then(null, function (err) {
+        expect(err.response.res.statusCode).to.equal(303);
+        expect(err.response.res.headers.location).to.equal('/post/some-slug');
       });
     })
   })
