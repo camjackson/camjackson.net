@@ -15,14 +15,14 @@ Dependencies:
 
 To run the tests:
 
-1. mongod
-2. npm install
-3. gulp test
+1. `mongod`
+2. `npm install`
+3. `gulp test`
 
 To run the app:
 
-1. mongodb
-2. gulp seed (seeds localhost by default, override with DB_CONNECTION_STRING environment variable)
-3. npm start
+1. `mongodb`
+2. `gulp seed` (seeds localhost by default, override with DB_CONNECTION_STRING environment variable)
+3. `npm start`
 
 Default login is admin/admin
