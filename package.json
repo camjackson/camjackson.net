@@ -6,9 +6,14 @@
     "type": "git",
     "url": "http://github.com/camjackson/writeitdown.git"
   },
-  "main": "server.js",
   "author": "Cam Jackson",
   "license": "GPL-3.0",
+  "main": "server.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive spec",
+    "test-unit": "./node_modules/mocha/bin/mocha --recursive spec/unit",
+    "test-integration": "./node_modules/mocha/bin/mocha --recursive spec/integration"
+  },
   "dependencies": {
     "bcrypt": "^0.8.5",
     "body-parser": "^1.14.1",
@@ -37,8 +42,5 @@
     "sinon-chai": "^2.8.0",
     "supertest": "^1.1.0",
     "supertest-as-promised": "^2.0.2"
-  },
-  "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive spec"
   }
 }
