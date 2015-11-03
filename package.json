@@ -10,7 +10,7 @@
   "license": "GPL-3.0",
   "main": "server.js",
   "scripts": {
-    "seed": "bin/seed"
+    "seed": "bin/seed",
     "test": "./node_modules/mocha/bin/mocha --recursive spec",
     "test-unit": "./node_modules/mocha/bin/mocha --recursive spec/unit",
     "test-integration": "./node_modules/mocha/bin/mocha --recursive spec/integration"
