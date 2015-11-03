@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if grep -rHn --color --exclude-dir node_modules --exclude quality.sh --exclude gulpfile.js 'console.log'
+if grep -rHn --color --exclude-dir node_modules --exclude quality.sh 'console.log'
 then
   echo "Quality check failed: there are console.logs"
   exit 1
