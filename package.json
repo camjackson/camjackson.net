@@ -15,11 +15,13 @@
     "debug": "./node_modules/.bin/babel-node debug server.js",
     "seed": "bin/seed",
     "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --recursive spec",
-    "test-unit": "./node_modules/mocha/bin/mocha --recursive spec/unit",
-    "test-integration": "./node_modules/mocha/bin/mocha --recursive spec/integration"
+    "test-unit": "./node_modules/.bin/mocha --compilers js:babel-core/register --recursive spec/unit",
+    "test-integration": "./node_modules/.bin/mocha --compilers js:babel-core/register --recursive spec/integration"
   },
   "babel": {
-    "presets": ["react"]
+    "presets": [
+      "react"
+    ]
   },
   "dependencies": {
     "babel-cli": "^6.0.15",
@@ -46,6 +48,7 @@
     "react-dom": "^0.14.2"
   },
   "devDependencies": {
+    "babel": "^6.0.15",
     "chai": "^3.4.0",
     "mocha": "^2.3.3",
     "q": "^1.4.1",
