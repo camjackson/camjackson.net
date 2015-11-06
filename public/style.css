@@ -1,0 +1,12 @@
+body {
+  padding-top: 50px;
+  font-size: 1.5em;
+}
+
+#skill-panels {
+  margin-top: 20px;
+}
+
+.panel {
+  height: 35%;
+}
