@@ -14,7 +14,7 @@
     "dev": "nodemon --exec npm start",
     "debug": "./node_modules/.bin/babel-node debug server.js",
     "seed": "bin/seed",
-    "test": "./node_modules/mocha/bin/mocha --recursive spec",
+    "test": "./node_modules/.bin/mocha --compilers js:babel-core/register --recursive spec",
     "test-unit": "./node_modules/mocha/bin/mocha --recursive spec/unit",
     "test-integration": "./node_modules/mocha/bin/mocha --recursive spec/integration"
   },
