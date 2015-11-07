@@ -38,3 +38,9 @@ body {
 .panel {
   height: 90%;
 }
+
+.fa {
+  margin-top: 10px;
+  margin-left: 15px;
+  color: black;
+}
