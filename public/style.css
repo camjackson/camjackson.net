@@ -3,10 +3,38 @@ body {
   font-size: 1.5em;
 }
 
-#skill-panels {
+#skill-panel-row {
   margin-top: 20px;
 }
 
+.skill-panel {
+  min-height: 220px;
+}
+
+@media (max-width: 767px) {
+  .skill-panel {
+    height: 25%;
+  }
+}
+
+@media (min-width: 768px) {
+  .skill-panel {
+    height: 20%;
+  }
+}
+
+@media (min-width: 992px) {
+  .skill-panel {
+    height: 35%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .skill-panel {
+    height: 25%;
+  }
+}
+
 .panel {
-  height: 35%;
+  height: 90%;
 }
