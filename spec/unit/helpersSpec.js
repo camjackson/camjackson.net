@@ -1,14 +1,15 @@
-var sinon = require('sinon');
-var chai = require('chai');
-var sinonChai = require('sinon-chai');
+'use strict';
+const sinon = require('sinon');
+const chai = require('chai');
+const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
-var expect = chai.expect;
+const expect = chai.expect;
 
-var helpers = require('../../lib/helpers');
+const helpers = require('../../lib/helpers');
 
 describe('helpers', function() {
-  var sandbox;
-  var result;
+  let sandbox;
+  let result;
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
@@ -30,7 +31,7 @@ describe('helpers', function() {
       });
 
       it('does not modify the post when the fold is not on its own line', function() {
-        var postBody ='**before**\r\n\r\n' +
+        const postBody ='**before**\r\n\r\n' +
           '`[//]: # (fold)`\r\n\r\n' +
           'after';
         expect(helpers.trimPost(postBody, 'blah')).to.equal(postBody);
@@ -38,7 +39,7 @@ describe('helpers', function() {
     });
 
     describe('the post has a fold', function() {
-      var postBody = '**before**\r\n\r\n' +
+      const postBody = '**before**\r\n\r\n' +
         '[//]: # (fold)\r\n\r\n' +
         'after';
 
@@ -47,7 +48,7 @@ describe('helpers', function() {
       });
 
       it('replaces the fold indicator with a link to the post', function() {
-        var trimmed = helpers.trimPost(postBody, '/link');
+        const trimmed = helpers.trimPost(postBody, '/link');
         expect(trimmed).to.not.include('fold');
         expect(trimmed).to.include('[Read more...](/link)')
       });
@@ -60,22 +61,22 @@ describe('helpers', function() {
 
   describe('bodyMethodOverrider', function() {
     it('returns nothing when the request has no body', function() {
-      var method = helpers.bodyMethodOverrider({});
+      const method = helpers.bodyMethodOverrider({});
       expect(method).to.be.undefined;
     });
 
     it('returns nothing when the request body is not an object', function() {
-      var method = helpers.bodyMethodOverrider({ body: 'body' });
+      const method = helpers.bodyMethodOverrider({ body: 'body' });
       expect(method).to.be.undefined;
     });
 
     it('returns nothing when the request body object does not contain _method', function() {
-      var method = helpers.bodyMethodOverrider({ body: {} });
+      const method = helpers.bodyMethodOverrider({ body: {} });
       expect(method).to.be.undefined;
     });
 
     it('returns the given method when the request body does contain _method', function() {
-      var method = helpers.bodyMethodOverrider({ body: {_method: 'patch'} });
+      const method = helpers.bodyMethodOverrider({ body: {_method: 'patch'} });
       expect(method).to.equal('patch');
     });
   });

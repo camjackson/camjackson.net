@@ -1,16 +1,19 @@
-var request = require('supertest-as-promised');
-var sinon = require('sinon');
-var chai = require('chai');
-var expect = chai.expect;
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
-var models = require('../../lib/models');
-var User = models.User;
-var Post = models.Post;
-var Profile = models.Profile;
-var WriteItDown = require('../../lib/writeitdown').WriteItDown;
-var AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
-var helpers = require('../../lib/helpers');
+'use strict';
+const request = require('supertest-as-promised');
+const sinon = require('sinon');
+const chai = require('chai');
+const expect = chai.expect;
+const mongoose = require('mongoose');
+mongoose.models = {};
+mongoose.modelSchemas = {};
+const bcrypt = require('bcrypt');
+const models = require('../../lib/models');
+const User = models.User;
+const Post = models.Post;
+const Profile = models.Profile;
+const WriteItDown = require('../../lib/writeitdown').WriteItDown;
+const AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
+const helpers = require('../../lib/helpers');
 
 describe('Integration Test', function() {
   before(function() {
@@ -25,7 +28,7 @@ describe('Integration Test', function() {
     process.env.SITE_DOMAIN = '';
   });
 
-  var first_body_text = '*emphasised*\r\n\r\n' +
+  const first_body_text = '*emphasised*\r\n\r\n' +
     '[//]: # (fold)\r\n\r\n' +
     'behind a click';
 
@@ -68,10 +71,10 @@ describe('Integration Test', function() {
   });
 
   describe('endpoints that do not need auth', function() {
-    var app = new WriteItDown({}).app;
+    const app = new WriteItDown({}).app;
     describe('GET /login', function() {
       it('renders the login page successfully', function() {
-        var req = request(app).get('/login');
+        const req = request(app).get('/login');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<title>integration title<\/title>');
@@ -83,7 +86,7 @@ describe('Integration Test', function() {
 
     describe('POST /login', function() {
       it('redirects to the settings page when credentials are valid', function() {
-        var req = request(app).post('/login')
+        const req = request(app).post('/login')
           .type('form')
           .send({
             username: 'test-user',
@@ -96,7 +99,7 @@ describe('Integration Test', function() {
       });
 
       it('redirects to the login page when credentials are invalid', function() {
-        var req = request(app)
+        const req = request(app)
           .post('/login')
           .type('form')
           .send({
@@ -112,7 +115,7 @@ describe('Integration Test', function() {
 
     describe('POST /logout', function() {
       it('redirects to the home page', function() {
-        var req = request(app)
+        const req = request(app)
           .post('/logout')
           .type('form')
           .send({});
@@ -126,7 +129,7 @@ describe('Integration Test', function() {
     describe('GET /', function() {
 
       it('renders the home page successfully', function() {
-        var req = request(app).get('/');
+        const req = request(app).get('/');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<title>integration title</title>');
@@ -137,7 +140,7 @@ describe('Integration Test', function() {
       });
 
       it('includes profile data', function() {
-        var req = request(app).get('/');
+        const req = request(app).get('/');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<p>profile text</p>');
@@ -146,7 +149,7 @@ describe('Integration Test', function() {
       });
 
       it('cuts articles off with a "read more" link', function() {
-        var req = request(app).get('/');
+        const req = request(app).get('/');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<em>emphasised</em>');
@@ -162,7 +165,7 @@ describe('Integration Test', function() {
         });
 
         it('does not include the profile box', function() {
-          var req = request(app).get('/');
+          const req = request(app).get('/');
           return req.then(function(res) {
             expect(res.statusCode).to.equal(200);
             expect(res.text).to.not.include('profile_box');
@@ -173,7 +176,7 @@ describe('Integration Test', function() {
 
     describe('GET /post/:slug', function() {
       it('renders the post page successfully', function() {
-        var req = request(app).get('/post/post-slug');
+        const req = request(app).get('/post/post-slug');
         return req.then(function(res) {
           expect(res.text).to.include('<title>integration title</title>');
           expect(res.text).to.include('<em>emphasised</em>');
@@ -184,7 +187,7 @@ describe('Integration Test', function() {
 
     describe('non-existent endpoint', function() {
       it('gives a 404', function() {
-        var req = request(app).get('/does-not-exist');
+        const req = request(app).get('/does-not-exist');
         return req.then(null, function(err) {
             expect(err.response.res.statusCode).to.equal(404);
         });
@@ -193,7 +196,7 @@ describe('Integration Test', function() {
   });
 
   describe('endpoints that need auth', function() {
-    var authHandler = new AuthHandler();
+    const authHandler = new AuthHandler();
     sinon.stub(authHandler, 'authorise', function(req, res, next) {
       next();
     });
@@ -201,11 +204,11 @@ describe('Integration Test', function() {
       res.locals.user = { username: 'test-user', password: 'test-password' };
       next();
     });
-    var app = new WriteItDown({authHandler: authHandler}).app;
+    const app = new WriteItDown({authHandler: authHandler}).app;
 
     describe('GET /settings', function() {
       it('renders the settings page correctly', function() {
-        var req = request(app).get('/settings');
+        const req = request(app).get('/settings');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<title>integration title<\/title>');
@@ -226,7 +229,7 @@ describe('Integration Test', function() {
         });
 
         it('creates the user profile', function() {
-          var req = request(app).post('/settings')
+          const req = request(app).post('/settings')
             .type('form')
             .send({
               _method: 'PUT',
@@ -246,7 +249,7 @@ describe('Integration Test', function() {
 
       describe('with an existing profile', function() {
         it('updates the existing profile', function() {
-          var req = request(app).post('/settings')
+          const req = request(app).post('/settings')
             .type('form')
             .send({
               _method: 'PUT',
@@ -267,7 +270,7 @@ describe('Integration Test', function() {
 
     describe('PUT /user/:username', function() {
       it('updates the given user', function() {
-        var req = request(app).post('/user/test-user')
+        const req = request(app).post('/user/test-user')
           .type('form')
           .send({
             _method: 'PUT',
@@ -289,7 +292,7 @@ describe('Integration Test', function() {
 
     describe('GET /write', function() {
       it('renders the post creation page successfully with no post parameter', function() {
-        var req = request(app).get('/write');
+        const req = request(app).get('/write');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.include('<title>integration title<\/title>');
@@ -300,14 +303,14 @@ describe('Integration Test', function() {
       });
 
       it('allows slug editing with no post parameter', function() {
-        var req = request(app).get('/write');
+        const req = request(app).get('/write');
         return req.then(function(res) {
           expect(res.text).to.not.include('readonly');
         });
       });
 
       it('renders the post creation page with existing data when there is a post parameter', function() {
-        var req = request(app).get('/write?post=second-slug');
+        const req = request(app).get('/write?post=second-slug');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.match(/input.*id="title".*value="Second post"/);
@@ -320,7 +323,7 @@ describe('Integration Test', function() {
     describe('PUT /posts/', function() {
       describe('when there is no post with the given slug', function() {
         it('creates a new post and redirects to it', function() {
-          var req = request(app).post('/posts/')
+          const req = request(app).post('/posts/')
             .type('form')
             .send({
               _method: 'PUT',
@@ -340,7 +343,7 @@ describe('Integration Test', function() {
             expect(posts[0].title).to.equal('New Post');
             expect(posts[0].slug).to.equal('new-post');
             expect(posts[0].text).to.equal('This is my newest post.');
-            var timeSincePosted = Date.now() - posts[0].posted;
+            const timeSincePosted = Date.now() - posts[0].posted;
             expect(timeSincePosted).to.be.within(1, 20); //ms
           });
         });
@@ -348,7 +351,7 @@ describe('Integration Test', function() {
 
       describe('when there is an existing post with the given slug', function() {
         it('overwrites the existing post without modifying the time', function() {
-          var originalTime;
+          let originalTime;
           return Post.findOne({slug: 'post-slug'}).exec().then(function(post) {
             originalTime = post.posted;
             return request(app).post('/posts/')

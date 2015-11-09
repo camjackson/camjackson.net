@@ -1,3 +1,4 @@
+'use strict';
 marked.setOptions({
   highlight: function(code) {
     return hljs.highlightAuto(code).value;
@@ -5,10 +6,10 @@ marked.setOptions({
 });
 
 function updatePreview(){
-  var title = document.getElementById('title').value;
-  var text = document.getElementById('text').value;
+  const title = document.getElementById('title').value;
+  const text = document.getElementById('text').value;
 
-  var markdown = '';
+  let markdown = '';
   markdown += '#' + title + '\n';
   markdown += '---\n\n';
   markdown += text;

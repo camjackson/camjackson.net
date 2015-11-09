@@ -1,18 +1,19 @@
-var sinon = require('sinon');
-var chai = require('chai');
-var sinonChai = require('sinon-chai');
+'use strict';
+const sinon = require('sinon');
+const chai = require('chai');
+const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
-var expect = chai.expect;
-var Q = require('q');
+const expect = chai.expect;
+const Q = require('q');
 
-var SettingsHandler = require('../../../lib/handlers/settingsHandler').SettingsHandler;
-var helpers = require('../../../lib/helpers');
-var Profile = require('../../../lib/models').Profile;
+const SettingsHandler = require('../../../lib/handlers/settingsHandler').SettingsHandler;
+const helpers = require('../../../lib/helpers');
+const Profile = require('../../../lib/models').Profile;
 
 describe('SettingsHandler', function() {
-  var sandbox;
-  var response;
-  var settingsHandler = new SettingsHandler(function(){return 'a responder';});
+  let sandbox;
+  let response;
+  const settingsHandler = new SettingsHandler(function(){return 'a responder';});
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
@@ -27,7 +28,7 @@ describe('SettingsHandler', function() {
   describe('getSettings', function() {
     it('renders the settings page with the correct data', function() {
       sandbox.stub(Profile, 'findOne').returns('the profile');
-      var request = { flash: sandbox.stub().withArgs('errorMessage').returns('some error') };
+      const request = { flash: sandbox.stub().withArgs('errorMessage').returns('some error') };
       settingsHandler.getSettings(request, response);
 
       expect(response.render).to.have.been.calledWith(
@@ -38,10 +39,10 @@ describe('SettingsHandler', function() {
     });
 
     it('updates or creates the user profile and redirects to the settings page', function() {
-      var promise = Q.fcall(function () {});
+      const promise = Q.fcall(function () {});
       sandbox.stub(Profile, 'findOneAndUpdate').returns({ exec: function() {return promise;} });
 
-      var request = { body: { profileImage: 'an image', profileText: 'some text' } };
+      const request = { body: { profileImage: 'an image', profileText: 'some text' } };
       return settingsHandler.updateSettings(request, response).then(function() {
         expect(Profile.findOneAndUpdate).to.have.been.calledWithExactly({}, {
           text: 'some text',

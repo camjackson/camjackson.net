@@ -1,22 +1,23 @@
-var sinon = require('sinon');
-var chai = require('chai');
-var sinonChai = require('sinon-chai');
+'use strict';
+const sinon = require('sinon');
+const chai = require('chai');
+const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
-var expect = chai.expect;
-var Q = require('q');
+const expect = chai.expect;
+const Q = require('q');
 
-var moment = require('moment');
-var marked = require('marked');
+const moment = require('moment');
+const marked = require('marked');
 
-var PostHandler = require('../../../lib/handlers/postHandler').PostHandler;
-var helpers = require('../../../lib/helpers');
-var Post = require('../../../lib/models').Post;
-var Profile = require('../../../lib/models').Profile;
+const PostHandler = require('../../../lib/handlers/postHandler').PostHandler;
+const helpers = require('../../../lib/helpers');
+const Post = require('../../../lib/models').Post;
+const Profile = require('../../../lib/models').Profile;
 
 describe('PostHandler', function() {
-  var sandbox;
-  var response;
-  var postHandler = new PostHandler(function(){return 'a responder';});
+  let sandbox;
+  let response;
+  const postHandler = new PostHandler(function(){return 'a responder';});
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
@@ -33,7 +34,7 @@ describe('PostHandler', function() {
 
   describe('getRoot', function() {
     it('renders the index page with correct data', function() {
-      var posts = { sort: function() {return 'sorted posts'} };
+      const posts = { sort: function() {return 'sorted posts'} };
       sandbox.stub(Post, 'find').returns(posts);
       sandbox.stub(Profile, 'findOne').returns('profile');
       postHandler.getRoot(null, response);
@@ -63,7 +64,7 @@ describe('PostHandler', function() {
   describe('getWrite', function() {
     describe('with no post parameter', function() {
       it('renders the write page with config', function() {
-        var promise_without_data = Q.fcall(function() {});
+        const promise_without_data = Q.fcall(function() {});
         sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_without_data} });
         return postHandler.getWrite({ query: {} }, response).then(function() {
           expect(response.render).to.have.been.calledWithExactly(
@@ -77,7 +78,7 @@ describe('PostHandler', function() {
 
     describe('with a post parameter', function() {
       it('renders the write page without a post when the post does not exist', function() {
-        var promise_without_data = Q.fcall(function() {});
+        const promise_without_data = Q.fcall(function() {});
         sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_without_data} });
         return postHandler.getWrite({ query: { post: 'does_not_exist' } }, response).then(function() {
           expect(response.render).to.have.been.calledWithExactly(
@@ -89,8 +90,8 @@ describe('PostHandler', function() {
       });
 
       it('renders the write page with the given post when the post does exist', function() {
-        var existing_post = { title: 'some title', slug: 'some slug', text: 'some text' };
-        var promise_with_data = Q.fcall(function() {return existing_post});
+        const existing_post = { title: 'some title', slug: 'some slug', text: 'some text' };
+        const promise_with_data = Q.fcall(function() {return existing_post});
         sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_with_data} });
         return postHandler.getWrite({ query: { post: 'does_exist' } }, response).then(function() {
           expect(response.render).to.have.been.calledWithExactly(
@@ -104,10 +105,10 @@ describe('PostHandler', function() {
   });
 
   describe('createOrUpdatePost', function() {
-    var promiseWithData = Q.fcall(function() {return 'data'});
-    var promiseWithoutData = Q.fcall(function() {});
+    const promiseWithData = Q.fcall(function() {return 'data'});
+    const promiseWithoutData = Q.fcall(function() {});
 
-    var requestBody = {
+    const requestBody = {
       title: 'Some Title',
       slug: 'some-slug',
       text: 'Some text.'
