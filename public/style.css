@@ -44,3 +44,7 @@ body {
   margin-left: 15px;
   color: black;
 }
+
+blockquote {
+  font-style: italic;
+}
