@@ -45,6 +45,14 @@ body {
   color: black;
 }
 
+h3 a {
+  color: black;
+}
+
+h3 a:hover {
+  color: black;
+}
+
 blockquote {
   font-style: italic;
 }

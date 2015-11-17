@@ -8,8 +8,12 @@ describe('PostPreview', function() {
   const post = {title: 'My Post', slug: 'my-post', blurb: '**This is a post**'};
   const postPreview = shallowRender(<PostPreview post={post}/>);
 
-  it('renders the title', function() {
-    expect(postPreview.props.children[0].props.children).to.equal('My Post');
+  it('renders the title as a link to the post', function() {
+    const link = postPreview.props.children[0].props.children;
+    const title = link.props.children;
+
+    expect(link.props.href).to.equal('/post/my-post');
+    expect(title).to.equal('My Post');
   });
 
   it('transforms and renders the blurb', function() {
@@ -18,6 +22,6 @@ describe('PostPreview', function() {
   });
 
   it('renders a link to the post', function() {
-    expect(postPreview.props.children[1].props.children[1].props.href).to.equal('my-post');
+    expect(postPreview.props.children[1].props.children[1].props.href).to.equal('/post/my-post');
   });
 });
