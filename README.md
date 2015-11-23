@@ -1,8 +1,8 @@
-writeitdown
+camjackson.net
 ===========
 [![Build Status](https://snap-ci.com/camjackson/writeitdown/branch/master/build_image)](https://snap-ci.com/camjackson/writeitdown/branch/master)
 
-Blogging with markdown, complete with code highlighting!
+My personal website. Includes a landing page with bio/skills, and blogging with markdown, complete with code highlighting!
 
 For a demo, see [camjackson.net](http://camjackson.net)
 
