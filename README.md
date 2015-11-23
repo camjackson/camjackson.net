@@ -1,6 +1,6 @@
 [camjackson.net](http://camjackson.net)
 ===========
-[![Build Status](https://snap-ci.com/camjackson/writeitdown/branch/master/build_image)](https://snap-ci.com/camjackson/writeitdown/branch/master)
+[![Build Status](https://snap-ci.com/camjackson/camjackson.net/branch/master/build_image)](https://snap-ci.com/camjackson/camjackson.net/branch/master)
 
 My personal website. Includes a landing page with bio/skills, and blogging with markdown, complete with code highlighting!
 
