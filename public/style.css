@@ -49,10 +49,15 @@ h3 a {
   color: black;
 }
 
-h3 a:hover {
+h3 a:hover, h3 a:focus {
   color: black;
 }
 
 blockquote {
   font-style: italic;
+}
+
+pre {
+  color: #BABABA;
+  background-color: #2B2B2B;
 }

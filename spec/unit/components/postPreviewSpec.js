@@ -12,7 +12,7 @@ describe('PostPreview', function() {
     const link = postPreview.props.children[0].props.children;
     const title = link.props.children;
 
-    expect(link.props.href).to.equal('/post/my-post');
+    expect(link.props.href).to.equal('/new/post/my-post');
     expect(title).to.equal('My Post');
   });
 
@@ -22,6 +22,6 @@ describe('PostPreview', function() {
   });
 
   it('renders a link to the post', function() {
-    expect(postPreview.props.children[1].props.children[1].props.href).to.equal('/post/my-post');
+    expect(postPreview.props.children[1].props.children[1].props.href).to.equal('/new/post/my-post');
   });
 });
