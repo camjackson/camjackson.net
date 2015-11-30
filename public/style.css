@@ -3,6 +3,15 @@ body {
   font-size: 1.5em;
 }
 
+.navbar-static-bottom {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.navbar .fa {
+  margin-top: -6px;
+}
+
 #skill-panel-row {
   margin-top: 20px;
 }
@@ -37,12 +46,6 @@ body {
 
 .panel {
   height: 90%;
-}
-
-.fa {
-  margin-top: 10px;
-  margin-left: 15px;
-  color: black;
 }
 
 h3 a {
