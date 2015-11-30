@@ -48,11 +48,15 @@ body {
   height: 90%;
 }
 
-.postPreview h3 {
+.latest-posts h1 {
+  margin-bottom: 20px;
+}
+
+.latest-posts h3 {
   display: inline;
 }
 
-.postPreview time {
+.latest-posts time {
   margin-top: 6px;
 }
 
