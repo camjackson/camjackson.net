@@ -5,7 +5,7 @@ const shallowRender = require('./shallowRender');
 const Post = require('../../../lib/components/post');
 
 describe('Post', function() {
-  const post = {title: 'My Post', text: '*This is a post*'};
+  const post = {title: 'My Post', text: '*This is a post*', posted: new Date('2016-03-06')};
   const postComponent = shallowRender(<Post post={post}/>);
   const container = postComponent.props.children;
 
@@ -13,8 +13,12 @@ describe('Post', function() {
     expect(container.props.children[0].props.children).to.equal('My Post');
   });
 
-  it('transforms and renders the blurb', function() {
-    const body = container.props.children[2];
+  it('renders the date of the post', function() {
+    expect(container.props.children[1].props.children.props.children).to.equal('6th March 2016');
+  });
+
+  it('transforms and renders the text', function() {
+    const body = container.props.children[3];
     expect(body.props.dangerouslySetInnerHTML.__html).to.equal('<p><em>This is a post</em></p>\n');
   });
 });

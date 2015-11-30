@@ -48,6 +48,23 @@ body {
   height: 90%;
 }
 
+.postPreview h3 {
+  display: inline;
+}
+
+.postPreview time {
+  margin-top: 6px;
+}
+
+.post h1 {
+  display: inline-block;
+  margin-bottom: 0;
+}
+
+.post time {
+  margin-top: 40px;
+}
+
 h3 a {
   color: black;
 }
