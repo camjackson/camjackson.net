@@ -7,7 +7,7 @@ const Post = require('../../../lib/components/post');
 describe('Post', function() {
   const post = {title: 'My Post', text: '*This is a post*'};
   const postComponent = shallowRender(<Post post={post}/>);
-  const container = postComponent.props.children[1].props.children[1];
+  const container = postComponent.props.children;
 
   it('renders the title', function() {
     expect(container.props.children[0].props.children).to.equal('My Post');
