@@ -14,7 +14,7 @@ describe('Page', function() {
         </div>
       </Page>
     );
-    const children = page.props.children[1].props.children[1];
+    const children = page.props.children[1].props.children.props.children[1].props.children;
     const firstDiv = children[0];
     const secondDiv = children[1];
     const img = secondDiv.props.children;
