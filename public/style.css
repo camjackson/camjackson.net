@@ -69,12 +69,16 @@ body {
   margin-top: 40px;
 }
 
-h3 a {
+h1 a, h1 a:hover, h1 a:focus, h3 a, h3 a:hover, h3 a:focus {
   color: black;
 }
 
-h3 a:hover, h3 a:focus {
-  color: black;
+.post-preview {
+  padding-top: 10px;
+}
+
+.post-preview h3 {
+  font-size: 18px;
 }
 
 blockquote {
