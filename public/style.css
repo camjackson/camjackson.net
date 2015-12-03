@@ -8,11 +8,11 @@ body {
   position: relative;
 }
 
-#main-content {
+main {
   padding-bottom: 70px;
 }
 
-#footer {
+footer .navbar {
   position: absolute;
   width: 100%;
   bottom: 0;
