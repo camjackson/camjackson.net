@@ -32,6 +32,13 @@ footer .navbar {
   min-height: 220px;
 }
 
+.jumbotron img {
+  height: 300px;
+  width: 200px;
+  border-radius: 100px;
+  float: right;
+}
+
 @media (max-width: 767px) {
   .skill-panel {
     height: 25%;
