@@ -15,7 +15,7 @@ describe('Archive', function() {
     const link = firstPost.props.children[0].props.children;
     const title = link.props.children;
 
-    expect(link.props.href).to.equal('/new/post/my-post');
+    expect(link.props.href).to.equal('/post/my-post');
     expect(title).to.equal('My Post');
   });
 
@@ -29,6 +29,6 @@ describe('Archive', function() {
   });
 
   it('renders a link to the post', function() {
-    expect(firstPost.props.children[4].props.href).to.equal('/new/post/my-post');
+    expect(firstPost.props.children[4].props.href).to.equal('/post/my-post');
   });
 });

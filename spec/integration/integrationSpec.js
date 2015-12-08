@@ -126,65 +126,6 @@ describe('Integration Test', function() {
       })
     });
 
-    describe('GET /', function() {
-
-      it('renders the home page successfully', function() {
-        const req = request(app).get('/');
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.include('<title>integration title</title>');
-          expect(res.text).to.match(/<h1 id="heading".*integration heading.*<\/h1>/);
-          expect(res.text).to.include('<em>emphasised</em>');
-          expect(res.text).to.include('<strong>strong</strong>');
-        });
-      });
-
-      it('includes profile data', function() {
-        const req = request(app).get('/');
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.include('<p>profile text</p>');
-          expect(res.text).to.include('<img src="http://www.example.com/profile_image.jpg">');
-        });
-      });
-
-      it('cuts articles off with a "read more" link', function() {
-        const req = request(app).get('/');
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.include('<em>emphasised</em>');
-          expect(res.text).to.include('<a href="/post/post-slug">Read more...</a>');
-          expect(res.text).to.not.include('fold');
-          expect(res.text).to.not.include('behind a click');
-        });
-      });
-
-      describe('without any profile set', function() {
-        beforeEach(function() {
-          return Profile.remove({}).exec();
-        });
-
-        it('does not include the profile box', function() {
-          const req = request(app).get('/');
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(200);
-            expect(res.text).to.not.include('profile_box');
-          });
-        });
-      });
-    });
-
-    describe('GET /post/:slug', function() {
-      it('renders the post page successfully', function() {
-        const req = request(app).get('/post/post-slug');
-        return req.then(function(res) {
-          expect(res.text).to.include('<title>integration title</title>');
-          expect(res.text).to.include('<em>emphasised</em>');
-          expect(res.text).not.to.include('<strong>strong</strong>');
-        });
-      });
-    });
-
     describe('non-existent endpoint', function() {
       it('gives a 404', function() {
         const req = request(app).get('/does-not-exist');

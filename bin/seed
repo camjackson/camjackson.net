@@ -1,8 +1,8 @@
 #!/usr/local/bin/node
 
-const confirm = require('./lib/helpers').confirm;
+const confirm = require('../lib/helpers').confirm;
 const mongoose = require('mongoose');
-const models = require('./lib/models');
+const models = require('../lib/models');
 const User = models.User;
 const Post = models.Post;
 const Profile = models.Profile;

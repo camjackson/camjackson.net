@@ -82,20 +82,6 @@ describe('WriteItDown', function() {
     });
   });
 
-  describe('GET /', function () {
-    it('returns the homepage using the postHandler', function () {
-      sandbox.stub(postHandler, 'getRoot', function(req, res) {
-        res.status(200).send('This is the home page');
-      });
-
-      const req = request(new WriteItDown({postHandler: postHandler}).app).get('/');
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(200);
-        expect(res.text).to.equal('This is the home page');
-      });
-    });
-  });
-
   describe('GET /settings', function () {
     it('redirects to the login page when the user is not authenticated', function() {
       const req = request(new WriteItDown({authHandler: authHandler}).app).get('/settings');
@@ -183,20 +169,6 @@ describe('WriteItDown', function() {
         expect(err.response.res.headers.location).to.equal('/settings');
       });
     })
-  });
-
-  describe('GET /post/:slug', function() {
-    it('renders the post using the postHandler', function() {
-      sandbox.stub(postHandler, 'getPost', function(req, res) {
-        res.status(200).send('This is a single post');
-      });
-
-      const req = request(new WriteItDown({postHandler: postHandler}).app).get('/post/some-post');
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(200);
-        expect(res.text).to.equal('This is a single post');
-      });
-    });
   });
 
   describe('GET /write', function () {

@@ -32,35 +32,6 @@ describe('PostHandler', function() {
     sandbox.restore();
   });
 
-  describe('getRoot', function() {
-    it('renders the index page with correct data', function() {
-      const posts = { sort: function() {return 'sorted posts'} };
-      sandbox.stub(Post, 'find').returns(posts);
-      sandbox.stub(Profile, 'findOne').returns('profile');
-      postHandler.getRoot(null, response);
-
-      expect(response.render).to.have.been.calledWithExactly(
-        'pages/index.jade',
-        { moment: moment, marked: marked, trimPost: helpers.trimPost, config: 'the config', posts: 'sorted posts', profile: 'profile' },
-        'a responder'
-      );
-    });
-  });
-
-  describe('getPost', function() {
-    it('sends the single post page with the correct data', function() {
-      sandbox.stub(Post, 'findOne').returns('the post');
-      postHandler.getPost({params: {slug: 'some-slug'}}, response);
-
-      expect(Post.findOne).to.have.been.calledWithExactly({slug: 'some-slug'});
-      expect(response.render).to.have.been.calledWithExactly(
-        'pages/post.jade',
-        { moment: moment, marked: marked, config: 'the config', post: 'the post' },
-        'a responder'
-      );
-    });
-  });
-
   describe('getWrite', function() {
     describe('with no post parameter', function() {
       it('renders the write page with config', function() {
