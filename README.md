@@ -32,9 +32,11 @@ cd letsencrypt
 ./letsencrypt-auto --help --debug
 ```
 
-2. Request a cert for manual installation:
+2. Request a cert for manual installation (don't forget to fix the email address!):
 ```sh
-./letsencrypt-auto certonly --manual --email <me@me.com> --agree-tos --debug -d camjackson.net
+./letsencrypt-auto certonly --manual --email <me@me.com> --agree-tos --debug \
+  -d camjackson.net \
+  -d www.camjackson.net
 ```
 
 3. Copy the specified route and data into the app
@@ -49,7 +51,8 @@ aws iam upload-server-certificate \
   --server-certificate-name camjackson.net \
   --certificate-body file:///etc/letsencrypt/live/camjackson.net/cert.pem \
   --private-key file:///etc/letsencrypt/live/camjackson.net/privkey.pem \
-  --certificate-chain file:///etc/letsencrypt/live/camjackson.net/chain.pem \
+  --certificate-chain file:///etc/letsencrypt/live/camjackson.net/chain.pem
+exit
 ```
 
 5. Note down the expiration date!
