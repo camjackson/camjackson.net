@@ -73,11 +73,11 @@ function App(handlers) {
   this.app.use(helmet.noSniff());
   this.app.use(helmet.hsts({ maxAge: 10886400000, includeSubDomains: true,  preload: true, force: true })); //18 weeks
   this.app.use(helmet.csp({
-    defaultSrc: ['https:', "'self'"],
-    scriptSrc: ['https:', "'self'", "'https://oss.maxcdn.com"],
-    styleSrc: ['https:', "'self'", 'https://maxcdn.bootstrapcdn.com', 'https://cdn.jsdelivr.net'],
-    fontSrc: ['https:', "'self'", 'https://maxcdn.bootstrapcdn.com'],
-    formAction: ['https:', "'self"],
+    defaultSrc: ["'self'"],
+    scriptSrc: ["'self'", "'https://oss.maxcdn.com"],
+    styleSrc: ["'self'", 'https://maxcdn.bootstrapcdn.com', 'https://cdn.jsdelivr.net'],
+    fontSrc: ["'self'", 'https://maxcdn.bootstrapcdn.com'],
+    formAction: ["'self"],
     frameAncestors: ["'none"],
     reportUri: 'https://report-uri.io/report/camjackson'
   }));
