@@ -71,7 +71,7 @@ function App(handlers) {
   this.app.use(helmet.frameguard('deny'));
   this.app.use(helmet.ieNoOpen());
   this.app.use(helmet.noSniff());
-  this.app.use(helmet.hsts({ maxAge: 10886400000, includeSubdomains: true,  preload: true })); //18 weeks
+  this.app.use(helmet.hsts({ maxAge: 10886400000, includeSubDomains: true,  preload: true, force: true })); //18 weeks
   this.app.use(helmet.csp({
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", "'https://oss.maxcdn.com"],
