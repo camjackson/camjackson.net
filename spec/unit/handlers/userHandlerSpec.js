@@ -8,9 +8,9 @@ const Q = require('q');
 
 const marked = require('marked');
 
-const UserHandler = require('../../../lib/handlers/userHandler').UserHandler;
-const helpers = require('../../../lib/helpers');
-const User = require('../../../lib/models').User;
+const UserHandler = require('../../../src/handlers/userHandler').UserHandler;
+const helpers = require('../../../src/helpers');
+const User = require('../../../src/models').User;
 
 describe('UserHandler', function() {
   let sandbox;

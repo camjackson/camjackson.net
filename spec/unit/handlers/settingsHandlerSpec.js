@@ -6,9 +6,9 @@ chai.use(sinonChai);
 const expect = chai.expect;
 const Q = require('q');
 
-const SettingsHandler = require('../../../lib/handlers/settingsHandler').SettingsHandler;
-const helpers = require('../../../lib/helpers');
-const Profile = require('../../../lib/models').Profile;
+const SettingsHandler = require('../../../src/handlers/settingsHandler').SettingsHandler;
+const helpers = require('../../../src/helpers');
+const Profile = require('../../../src/models').Profile;
 
 describe('SettingsHandler', function() {
   let sandbox;

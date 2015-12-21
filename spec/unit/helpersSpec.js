@@ -5,7 +5,7 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const expect = chai.expect;
 
-const helpers = require('../../lib/helpers');
+const helpers = require('../../src/helpers');
 
 describe('helpers', function() {
   let sandbox;

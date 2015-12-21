@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const React = require('react');
 const shallowRender = require('./shallowRender');
-const Archive = require('../../../lib/components/archive');
+const Archive = require('../../../src/components/archive');
 
 describe('Archive', function() {
   const posts = [

@@ -5,8 +5,8 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const expect = chai.expect;
 
-const AuthHandler = require('../../../lib/handlers/authHandler').AuthHandler;
-const helpers = require('../../../lib/helpers');
+const AuthHandler = require('../../../src/handlers/authHandler').AuthHandler;
+const helpers = require('../../../src/helpers');
 
 describe('AuthHandler', function() {
   let sandbox;

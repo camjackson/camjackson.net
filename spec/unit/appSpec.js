@@ -6,13 +6,13 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const expect = chai.expect;
 
-const WriteItDown = require('../../lib/writeitdown').WriteItDown;
-const AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
-const UserHandler = require('../../lib/handlers/userHandler').UserHandler;
-const SettingsHandler = require('../../lib/handlers/settingsHandler').SettingsHandler;
-const PostHandler = require('../../lib/handlers/postHandler').PostHandler;
+const App = require('../../src/app').App;
+const AuthHandler = require('../../src/handlers/authHandler').AuthHandler;
+const UserHandler = require('../../src/handlers/userHandler').UserHandler;
+const SettingsHandler = require('../../src/handlers/settingsHandler').SettingsHandler;
+const PostHandler = require('../../src/handlers/postHandler').PostHandler;
 
-describe('WriteItDown', function() {
+describe('App', function() {
   let sandbox;
   const authHandler = new AuthHandler();
   const userHandler = new UserHandler();
@@ -39,7 +39,7 @@ describe('WriteItDown', function() {
         res.status(200).send('This is the login page');
       });
 
-      const req = request(new WriteItDown({authHandler: authHandler}).app).get('/login');
+      const req = request(new App({authHandler: authHandler}).app).get('/login');
       return req.then(function(res) {
         expect(res.statusCode).to.equal(200);
         expect(res.text).to.equal('This is the login page');
@@ -53,7 +53,7 @@ describe('WriteItDown', function() {
         res.redirect(303, '/settings');
       });
 
-      const req = request(new WriteItDown({authHandler: authHandler}).app).post('/login')
+      const req = request(new App({authHandler: authHandler}).app).post('/login')
         .type('form')
         .send({
           username: 'some-user',
@@ -72,7 +72,7 @@ describe('WriteItDown', function() {
         res.redirect(303, '/');
       });
 
-      const req = request(new WriteItDown({authHandler: authHandler}).app).post('/logout')
+      const req = request(new App({authHandler: authHandler}).app).post('/logout')
         .type('form')
         .send({});
       return req.then(null, function(err) {
@@ -84,7 +84,7 @@ describe('WriteItDown', function() {
 
   describe('GET /settings', function () {
     it('redirects to the login page when the user is not authenticated', function() {
-      const req = request(new WriteItDown({authHandler: authHandler}).app).get('/settings');
+      const req = request(new App({authHandler: authHandler}).app).get('/settings');
       return req.then(null, function(err) {
         expect(err.response.res.statusCode).to.equal(303);
         expect(err.response.res.headers.location).to.equal('/login');
@@ -97,7 +97,7 @@ describe('WriteItDown', function() {
         res.status(200).send("This is the settings page");
       });
 
-      const req = request(new WriteItDown({settingsHandler: settingsHandler, authHandler: authHandler}).app).get('/settings');
+      const req = request(new App({settingsHandler: settingsHandler, authHandler: authHandler}).app).get('/settings');
       return req.then(function(res) {
         expect(res.statusCode).to.equal(200);
         expect(res.text).to.equal("This is the settings page");
@@ -107,7 +107,7 @@ describe('WriteItDown', function() {
 
   describe('PUT /settings', function() {
     it('redirects to the login page when the user is not authenticated', function() {
-      const req = request(new WriteItDown({authHandler: authHandler}).app).put('/settings');
+      const req = request(new App({authHandler: authHandler}).app).put('/settings');
       return req.then(null, function(err) {
         expect(err.response.res.statusCode).to.equal(303);
         expect(err.response.res.headers.location).to.equal('/login');
@@ -120,7 +120,7 @@ describe('WriteItDown', function() {
         res.redirect(303, '/settings');
       });
 
-      const req = request(new WriteItDown({authHandler: authHandler, settingsHandler: settingsHandler}).app).post('/settings')
+      const req = request(new App({authHandler: authHandler, settingsHandler: settingsHandler}).app).post('/settings')
         .type('form')
         .send({
           _method: 'PUT',
@@ -136,7 +136,7 @@ describe('WriteItDown', function() {
 
   describe('PUT /user/:username', function() {
     it('redirects to the login page when the user is not authenticated', function() {
-      const req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
+      const req = request(new App({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
         .type('form')
         .send({
           _method: 'PUT',
@@ -156,7 +156,7 @@ describe('WriteItDown', function() {
         res.redirect(303, '/settings');
       });
 
-      const req = request(new WriteItDown({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
+      const req = request(new App({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')
         .type('form')
         .send({
           _method: 'PUT',
@@ -173,7 +173,7 @@ describe('WriteItDown', function() {
 
   describe('GET /write', function () {
     it('redirects to the login page when the user is not authenticated', function() {
-      const req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
+      const req = request(new App({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
       return req.then(null, function(err) {
         expect(err.response.res.statusCode).to.equal(303);
         expect(err.response.res.headers.location).to.equal('/login');
@@ -186,7 +186,7 @@ describe('WriteItDown', function() {
         res.status(200).send('Hi');
       });
 
-      const req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
+      const req = request(new App({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
       return req.then(function(res) {
         expect(res.statusCode).to.equal(200);
         expect(res.text).to.equal('Hi');
@@ -196,7 +196,7 @@ describe('WriteItDown', function() {
 
   describe('PUT /posts/', function() {
     it('redirects to the login page when the user is not authenticated', function() {
-      const req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).post('/posts/')
+      const req = request(new App({postHandler: postHandler, authHandler: authHandler}).app).post('/posts/')
         .type('form')
         .send({
           _method: 'PUT',
@@ -215,7 +215,7 @@ describe('WriteItDown', function() {
       sandbox.stub(postHandler, 'createOrUpdatePost', function(req, res) {
         res.redirect(303, '/post/some-slug');
       });
-      const req = request(new WriteItDown({postHandler: postHandler, authHandler: authHandler}).app).post('/posts/')
+      const req = request(new App({postHandler: postHandler, authHandler: authHandler}).app).post('/posts/')
         .type('form')
         .send({
           _method: 'PUT',

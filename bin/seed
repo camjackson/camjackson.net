@@ -1,12 +1,12 @@
 #!/usr/local/bin/node
 
-const confirm = require('../lib/helpers').confirm;
 const mongoose = require('mongoose');
-const models = require('../lib/models');
+const models = require('../src/models.js');
+const confirm = require('../src/helpers.js').confirm;
 const User = models.User;
 const Post = models.Post;
 const Profile = models.Profile;
-const db_connection_string = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/writeitdown';
+const db_connection_string = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/camjackson-net';
 
 const firstPostText = 'This is your first post.\n\n Log in with the default credentials to ' +
   'edit or delete it, and to start making posts of your own.';

@@ -7,13 +7,13 @@ const mongoose = require('mongoose');
 mongoose.models = {};
 mongoose.modelSchemas = {};
 const bcrypt = require('bcrypt');
-const models = require('../../lib/models');
+const models = require('../../src/models');
 const User = models.User;
 const Post = models.Post;
 const Profile = models.Profile;
-const WriteItDown = require('../../lib/writeitdown').WriteItDown;
-const AuthHandler = require('../../lib/handlers/authHandler').AuthHandler;
-const helpers = require('../../lib/helpers');
+const App = require('../../src/app').App;
+const AuthHandler = require('../../src/handlers/authHandler').AuthHandler;
+const helpers = require('../../src/helpers');
 
 describe('Integration Test', function() {
   before(function() {
@@ -33,7 +33,7 @@ describe('Integration Test', function() {
     'behind a click';
 
   beforeEach(function () {
-    mongoose.connect('mongodb://localhost/writeitdown-test');
+    mongoose.connect('mongodb://localhost/camjackson-net-test');
     return User.remove({}).exec().then(function() {
       return User.create({
         username: 'test-user',
@@ -71,7 +71,7 @@ describe('Integration Test', function() {
   });
 
   describe('endpoints that do not need auth', function() {
-    const app = new WriteItDown({}).app;
+    const app = new App({}).app;
     describe('GET /login', function() {
       it('renders the login page successfully', function() {
         const req = request(app).get('/login');
@@ -145,7 +145,7 @@ describe('Integration Test', function() {
       res.locals.user = { username: 'test-user', password: 'test-password' };
       next();
     });
-    const app = new WriteItDown({authHandler: authHandler}).app;
+    const app = new App({authHandler: authHandler}).app;
 
     describe('GET /settings', function() {
       it('renders the settings page correctly', function() {

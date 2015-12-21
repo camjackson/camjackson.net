@@ -1,10 +1,10 @@
 {
-  "name": "writeitdown",
+  "name": "camjackson.net",
   "version": "0.0.1",
   "description": "Blogging with markdown",
   "repository": {
     "type": "git",
-    "url": "http://github.com/camjackson/writeitdown.git"
+    "url": "http://github.com/camjackson/camjackson.net.git"
   },
   "author": "Cam Jackson",
   "license": "GPL-3.0",

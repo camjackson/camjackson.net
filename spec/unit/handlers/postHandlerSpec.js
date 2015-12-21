@@ -9,10 +9,10 @@ const Q = require('q');
 const moment = require('moment');
 const marked = require('marked');
 
-const PostHandler = require('../../../lib/handlers/postHandler').PostHandler;
-const helpers = require('../../../lib/helpers');
-const Post = require('../../../lib/models').Post;
-const Profile = require('../../../lib/models').Profile;
+const PostHandler = require('../../../src/handlers/postHandler').PostHandler;
+const helpers = require('../../../src/helpers');
+const Post = require('../../../src/models').Post;
+const Profile = require('../../../src/models').Profile;
 
 describe('PostHandler', function() {
   let sandbox;

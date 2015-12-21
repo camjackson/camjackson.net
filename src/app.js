@@ -52,7 +52,7 @@ function renderNewPost(req, res) {
   });
 }
 
-function WriteItDown(handlers) {
+function App(handlers) {
   this.app = express();
   this.app.set('view engine', 'jade');
   this.app.disable('x-powered-by');
@@ -113,16 +113,16 @@ function WriteItDown(handlers) {
   });
 }
 
-WriteItDown.prototype.start = function() {
+App.prototype.start = function() {
   log.info('Starting app...');
   this.server = this.app.listen(process.env.PORT ||  8080);
   log.info('App listening on 8080');
 };
 
-WriteItDown.prototype.stop = function(done) {
+App.prototype.stop = function(done) {
   log.info('App shutting down...');
   this.server.close(done);
   log.info('App stopped')
 };
 
-exports.WriteItDown = WriteItDown;
+exports.App = App;
