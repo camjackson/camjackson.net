@@ -31,6 +31,7 @@
     "body-parser": "^1.14.1",
     "bunyan": "^1.5.1",
     "connect-flash": "^0.1.1",
+    "connect-mongo": "^1.0.2",
     "express": "^4.13.3",
     "express-promise": "^0.4.0",
     "express-session": "^1.12.1",

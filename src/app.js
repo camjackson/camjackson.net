@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressPromise = require('express-promise');
 const expressSession = require('express-session');
+const MongoStore = require('connect-mongo')(expressSession);
+const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const passport = require('passport');
 const helmet = require('helmet');
@@ -18,8 +20,9 @@ const Post = require('./models').Post;
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || 'default secret', //TODO!
-  resave: true,
-  saveUninitialized: true
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
+  resave: false,
+  saveUninitialized: false
 };
 
 const React = require('react');
