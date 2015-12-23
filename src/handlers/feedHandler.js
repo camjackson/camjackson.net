@@ -1,7 +1,15 @@
 'use strict';
 const xml = require('xml');
 const moment = require('moment');
+const marked = require('marked');
+const highlightjs = require('highlight.js');
 const Post = require('../models').Post;
+
+marked.setOptions({
+  highlight: function(code) {
+    return highlightjs.highlightAuto(code).value;
+  }
+});
 
 module.exports = {
   getFeed(_, res) {
@@ -11,6 +19,10 @@ module.exports = {
         { _attr: {rel: rel} },
         { _attr: {href: href} }
       ]);
+      const render_markdown = markdown => ({
+        _attr: { type: 'html' },
+        _cdata: marked(markdown)
+      });
 
       const me = [
         { name: 'Cam Jackson' },
@@ -38,9 +50,9 @@ module.exports = {
             { updated: format(post.posted) },
             { published: format(post.posted) },
             { author: me },
-            { content: {_cdata: post.text} },
+            { content: render_markdown(post.text) },
             { link: link('alternate', `/post/${post.slug}`)},
-            { summary: {_cdata: post.text.substr(0, post.text.indexOf('[//]: # (fold)'))} }
+            { summary: render_markdown(post.text.substr(0, post.text.indexOf('[//]: # (fold)'))) }
           ]
         });
       });
