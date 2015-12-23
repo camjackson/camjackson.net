@@ -22,5 +22,6 @@ module.exports = () => (
     <title>Cam Jackson</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
     <link href="/style.css" rel="stylesheet"/>
+    <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
   </head>
 );

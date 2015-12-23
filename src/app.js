@@ -16,6 +16,7 @@ const AuthHandler = require('./handlers/authHandler').AuthHandler;
 const UserHandler = require('./handlers/userHandler').UserHandler;
 const SettingsHandler = require('./handlers/settingsHandler').SettingsHandler;
 const PostHandler = require('./handlers/postHandler').PostHandler;
+const FeedHandler = require('./handlers/feedHandler');
 const Post = require('./models').Post;
 
 const sessionOptions = {
@@ -104,6 +105,9 @@ function App(handlers) {
   const postHandler = handlers.postHandler || new PostHandler();
   this.app.get('/write', authHandler.authorise, postHandler.getWrite.bind(postHandler));
   this.app.put('/posts/', authHandler.authorise, postHandler.createOrUpdatePost.bind(postHandler));
+
+  const feedHandler = handlers.feedHandler || FeedHandler;
+  this.app.get('/atom.xml', feedHandler.getFeed);
 
   //For letsencrypt:
   this.app.get('/.well-known/acme-challenge/M5rHkTUg7nfVEF9K8J4bl8xsyXHInorJzY02ppGRCoQ', (req, res) => {
