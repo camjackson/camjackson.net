@@ -33,7 +33,7 @@ module.exports = {
         { _attr: { xmlns: 'http://www.w3.org/2005/Atom' } },
         { id: 'https://camjackson.net/' },
         { title: 'camjackson.net' },
-        { updated: format(posts[0].posted) },
+        { updated: format(new Date()) },
         { subtitle: 'A feed of blog posts from camjackson.net' },
         { author: me },
         { link: link('alternate', 'https://camjackson.net/')},
@@ -47,7 +47,7 @@ module.exports = {
           entry: [
             { id: `https://camjackson.net/post/${post.slug}` },
             { title: {_cdata: post.title} },
-            { updated: format(post.posted) },
+            { updated: format(new Date()) },
             { published: format(post.posted) },
             { author: me },
             { content: render_markdown(post.text) },
