@@ -5,7 +5,7 @@ marked.setOptions({
   }
 });
 
-function updatePreview(){
+function updatePreview() {
   const title = document.getElementById('title').value;
   const text = document.getElementById('text').value;
 
@@ -16,4 +16,8 @@ function updatePreview(){
 
   document.getElementById('preview').innerHTML = marked(markdown);
 }
-window.onload = updatePreview;
+window.onload = function() {
+  updatePreview();
+  document.getElementById('title').addEventListener('keyup', updatePreview);
+  document.getElementById('text').addEventListener('keyup', updatePreview);
+};
