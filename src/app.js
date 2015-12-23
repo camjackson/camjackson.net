@@ -32,7 +32,7 @@ const IndexComponent = require('./components/index');
 const ArchiveComponent = require('./components/archive');
 const PostComponent = require('./components/post');
 
-function renderNewSite(_, res) {
+function renderIndex(_, res) {
   Post.find({}).sort({posted: 'descending'}).limit(2).exec().then((posts) => {
     posts.forEach((post) => {
       post.blurb = post.text.substr(0, post.text.indexOf('[//]: # (fold)'));
@@ -50,7 +50,7 @@ function renderArchive(_, res) {
   });
 }
 
-function renderNewPost(req, res) {
+function renderPost(req, res) {
   Post.findOne({slug: req.params.slug}).exec().then((post) => {
     res.send(ReactDOMServer.renderToStaticMarkup(<PostComponent post={post}/>));
   });
@@ -86,9 +86,9 @@ function App(handlers) {
     reportUri: 'https://report-uri.io/report/camjackson'
   }));
 
-  this.app.get('/', renderNewSite);
+  this.app.get('/', renderIndex);
   this.app.get('/archive/', renderArchive);
-  this.app.get('/post/:slug', renderNewPost);
+  this.app.get('/post/:slug', renderPost);
 
   const authHandler = handlers.authHandler || new AuthHandler();
   this.app.get('/login', authHandler.getLogin.bind(authHandler));
