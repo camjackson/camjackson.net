@@ -105,35 +105,6 @@ describe('App', function() {
     });
   });
 
-  describe('PUT /settings', function() {
-    it('redirects to the login page when the user is not authenticated', function() {
-      const req = request(new App({authHandler: authHandler}).app).put('/settings');
-      return req.then(null, function(err) {
-        expect(err.response.res.statusCode).to.equal(303);
-        expect(err.response.res.headers.location).to.equal('/login');
-      });
-    });
-
-    it('updates the settings and redirects to the settings page using the settingsHandler when the user is authenticated', function() {
-      authorise();
-      sandbox.stub(settingsHandler, 'updateSettings', function(req, res) {
-        res.redirect(303, '/settings');
-      });
-
-      const req = request(new App({authHandler: authHandler, settingsHandler: settingsHandler}).app).post('/settings')
-        .type('form')
-        .send({
-          _method: 'PUT',
-          profileImage: 'profile-image',
-          profileText: 'profile-text'
-        });
-      return req.then(null, function(err) {
-        expect(err.response.res.statusCode).to.equal(303);
-        expect(err.response.res.headers.location).to.equal('/settings');
-      })
-    });
-  });
-
   describe('PUT /user/:username', function() {
     it('redirects to the login page when the user is not authenticated', function() {
       const req = request(new App({userHandler: userHandler, authHandler: authHandler}).app).post('/user/test-user')

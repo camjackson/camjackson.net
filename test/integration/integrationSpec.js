@@ -10,7 +10,6 @@ const bcrypt = require('bcrypt');
 const models = require('../../src/models');
 const User = models.User;
 const Post = models.Post;
-const Profile = models.Profile;
 const App = require('../../src/app').App;
 const AuthHandler = require('../../src/handlers/authHandler').AuthHandler;
 const helpers = require('../../src/helpers');
@@ -56,13 +55,6 @@ describe('Integration Test', function() {
           posted: Date.now()
         }
       ]);
-    }).then(function() {
-      return Profile.remove({}).exec();
-    }).then(function() {
-      return Profile.create({
-        text: 'profile text',
-        image: 'http://www.example.com/profile_image.jpg'
-      });
     });
   });
 
@@ -156,55 +148,6 @@ describe('Integration Test', function() {
           expect(res.text).to.include('Welcome, test-user!');
           expect(res.text).to.include('name="confirmPassword"');
           expect(res.text).to.include('<input type="submit"');
-          expect(res.text).to.include('value="http://www.example.com/profile_image.jpg"');
-          expect(res.text).to.include('>profile text</textarea>');
-        });
-      });
-    });
-
-    describe('PUT /settings', function() {
-      describe('with no existing profile exists', function() {
-
-        beforeEach(function() {
-          return Profile.remove({}).exec();
-        });
-
-        it('creates the user profile', function() {
-          const req = request(app).post('/settings')
-            .type('form')
-            .send({
-              _method: 'PUT',
-              profileImage: 'an image',
-              profileText: 'the text'
-            });
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(303);
-            return Profile.find({}).exec().then(function(profiles) {
-              expect(profiles).to.have.length(1);
-              expect(profiles[0].text).to.equal('the text');
-              expect(profiles[0].image).to.equal('an image');
-            });
-          });
-        });
-      });
-
-      describe('with an existing profile', function() {
-        it('updates the existing profile', function() {
-          const req = request(app).post('/settings')
-            .type('form')
-            .send({
-              _method: 'PUT',
-              profileImage: 'new image',
-              profileText: 'new text'
-            });
-          return req.then(function(res) {
-            expect(res.statusCode).to.equal(303);
-            return Profile.find({}).exec().then(function(profiles) {
-              expect(profiles).to.have.length(1);
-              expect(profiles[0].text).to.equal('new text');
-              expect(profiles[0].image).to.equal('new image');
-            });
-          });
         });
       });
     });

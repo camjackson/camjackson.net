@@ -43,26 +43,6 @@ main {
   padding-bottom: $footer_height;
 }
 
-$profile_width: 300px;
-
-form #profile_text {
-  width: $profile_width;
-}
-
-#profile_box {
-  float: right;
-  max-width: $profile_width;
-  margin-left: 10px;
-  padding: 5px;
-  border: 1px solid $dark-grey;
-}
-
-#profile_box > img {
-  float: right;
-  width: 150px;
-  height: 200px;
-}
-
 #edit-link {
   float: right;
   margin-top: 20px;

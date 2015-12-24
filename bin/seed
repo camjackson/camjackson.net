@@ -5,15 +5,10 @@ const models = require('../src/models.js');
 const confirm = require('../src/helpers.js').confirm;
 const User = models.User;
 const Post = models.Post;
-const Profile = models.Profile;
 const db_connection_string = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/camjackson-net';
 
 const firstPostText = 'This is your first post.\n\n Log in with the default credentials to ' +
   'edit or delete it, and to start making posts of your own.';
-const profileText = 'This is some profile text. Write a short intro on the profile ' +
-  'page to explain who you are, and what your blog is about.\n\n You can also specify an ' +
-  'image url, to fit in a 150x200 pixel area. Larger images will be squashed into the box.\n\n' +
-  '*Markdown works here, too!*';
 
 const prompt = '\n\n***WARNING: THIS OPERATION WILL DESTROY DATA!***\nAre you sure you want to seed the database at ' + db_connection_string;
 confirm(prompt).then(function() {
@@ -34,13 +29,6 @@ confirm(prompt).then(function() {
     slug: 'hello-world',
     text: firstPostText,
     posted: Date.now()
-  });
-}).then(function() {
-  return Profile.remove({}).exec();
-}).then(function() {
-  return Profile.create({
-    text: profileText,
-    image: 'http://placehold.it/150x200'
   });
 }).then(function() {
   mongoose.disconnect();

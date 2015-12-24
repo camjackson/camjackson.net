@@ -18,11 +18,5 @@ const postSchema = new mongoose.Schema({
   posted: Date
 });
 
-const profileSchema = new mongoose.Schema({
-  text: String,
-  image: String
-});
-
 exports.User = mongoose.model('User', userSchema);
 exports.Post = mongoose.model('Post', postSchema);
-exports.Profile = mongoose.model('Profile', profileSchema);

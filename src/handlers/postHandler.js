@@ -6,7 +6,6 @@ const highlightjs = require('highlight.js');
 const helpers = require('../helpers');
 const log = require('../logging').logger;
 const Post = require('../models').Post;
-const Profile = require('../models').Profile;
 
 marked.setOptions({
   highlight: function(code) {

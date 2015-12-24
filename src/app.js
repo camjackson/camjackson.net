@@ -100,7 +100,6 @@ function App(handlers) {
 
   const settingsHandler = handlers.settingsHandler || new SettingsHandler();
   this.app.get('/settings', authHandler.authorise, settingsHandler.getSettings.bind(settingsHandler));
-  this.app.put('/settings', authHandler.authorise, settingsHandler.updateSettings.bind(settingsHandler));
 
   const postHandler = handlers.postHandler || new PostHandler();
   this.app.get('/write', authHandler.authorise, postHandler.getWrite.bind(postHandler));
