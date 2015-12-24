@@ -21,7 +21,70 @@ footer .navbar {
 }
 
 .navbar .fa {
-  margin-top: -6px;
+  margin-top: -4px;
+}
+
+.jumbotron img {
+  border-radius: 100px;
+}
+
+/*Extra small*/
+@media (max-width: 767px) {
+  .navbar a {
+    padding-left: 0;
+  }
+
+  .navbar a.navbar-right {
+    float: right;
+    font-size: 0.8em;
+  }
+
+  .jumbotron {
+    padding-top: 0;
+  }
+
+  .jumbotron img {
+    margin-top: 20px;
+    width: 110px;
+  }
+
+  .skill-panel {
+    height: 25%;
+  }
+}
+
+/*Upper half of extra small*/
+@media (min-width: 554px) {
+  .jumbotron img {
+    margin-top: -46px;
+    width: 130px;
+  }
+}
+
+/*Small*/
+@media (min-width: 768px) {
+  .skill-panel {
+    height: 20%;
+  }
+
+  .jumbotron img {
+    margin-top: -80px;
+    width: 157px;
+  }
+}
+
+/*Medium*/
+@media (min-width: 992px) {
+  .skill-panel {
+    height: 35%;
+  }
+}
+
+/*Large*/
+@media (min-width: 1200px) {
+  .skill-panel {
+    height: 25%;
+  }
 }
 
 #skill-panel-row {
@@ -30,37 +93,6 @@ footer .navbar {
 
 .skill-panel {
   min-height: 220px;
-}
-
-.jumbotron img {
-  height: 300px;
-  width: 200px;
-  border-radius: 100px;
-  float: right;
-}
-
-@media (max-width: 767px) {
-  .skill-panel {
-    height: 25%;
-  }
-}
-
-@media (min-width: 768px) {
-  .skill-panel {
-    height: 20%;
-  }
-}
-
-@media (min-width: 992px) {
-  .skill-panel {
-    height: 35%;
-  }
-}
-
-@media (min-width: 1200px) {
-  .skill-panel {
-    height: 25%;
-  }
 }
 
 .panel {
