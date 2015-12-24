@@ -8,7 +8,7 @@ const Post = models.Post;
 const db_connection_string = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/camjackson-net';
 
 const firstPostText = 'This is your first post.\n\n Log in with the default credentials to ' +
-  'edit or delete it, and to start making posts of your own.';
+  'edit or delete it, and to start making posts of your own. [//]: # (fold)';
 
 const prompt = '\n\n***WARNING: THIS OPERATION WILL DESTROY DATA!***\nAre you sure you want to seed the database at ' + db_connection_string;
 confirm(prompt).then(function() {
