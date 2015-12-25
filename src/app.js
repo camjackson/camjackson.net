@@ -117,6 +117,20 @@ function App(handlers) {
     res.type('text/plain');
     res.send('R9oTAu1wreSm3kCy_GVz_BGBeIDtkWXRhqYHvBgPhk0.8RYOGbfpg_HSBz35otVictQhkbvFgKlGr7OIBKFFAdI');
   });
+
+  //Redirects for annoying 404s:
+  const redirects = [
+    { from: '/feed', to: '/atom.xml' },
+    { from: '/atom', to: '/atom.xml' },
+    { from: '/rss', to: '/atom.xml' },
+    { from: '/.rss', to: '/atom.xml' },
+    { from: '/favicon.png', to: '/favicon.ico' },
+    { from: '/new', to: '/' }
+  ];
+
+  redirects.forEach((redirect) => {
+    this.app.get(redirect.from, (_, res) => { res.redirect(301, redirect.to)});
+  })
 }
 
 App.prototype.start = function() {
