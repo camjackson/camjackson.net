@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const React = require('react');
 const shallowRender = require('./shallowRender');
-const Write = require('../../../src/components/write');
+const Write = require('../../src/components/write');
 
 describe('Write', function() {
   it('shows the form with default data', function() {

@@ -2,9 +2,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bcrypt = require('bcrypt');
-const log = require('../logging').logger;
-const helpers = require('../helpers');
-const User = require('../models').User;
+const log = require('./logging').logger;
+const User = require('./models').User;
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
@@ -48,17 +47,9 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-function AuthHandler() {} //TODO
+exports.authenticate = passport.authenticate( 'local', { successRedirect: '/write', failureRedirect: '/login'});
 
-AuthHandler.prototype.authenticate = passport.authenticate(
-  'local',
-  {
-    successRedirect: '/write',
-    failureRedirect: '/login'
-  }
-);
-
-AuthHandler.prototype.authorise = function(req, res, next) {
+exports.authorise = (req, res, next) => {
   if (!req.isAuthenticated()) {
     res.redirect(303, '/login');
   } else {
@@ -66,9 +57,7 @@ AuthHandler.prototype.authorise = function(req, res, next) {
   }
 };
 
-AuthHandler.prototype.logOut = function(req, res) {
+exports.logOut = (req, res) => {
   req.logout();
   res.redirect(303, '/');
 };
-
-exports.AuthHandler = AuthHandler;

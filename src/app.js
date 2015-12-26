@@ -10,10 +10,9 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const helmet = require('helmet');
 const log = require('./logging').logger;
-const helpers = require('./helpers');
-const AuthHandler = require('./handlers/authHandler').AuthHandler;
-const PostHandler = require('./handlers/postHandler').PostHandler;
-const FeedHandler = require('./handlers/feedHandler');
+const auth = require('./auth');
+const createOrUpdatePost = require('./createOrUpdatePost');
+const getFeed = require('./getFeed');
 const Post = require('./models').Post;
 
 const sessionOptions = {
@@ -69,19 +68,30 @@ function renderWrite(req, res) {
   });
 }
 
-function App(handlers) {
+function bodyMethodOverrider (req) {
+  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+    const method = req.body._method;
+    delete req.body._method;
+    return method
+  }
+}
+
+function errorHandler(err, req, res, next) {
+  log.error(err);
+  res.status(500).send('Something went wrong :(');
+}
+
+function App() {
   this.app = express();
-  this.app.set('view engine', 'jade');
   this.app.disable('x-powered-by');
   this.app.use(bodyParser.urlencoded({ extended: false }));
-  this.app.use(methodOverride(helpers.bodyMethodOverrider));
+  this.app.use(methodOverride(bodyMethodOverrider));
   this.app.use(express.static('public'));
   this.app.use(expressPromise());
   this.app.use(expressSession(sessionOptions));
   this.app.use(passport.initialize());
   this.app.use(passport.session());
-  this.app.use(helpers.addUserToResLocals);
-  this.app.use(helpers.errorHandler);
+  this.app.use(errorHandler);
 
   this.app.use(helmet.xssFilter());
   this.app.use(helmet.frameguard('deny'));
@@ -99,23 +109,15 @@ function App(handlers) {
     reportUri: 'https://report-uri.io/report/camjackson'
   }));
 
-  const authHandler = handlers.authHandler || new AuthHandler();
-  const authorise = authHandler.authorise;
-
   this.app.get('/', renderIndex);
   this.app.get('/archive/', renderArchive);
   this.app.get('/post/:slug', renderPost);
+  this.app.get('/atom.xml', getFeed);
   this.app.get('/login', renderLogin);
-  this.app.get('/write', authorise, renderWrite);
-
-  this.app.post('/login', authHandler.authenticate.bind(authHandler));
-  this.app.post('/logout', authHandler.logOut.bind(authHandler));
-
-  const postHandler = handlers.postHandler || new PostHandler();
-  this.app.put('/posts/', authorise, postHandler.createOrUpdatePost.bind(postHandler));
-
-  const feedHandler = handlers.feedHandler || FeedHandler;
-  this.app.get('/atom.xml', feedHandler.getFeed);
+  this.app.get('/write', auth.authorise, renderWrite);
+  this.app.put('/posts/', auth.authorise, createOrUpdatePost);
+  this.app.post('/login', auth.authenticate);
+  this.app.post('/logout', auth.logOut);
 
   //For letsencrypt:
   this.app.get('/.well-known/acme-challenge/M5rHkTUg7nfVEF9K8J4bl8xsyXHInorJzY02ppGRCoQ', (req, res) => {

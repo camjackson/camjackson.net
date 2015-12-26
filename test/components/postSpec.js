@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const React = require('react');
 const shallowRender = require('./shallowRender');
-const Post = require('../../../src/components/post');
+const Post = require('../../src/components/post');
 
 describe('Post', function() {
   const post = {title: 'My Post', text: '*This is a post*', posted: new Date('2016-03-06')};

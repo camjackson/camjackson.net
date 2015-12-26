@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const React = require('react');
 const shallowRender = require('./shallowRender');
-const LatestPosts = require('../../../src/components/latestPosts');
+const LatestPosts = require('../../src/components/latestPosts');
 
 describe('LatestPosts', function() {
   it('renders 2 posts', function() {

@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const React = require('react');
 const shallowRender = require('./shallowRender');
-const Head = require('../../../src/components/head');
+const Head = require('../../src/components/head');
 
 describe('Head', function() {
   it('includes extra page scripts if they are given', function() {

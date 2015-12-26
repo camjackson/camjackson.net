@@ -1,8 +1,8 @@
 #!/usr/local/bin/node
 
+const prompt = require('prompt');
 const mongoose = require('mongoose');
 const models = require('../src/models.js');
-const confirm = require('../src/helpers.js').confirm;
 const User = models.User;
 const Post = models.Post;
 const db_connection_string = process.env.DB_CONNECTION_STRING || 'mongodb://localhost/camjackson-net';
@@ -10,13 +10,24 @@ const db_connection_string = process.env.DB_CONNECTION_STRING || 'mongodb://loca
 const firstPostText = 'This is your first post.\n\n Log in with the default credentials to ' +
   'edit or delete it, and to start making posts of your own. [//]: # (fold)';
 
-const prompt = '\n\n***WARNING: THIS OPERATION WILL DESTROY DATA!***\nAre you sure you want to seed the database at ' + db_connection_string;
-confirm(prompt).then(function() {
-  mongoose.connect(db_connection_string);
-  return User.remove({}).exec();
-}, function(err) {
-  console.log(`Aborting database seed: ${err}`);
-}).then(function() {
+prompt.start();
+
+const property = {
+  name: 'confirmation',
+  message: `\n\n***WARNING: THIS OPERATION WILL DESTROY DATA!***\nSeed the database at ${db_connection_string}?`,
+  validator: /^y|n$/,
+  warning: 'Please enter (y)es or (n)o.'
+};
+prompt.get(property, function(err, result) {
+  if (result.confirmation !== 'y') {
+    console.log(`Aborting database seed.`);
+    process.exit(1);
+  }
+});
+
+mongoose.connect(db_connection_string);
+
+User.remove({}).exec().then(function() {
   return User.create({
     username: 'admin',
     password: 'admin'

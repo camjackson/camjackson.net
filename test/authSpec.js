@@ -5,16 +5,14 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const expect = chai.expect;
 
-const AuthHandler = require('../../../src/handlers/authHandler').AuthHandler;
-const helpers = require('../../../src/helpers');
+const auth = require('../src/auth');
 
-describe('AuthHandler', function() {
+describe('auth', function() {
   let sandbox;
   let response;
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(helpers, 'getEnvConfig').returns('config');
     response = {
       render: sandbox.spy(),
       redirect: sandbox.spy()
@@ -27,20 +25,20 @@ describe('AuthHandler', function() {
 
   describe('authorise', function() {
     it('redirects to the login page if the user is not authenticated', function() {
-      const reqWithoutAuth = { isAuthenticated: function() {return false} };
+      const reqWithoutAuth = { isAuthenticated: () => false };
       const next = sandbox.spy();
-      new AuthHandler().authorise(reqWithoutAuth, response, next);
+      auth.authorise(reqWithoutAuth, response, next);
       expect(response.redirect).to.have.been.calledWithExactly(303, '/login');
       expect(next).not.to.have.been.called;
     });
 
     it('calls next if the user is authenticated', function() {
       const reqWithAuth = {
-        isAuthenticated: function() {return true},
+        isAuthenticated: () => true,
         params: {}
       };
       const next = sandbox.spy();
-      new AuthHandler().authorise(reqWithAuth, null, next);
+      auth.authorise(reqWithAuth, null, next);
       expect(next).to.have.been.calledOnce;
     });
   });
@@ -48,7 +46,7 @@ describe('AuthHandler', function() {
   describe('logOut', function () {
     it('logs the user out and redirects to the home page', function () {
       const reqWithLogout = { logout: sandbox.spy() };
-      new AuthHandler().logOut(reqWithLogout, response);
+      auth.logOut(reqWithLogout, response);
       expect(reqWithLogout.logout).to.have.been.calledOnce;
       expect(response.redirect).to.have.been.calledWithExactly(303, '/');
     });

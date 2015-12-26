@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const React = require('react');
 const shallowRender = require('./shallowRender');
-const SkillPanel = require('../../../src/components/skillPanel');
+const SkillPanel = require('../../src/components/skillPanel');
 
 describe('SkillPanel', function() {
   const skill = {title: 'such skills', body: 'many talent', tools: 'wow'};

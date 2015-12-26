@@ -2,7 +2,7 @@
 const expect = require('chai').expect;
 const React = require('react');
 const shallowRender = require('./shallowRender');
-const Page = require('../../../src/components/page');
+const Page = require('../../src/components/page');
 
 describe('Page', function() {
   it('renders the children with their props', function() {

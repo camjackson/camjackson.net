@@ -1,21 +1,9 @@
 'use strict';
-const moment = require('moment');
-const marked = require('marked');
-const highlightjs = require('highlight.js');
 
-const helpers = require('../helpers');
-const log = require('../logging').logger;
-const Post = require('../models').Post;
+const log = require('./logging').logger;
+const Post = require('./models').Post;
 
-marked.setOptions({
-  highlight: function(code) {
-    return highlightjs.highlightAuto(code).value;
-  }
-});
-
-function PostHandler() {} //TODO
-
-PostHandler.prototype.createOrUpdatePost = function(req, res) {
+module.exports = function(req, res) {
   if (!req.body.slug) {
     res.status(400);
     res.send('You need to give a slug');
@@ -38,5 +26,3 @@ PostHandler.prototype.createOrUpdatePost = function(req, res) {
     }
   });
 };
-
-exports.PostHandler = PostHandler;
