@@ -38,20 +38,21 @@ module.exports = {
         { author: me },
         { link: link('alternate', 'https://camjackson.net/')},
         { link: link('self', 'https://camjackson.net/atom.xml')},
-        { icon: '/favicon.ico' },
-        { logo: '/profile.jpg' }
+        { icon: 'https://camjackson.net/favicon.ico' },
+        { logo: 'https://camjackson.net/profile.jpg' }
       ];
 
       posts.forEach(post => {
+        const uri = `https://camjackson.net/post/${post.slug}`;
         feed.push({
           entry: [
-            { id: `https://camjackson.net/post/${post.slug}` },
+            { id: uri },
             { title: {_cdata: post.title} },
             { updated: format(new Date()) },
             { published: format(post.posted) },
             { author: me },
             { content: render_markdown(post.text) },
-            { link: link('alternate', `/post/${post.slug}`)},
+            { link: link('alternate', uri)},
             { summary: render_markdown(post.text.substr(0, post.text.indexOf('[//]: # (fold)'))) }
           ]
         });
