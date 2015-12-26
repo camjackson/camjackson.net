@@ -22,6 +22,20 @@ const sessionOptions = {
   saveUninitialized: false
 };
 
+const wrap = lambda => (
+  (req, res) => {
+    const payload = {
+      slug: req.params.slug || req.query.post,
+      isAuthenticated: req.isAuthenticated()
+    };
+    const context = {
+      succeed: html => res.send(html),
+      fail: (status, location) => (res.redirect(status, location))
+    };
+    lambda({payload}, context);
+  }
+);
+
 function bodyMethodOverrider (req) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     const method = req.body._method;
@@ -62,12 +76,12 @@ function App() {
     reportUri: 'https://report-uri.io/report/camjackson'
   }));
 
-  this.app.get('/', views.index);
-  this.app.get('/archive/', views.archive);
-  this.app.get('/post/:slug', views.post);
+  this.app.get('/', wrap(views.index));
+  this.app.get('/archive/', wrap(views.archive));
+  this.app.get('/post/:slug', wrap(views.post));
   this.app.get('/atom.xml', getFeed);
-  this.app.get('/login', views.login);
-  this.app.get('/write', auth.authorise, views.write);
+  this.app.get('/login', wrap(views.login));
+  this.app.get('/write', auth.authorise, wrap(views.write));
   this.app.put('/posts/', auth.authorise, createOrUpdatePost);
   this.app.post('/login', auth.authenticate);
   this.app.post('/logout', auth.logOut);
