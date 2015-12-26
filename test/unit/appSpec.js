@@ -72,19 +72,6 @@ describe('App', function() {
         expect(err.response.res.headers.location).to.equal('/login');
       });
     });
-
-    it('returns the new post page using the postHandler when the user is authenticated', function () {
-      authorise();
-      sandbox.stub(postHandler, 'getWrite', function(req, res) {
-        res.status(200).send('Hi');
-      });
-
-      const req = request(new App({postHandler: postHandler, authHandler: authHandler}).app).get('/write');
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(200);
-        expect(res.text).to.equal('Hi');
-      });
-    });
   });
 
   describe('PUT /posts/', function() {

@@ -64,8 +64,6 @@ AuthHandler.prototype.authenticate = passport.authenticate(
 AuthHandler.prototype.authorise = function(req, res, next) {
   if (!req.isAuthenticated()) {
     res.redirect(303, '/login');
-  } else if (req.params.username && req.params.username != req.user.username) {
-    res.redirect(303, '/login');
   } else {
     next();
   }

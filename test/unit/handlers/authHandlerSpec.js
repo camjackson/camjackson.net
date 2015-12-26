@@ -29,32 +29,13 @@ describe('AuthHandler', function() {
   describe('authorise', function() {
     it('redirects to the login page if the user is not authenticated', function() {
       const reqWithoutAuth = { isAuthenticated: function() {return false} };
-      new AuthHandler().authorise(reqWithoutAuth, response);
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/login');
-    });
-
-    it('redirects to the login page when trying to modify a different user', function() {
-      const reqWithUserMismatch = {
-        isAuthenticated: function() {return true},
-        params: { username: 'requested-user' },
-        user: { username: 'logged-in-user' }
-      };
-      new AuthHandler().authorise(reqWithUserMismatch, response);
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/login');
-    });
-
-    it('does nothing when trying to modify the logged in user', function() {
-      const reqWithUserMatch = {
-        isAuthenticated: function() {return true},
-        params: { username: 'logged-in-user' },
-        user: { username: 'logged-in-user' }
-      };
       const next = sandbox.spy();
-      new AuthHandler().authorise(reqWithUserMatch, null, next);
-      expect(next).to.have.been.calledOnce;
+      new AuthHandler().authorise(reqWithoutAuth, response, next);
+      expect(response.redirect).to.have.been.calledWithExactly(303, '/login');
+      expect(next).not.to.have.been.called;
     });
 
-    it('does nothing if the user is authenticated, and not trying to access a user', function() {
+    it('calls next if the user is authenticated', function() {
       const reqWithAuth = {
         isAuthenticated: function() {return true},
         params: {}

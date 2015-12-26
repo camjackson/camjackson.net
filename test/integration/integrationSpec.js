@@ -144,8 +144,6 @@ describe('Integration Test', function() {
         const req = request(app).get('/write');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
-          expect(res.text).to.include('<title>integration title<\/title>');
-          expect(res.text).to.include('integration.com');
           expect(res.text).to.include('name="slug"');
           expect(res.text).to.include('<input type="submit"');
         });
@@ -163,7 +161,7 @@ describe('Integration Test', function() {
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
           expect(res.text).to.match(/input.*id="title".*value="Second post"/);
-          expect(res.text).to.match(/input.*id="slug".*value="second-slug".*readonly/);
+          expect(res.text).to.match(/input.*id="slug".*readonly.*value="second-slug"/);
           expect(res.text).to.match(/textarea.*\*\*strong\*\*/);
         });
       });

@@ -5,9 +5,9 @@ const Head = require('./head');
 const NavBar = require('./navBar');
 const Footer = require('./footer');
 
-module.exports = (props) => (
+const PageComponent = (props) => (
   <html>
-    <Head/>
+    <Head pageScripts={props.pageScripts}/>
     <body>
       <div id="container">
         <NavBar/>
@@ -19,3 +19,9 @@ module.exports = (props) => (
     </body>
   </html>
 );
+
+PageComponent.propTypes = {
+  pageScripts: React.PropTypes.arrayOf(React.PropTypes.string)
+};
+
+module.exports = PageComponent;

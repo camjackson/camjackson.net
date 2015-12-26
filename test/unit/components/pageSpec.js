@@ -23,4 +23,11 @@ describe('Page', function() {
     expect(secondDiv.props.className).to.equal('some-other-class');
     expect(img.props.src).to.equal("photo.png");
   });
+
+  it('passes the page script name to the head element', () => {
+    const scripts = ["/1.js", "/2.js"];
+    const page = shallowRender(<Page pageScripts={scripts}/>);
+    const head = page.props.children[0];
+    expect(head.props.pageScripts).to.equal(scripts);
+  })
 });

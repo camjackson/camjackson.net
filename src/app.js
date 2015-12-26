@@ -30,6 +30,7 @@ const IndexComponent = require('./components/index');
 const ArchiveComponent = require('./components/archive');
 const PostComponent = require('./components/post');
 const LoginComponent = require('./components/login');
+const WriteComponent = require('./components/write');
 
 function renderIndex(_, res) {
   Post.find({}).sort({posted: 'descending'}).limit(2).exec().then((posts) => {
@@ -63,6 +64,12 @@ function renderLogin(req, res) {
   }
 }
 
+function renderWrite(req, res) {
+  Post.findOne({ slug: req.query.post }).exec().then(function(post) {
+    res.send(ReactDOMServer.renderToStaticMarkup(<WriteComponent post={post || {}}/>))
+  });
+}
+
 function App(handlers) {
   this.app = express();
   this.app.set('view engine', 'jade');
@@ -94,18 +101,20 @@ function App(handlers) {
     reportUri: 'https://report-uri.io/report/camjackson'
   }));
 
+  const authHandler = handlers.authHandler || new AuthHandler();
+  const authorise = authHandler.authorise;
+
   this.app.get('/', renderIndex);
   this.app.get('/archive/', renderArchive);
   this.app.get('/post/:slug', renderPost);
   this.app.get('/login', renderLogin);
+  this.app.get('/write', authorise, renderWrite);
 
-  const authHandler = handlers.authHandler || new AuthHandler();
   this.app.post('/login', authHandler.authenticate.bind(authHandler));
   this.app.post('/logout', authHandler.logOut.bind(authHandler));
 
   const postHandler = handlers.postHandler || new PostHandler();
-  this.app.get('/write', authHandler.authorise, postHandler.getWrite.bind(postHandler));
-  this.app.put('/posts/', authHandler.authorise, postHandler.createOrUpdatePost.bind(postHandler));
+  this.app.put('/posts/', authorise, postHandler.createOrUpdatePost.bind(postHandler));
 
   const feedHandler = handlers.feedHandler || FeedHandler;
   this.app.get('/atom.xml', feedHandler.getFeed);

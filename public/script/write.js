@@ -14,7 +14,7 @@ function updatePreview() {
   markdown += '---\n\n';
   markdown += text;
 
-  document.getElementById('preview').innerHTML = marked(markdown);
+  document.getElementById('post-preview').innerHTML = marked(markdown);
 }
 window.onload = function() {
   updatePreview();
