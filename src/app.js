@@ -3,12 +3,12 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
-const expressPromise = require('express-promise');
 const expressSession = require('express-session');
 const MongoStore = require('connect-mongo')(expressSession);
 const mongoose = require('mongoose');
 const passport = require('passport');
 const helmet = require('helmet');
+
 const log = require('./logging').logger;
 const auth = require('./auth');
 const createOrUpdatePost = require('./createOrUpdatePost');
@@ -87,7 +87,6 @@ function App() {
   this.app.use(bodyParser.urlencoded({ extended: false }));
   this.app.use(methodOverride(bodyMethodOverrider));
   this.app.use(express.static('public'));
-  this.app.use(expressPromise());
   this.app.use(expressSession(sessionOptions));
   this.app.use(passport.initialize());
   this.app.use(passport.session());
