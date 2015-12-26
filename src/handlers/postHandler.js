@@ -31,6 +31,11 @@ PostHandler.prototype.getWrite = function(req, res) {
 };
 
 PostHandler.prototype.createOrUpdatePost = function(req, res) {
+  if (!req.body.slug) {
+    res.status(400);
+    res.send('You need to give a slug');
+    return;
+  }
   return Post.findOneAndUpdate({slug: req.body.slug}, req.body).exec().then(function(post) {
     if (post) {
       log.info('Updated existing post ' + req.body.slug);

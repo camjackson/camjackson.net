@@ -24,7 +24,9 @@ describe('PostHandler', function() {
     sandbox.stub(helpers, 'getEnvConfig').returns('the config');
     response = {
       render: sandbox.spy(),
-      redirect: sandbox.spy()
+      redirect: sandbox.spy(),
+      send: sandbox.spy(),
+      status: sandbox.spy()
     };
   });
 
@@ -84,6 +86,14 @@ describe('PostHandler', function() {
       slug: 'some-slug',
       text: 'Some text.'
     };
+
+    it('errors if no slug is given', () => {
+      sandbox.spy(Post, 'findOneAndUpdate');
+      postHandler.createOrUpdatePost({body: {title: 'Hey', text: 'Sup.'}}, response)
+      expect(Post.findOneAndUpdate).not.to.have.been.called;
+      expect(response.status).to.have.been.calledWithExactly(400);
+      expect(response.send).to.have.been.calledWithExactly('You need to give a slug');
+    });
 
     it('updates the post if it already exists', function() {
       sandbox.stub(Post, 'findOneAndUpdate').returns({exec: function() {return promiseWithData;}});
