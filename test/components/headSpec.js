@@ -4,8 +4,8 @@ const React = require('react');
 const shallowRender = require('./shallowRender');
 const Head = require('../../src/components/head');
 
-describe('Head', function() {
-  it('includes extra page scripts if they are given', function() {
+describe('Head', () => {
+  it('includes extra page scripts if they are given', () => {
     const head = shallowRender(<Head pageScripts={['/1.js', '/2.js']}/>);
     const extraScripts = head.props.children[head.props.children.length - 1];
 

@@ -2,13 +2,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-function hash(string) {
-  return bcrypt.hashSync(string, 8);
-}
-
 const userSchema = new mongoose.Schema({
   username: {type: String, unique: true},
-  password: {type: String, set: hash}
+  password: {type: String, set: string => (bcrypt.hashSync(string, 8))}
 });
 
 const postSchema = new mongoose.Schema({

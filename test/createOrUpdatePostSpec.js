@@ -9,11 +9,11 @@ const Q = require('q');
 const createOrUpdatePost = require('../src/createOrUpdatePost');
 const Post = require('../src/models').Post;
 
-describe('createOrUpdatePost', function() {
+describe('createOrUpdatePost', () => {
   let sandbox;
   let response;
 
-  beforeEach(function() {
+  beforeEach(() => {
     sandbox = sinon.sandbox.create();
     response = {
       render: sandbox.spy(),
@@ -23,12 +23,12 @@ describe('createOrUpdatePost', function() {
     };
   });
 
-  afterEach(function() {
+  afterEach(() => {
     sandbox.restore();
   });
 
-  const promiseWithData = Q.fcall(function() {return 'data'});
-  const promiseWithoutData = Q.fcall(function() {});
+  const promiseWithData = Q.fcall(() => ('data'));
+  const promiseWithoutData = Q.fcall(() => {});
 
   const requestBody = {
     title: 'Some Title',
@@ -46,21 +46,21 @@ describe('createOrUpdatePost', function() {
     expect(response.send).to.have.been.calledWithExactly('You need to give a slug');
   });
 
-  it('updates the post if it already exists', function() {
-    sandbox.stub(Post, 'findOneAndUpdate').returns({exec: function() {return promiseWithData;}});
+  it('updates the post if it already exists', () => {
+    sandbox.stub(Post, 'findOneAndUpdate').returns({exec: () => (promiseWithData)});
 
-    return createOrUpdatePost({body: requestBody}, response).then(function() {
+    return createOrUpdatePost({body: requestBody}, response).then(() => {
       expect(Post.findOneAndUpdate).to.have.been.calledWithExactly({slug: 'some-slug'}, requestBody);
       expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
     });
   });
 
-  it('creates the post if it does not already exist', function() {
-    sandbox.stub(Post, 'findOneAndUpdate').returns({exec: function() {return promiseWithoutData;}});
+  it('creates the post if it does not already exist', () => {
+    sandbox.stub(Post, 'findOneAndUpdate').returns({exec: () => (promiseWithoutData)});
     sandbox.stub(Post, 'create').returns(promiseWithoutData);
     sandbox.useFakeTimers(42);
 
-    return createOrUpdatePost({body: requestBody}, response).then(function() {
+    return createOrUpdatePost({body: requestBody}, response).then(() => {
       expect(Post.create).to.have.been.calledWithExactly({
         title: 'Some Title',
         slug: 'some-slug',

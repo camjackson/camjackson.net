@@ -4,8 +4,8 @@ const React = require('react');
 const shallowRender = require('./shallowRender');
 const Page = require('../../src/components/page');
 
-describe('Page', function() {
-  it('renders the children with their props', function() {
+describe('Page', () => {
+  it('renders the children with their props', () => {
     const page = shallowRender(
       <Page>
         <div className="some-class"></div>

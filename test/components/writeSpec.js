@@ -4,8 +4,8 @@ const React = require('react');
 const shallowRender = require('./shallowRender');
 const Write = require('../../src/components/write');
 
-describe('Write', function() {
-  it('shows the form with default data', function() {
+describe('Write', () => {
+  it('shows the form with default data', () => {
     const post = { title: 'My Title', slug: '/post', text: 'Hello there!'};
     const write = shallowRender(<Write post={post}/>);
     const formGroups = write.props.children.props.children.props.children;

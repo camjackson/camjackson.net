@@ -6,7 +6,7 @@ const marked = require('marked');
 const highlightjs = require('highlight.js');
 
 marked.setOptions({
-  highlight: function(code) {
+  highlight: (code) => {
     return highlightjs.highlightAuto(code).value;
   }
 });

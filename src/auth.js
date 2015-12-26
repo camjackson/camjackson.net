@@ -6,12 +6,12 @@ const log = require('./logging').logger;
 const User = require('./models').User;
 
 passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({username: username}).exec().then(function(user) {
+  (username, password, done) => {
+    User.findOne({username: username}).exec().then((user) => {
       if (!user) {
         done(null, false, { message: 'Incorrect username or password.' });
       } else {
-        bcrypt.compare(password, user.password, function(err, result) {
+        bcrypt.compare(password, user.password, (err, result) => {
           if (err) {
             log.err('Error during bcrypt.compare: ' + err);
           }
@@ -24,24 +24,24 @@ passport.use(new LocalStrategy(
           }
         });
       }
-    }, function(err) {
+    }, (err) => {
       log.err('Error retrieving username from database: ' + err);
       done(err);
     });
   }
 ));
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done) => {
   done(null, user._id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findById(id).exec().then(function(user) {
+passport.deserializeUser((id, done) => {
+  User.findById(id).exec().then((user) => {
     if (!user) {
       log.warn('No user found when deserialising session with id: ' + id);
     }
     done(null, user);
-  }, function(err) {
+  }, (err) => {
     log.err('Error deserialising user: ' + err);
     done(err, null);
   });

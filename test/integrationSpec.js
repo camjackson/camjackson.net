@@ -10,35 +10,23 @@ const bcrypt = require('bcrypt');
 const models = require('../src/models');
 const User = models.User;
 const Post = models.Post;
-const App = require('../src/app');
+const app = require('../src/app');
 
-describe('Integration Test', function() {
-  before(function() {
-    process.env.SITE_TITLE = 'integration title';
-    process.env.SITE_HEADING = 'integration heading';
-    process.env.SITE_DOMAIN = 'integration.com';
-  });
-
-  after(function() {
-    process.env.SITE_TITLE = '';
-    process.env.SITE_HEADING = '';
-    process.env.SITE_DOMAIN = '';
-  });
-
+describe('Integration Test', () => {
   const first_body_text = '*emphasised*\r\n\r\n' +
     '[//]: # (fold)\r\n\r\n' +
     'behind a click';
 
-  beforeEach(function () {
+  beforeEach(() => {
     mongoose.connect('mongodb://localhost/camjackson-net-test');
-    return User.remove({}).exec().then(function() {
+    return User.remove({}).exec().then(() => {
       return User.create({
         username: 'test-user',
         password: 'test-password'
       });
-    }).then(function() {
+    }).then(() => {
       return Post.remove({}).exec();
-    }).then(function() {
+    }).then(() => {
       return Post.create([
         {
           title: 'Post title',
@@ -56,15 +44,13 @@ describe('Integration Test', function() {
     });
   });
 
-  afterEach(function (done) {
+  afterEach((done) => {
     mongoose.connection.close(done)
   });
 
-  const app = new App().app;
-  describe('GET /login', function() {
-    it('renders the login page successfully', function() {
-      const req = request(app).get('/login');
-      return req.then(function(res) {
+  describe('GET /login', () => {
+    it('renders the login page successfully', () => {
+      return request(app).get('/login').then((res) => {
         expect(res.statusCode).to.equal(200);
         expect(res.text).to.include('<title>Cam Jackson<\/title>');
         expect(res.text).to.include('name="password"');
@@ -73,21 +59,21 @@ describe('Integration Test', function() {
     });
   });
 
-  describe('POST /login', function() {
-    it('redirects to the write page when credentials are valid', function() {
+  describe('POST /login', () => {
+    it('redirects to the write page when credentials are valid', () => {
       const req = request(app).post('/login')
         .type('form')
         .send({
           username: 'test-user',
           password: 'test-password'
         });
-      return req.then(function(res) {
+      return req.then((res) => {
         expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
         expect(res.headers.location).to.equal('/write');
       })
     });
 
-    it('redirects to the login page when credentials are invalid', function() {
+    it('redirects to the login page when credentials are invalid', () => {
       const req = request(app)
         .post('/login')
         .type('form')
@@ -95,30 +81,26 @@ describe('Integration Test', function() {
           username: 'bad-user',
           password: 'bad-password'
         });
-      return req.then(function(res) {
+      return req.then((res) => {
         expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
         expect(res.headers.location).to.equal('/login');
       });
     });
   });
 
-  describe('POST /logout', function() {
-    it('redirects to the home page', function() {
-      const req = request(app)
-        .post('/logout')
-        .type('form')
-        .send({});
-      return req.then(function(res) {
+  describe('POST /logout', () => {
+    it('redirects to the home page', () => {
+      return request(app).get('/logout').then((res) => {
         expect(res.statusCode).to.equal(303);
         expect(res.headers.location).to.equal('/');
       });
     })
   });
 
-  describe('non-existent endpoint', function() {
-    it('gives a 404', function() {
+  describe('non-existent endpoint', () => {
+    it('gives a 404', () => {
       const req = request(app).get('/does-not-exist');
-      return req.then(null, function(err) {
+      return req.then(null, (err) => {
           expect(err.response.res.statusCode).to.equal(404);
       });
     });

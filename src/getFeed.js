@@ -6,7 +6,7 @@ const highlightjs = require('highlight.js');
 const Post = require('./models').Post;
 
 marked.setOptions({
-  highlight: function(code) {
+  highlight: (code) => {
     return highlightjs.highlightAuto(code).value;
   }
 });

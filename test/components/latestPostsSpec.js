@@ -4,8 +4,8 @@ const React = require('react');
 const shallowRender = require('./shallowRender');
 const LatestPosts = require('../../src/components/latestPosts');
 
-describe('LatestPosts', function() {
-  it('renders 2 posts', function() {
+describe('LatestPosts', () => {
+  it('renders 2 posts', () => {
     const posts = [{slug: 'post1'}, {slug: 'post2'}];
     const latestPosts = shallowRender(<LatestPosts posts={posts}/>);
     const postPreviews = latestPosts.props.children[1].props.children;

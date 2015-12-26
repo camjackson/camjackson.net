@@ -7,11 +7,11 @@ const expect = chai.expect;
 
 const auth = require('../src/auth');
 
-describe('auth', function() {
+describe('auth', () => {
   let sandbox;
   let response;
 
-  beforeEach(function() {
+  beforeEach(() => {
     sandbox = sinon.sandbox.create();
     response = {
       render: sandbox.spy(),
@@ -19,12 +19,12 @@ describe('auth', function() {
     }
   });
 
-  afterEach(function() {
+  afterEach(() => {
     sandbox.restore();
   });
 
-  describe('authorise', function() {
-    it('redirects to the login page if the user is not authenticated', function() {
+  describe('authorise', () => {
+    it('redirects to the login page if the user is not authenticated', () => {
       const reqWithoutAuth = { isAuthenticated: () => false };
       const next = sandbox.spy();
       auth.authorise(reqWithoutAuth, response, next);
@@ -32,7 +32,7 @@ describe('auth', function() {
       expect(next).not.to.have.been.called;
     });
 
-    it('calls next if the user is authenticated', function() {
+    it('calls next if the user is authenticated', () => {
       const reqWithAuth = {
         isAuthenticated: () => true,
         params: {}
@@ -43,8 +43,8 @@ describe('auth', function() {
     });
   });
 
-  describe('logOut', function () {
-    it('logs the user out and redirects to the home page', function () {
+  describe('logOut', () => {
+    it('logs the user out and redirects to the home page', () => {
       const reqWithLogout = { logout: sandbox.spy() };
       auth.logOut(reqWithLogout, response);
       expect(reqWithLogout.logout).to.have.been.calledOnce;

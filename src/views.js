@@ -41,7 +41,7 @@ exports.login = (event, context) => {
 };
 
 exports.write = (event, context) => {
-  Post.findOne({ slug: event.payload.slug }).exec().then(function(post) {
+  Post.findOne({ slug: event.payload.slug }).exec().then((post) => {
     context.succeed(ReactDOMServer.renderToStaticMarkup(<WriteComponent post={post || {}}/>))
   });
 };
