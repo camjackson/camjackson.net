@@ -84,7 +84,7 @@ function App() {
   this.app.get('/write', auth.authorise, wrap(views.write));
   this.app.put('/posts/', auth.authorise, createOrUpdatePost);
   this.app.post('/login', auth.authenticate);
-  this.app.post('/logout', auth.logOut);
+  this.app.get('/logout', auth.logOut);
 
   //For letsencrypt:
   this.app.get('/.well-known/acme-challenge/M5rHkTUg7nfVEF9K8J4bl8xsyXHInorJzY02ppGRCoQ', (req, res) => {
