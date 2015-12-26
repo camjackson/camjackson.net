@@ -10,10 +10,10 @@ const passport = require('passport');
 const helmet = require('helmet');
 
 const log = require('./logging').logger;
+const views = require('./views');
 const auth = require('./auth');
 const createOrUpdatePost = require('./createOrUpdatePost');
 const getFeed = require('./getFeed');
-const Post = require('./models').Post;
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || 'default secret', //TODO!
@@ -21,52 +21,6 @@ const sessionOptions = {
   resave: false,
   saveUninitialized: false
 };
-
-const React = require('react');
-const ReactDOMServer = require('react-dom/server');
-const IndexComponent = require('./components/index');
-const ArchiveComponent = require('./components/archive');
-const PostComponent = require('./components/post');
-const LoginComponent = require('./components/login');
-const WriteComponent = require('./components/write');
-
-function renderIndex(_, res) {
-  Post.find({}).sort({posted: 'descending'}).limit(2).exec().then((posts) => {
-    posts.forEach((post) => {
-      post.blurb = post.text.substr(0, post.text.indexOf('[//]: # (fold)'));
-    });
-    res.send(ReactDOMServer.renderToStaticMarkup(<IndexComponent posts={posts}/>));
-  });
-}
-
-function renderArchive(_, res) {
-  Post.find({}).sort({posted: 'descending'}).exec().then((posts) => {
-    posts.forEach((post) => {
-      post.blurb = post.text.substr(0, post.text.indexOf('[//]: # (fold)'));
-    });
-    res.send(ReactDOMServer.renderToStaticMarkup(<ArchiveComponent posts={posts}/>));
-  });
-}
-
-function renderPost(req, res) {
-  Post.findOne({slug: req.params.slug}).exec().then((post) => {
-    res.send(ReactDOMServer.renderToStaticMarkup(<PostComponent post={post}/>));
-  });
-}
-
-function renderLogin(req, res) {
-  if (req.isAuthenticated()) {
-    res.redirect(303, '/write')
-  } else {
-    res.send(ReactDOMServer.renderToStaticMarkup(<LoginComponent/>))
-  }
-}
-
-function renderWrite(req, res) {
-  Post.findOne({ slug: req.query.post }).exec().then(function(post) {
-    res.send(ReactDOMServer.renderToStaticMarkup(<WriteComponent post={post || {}}/>))
-  });
-}
 
 function bodyMethodOverrider (req) {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -108,12 +62,12 @@ function App() {
     reportUri: 'https://report-uri.io/report/camjackson'
   }));
 
-  this.app.get('/', renderIndex);
-  this.app.get('/archive/', renderArchive);
-  this.app.get('/post/:slug', renderPost);
+  this.app.get('/', views.index);
+  this.app.get('/archive/', views.archive);
+  this.app.get('/post/:slug', views.post);
   this.app.get('/atom.xml', getFeed);
-  this.app.get('/login', renderLogin);
-  this.app.get('/write', auth.authorise, renderWrite);
+  this.app.get('/login', views.login);
+  this.app.get('/write', auth.authorise, views.write);
   this.app.put('/posts/', auth.authorise, createOrUpdatePost);
   this.app.post('/login', auth.authenticate);
   this.app.post('/logout', auth.logOut);
@@ -155,4 +109,4 @@ App.prototype.stop = function(done) {
   log.info('App stopped')
 };
 
-exports.App = App;
+module.exports = App;

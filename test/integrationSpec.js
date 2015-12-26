@@ -10,7 +10,7 @@ const bcrypt = require('bcrypt');
 const models = require('../src/models');
 const User = models.User;
 const Post = models.Post;
-const App = require('../src/app').App;
+const App = require('../src/app');
 
 describe('Integration Test', function() {
   before(function() {

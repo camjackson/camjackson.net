@@ -8,5 +8,5 @@ process.env.SITE_SUB_HEADING = process.env.SITE_SUB_HEADING || 'sub-heading';
 process.env.SITE_DOMAIN = process.env.SITE_DOMAIN || 'example.com';
 process.env.GOOGLE_ANALYTICS_ID = process.env.GOOGLE_ANALYTICS_ID || '';
 
-const App = require('./src/app').App;
+const App = require('./src/app');
 new App().start();

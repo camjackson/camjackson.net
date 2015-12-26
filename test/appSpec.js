@@ -6,7 +6,7 @@ const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const expect = chai.expect;
 
-const App = require('../src/app').App;
+const App = require('../src/app');
 
 describe('App', function() {
   let sandbox;
