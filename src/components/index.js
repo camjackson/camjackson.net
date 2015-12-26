@@ -6,7 +6,7 @@ const Jumbo = require('./jumbo');
 const LatestPosts = require('./latestPosts');
 const SkillPanels = require('./skillPanels');
 
-module.exports = (props) => (
+const IndexComponent = (props) => (
   <Page>
     <Jumbo/>
     <LatestPosts posts={props.posts}/>
@@ -14,3 +14,9 @@ module.exports = (props) => (
     <SkillPanels/>
   </Page>
 );
+
+IndexComponent.propTypes = {
+  posts: React.PropTypes.arrayOf(React.PropTypes.object)
+};
+
+module.exports = IndexComponent;

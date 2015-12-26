@@ -3,7 +3,7 @@
 const React = require('react');
 const PostPreview = require('./postPreview');
 
-module.exports = (props) => (
+const LatestPostsComponent = (props) => (
   <section className="container latest-posts">
     <div className="row"><h1>Latest posts</h1></div>
     <div className="row">
@@ -11,3 +11,9 @@ module.exports = (props) => (
     </div>
   </section>
 );
+
+LatestPostsComponent.propTypes = {
+  posts: React.PropTypes.arrayOf(React.PropTypes.object)
+};
+
+module.exports = LatestPostsComponent;

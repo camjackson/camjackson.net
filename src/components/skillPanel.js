@@ -2,7 +2,7 @@
 
 const React = require('react');
 
-module.exports = (props) => (
+const SkillPanelComponent = (props) => (
   <div className="col-md-4 col-sm-6 skill-panel">
     <div className="panel panel-default">
       <div className="panel-heading text-center">
@@ -15,3 +15,13 @@ module.exports = (props) => (
     </div>
   </div>
 );
+
+SkillPanelComponent.propTypes = {
+  skill: React.PropTypes.shape({
+    title: React.PropTypes.string,
+    body: React.PropTypes.string,
+    tools: React.PropTypes.string
+  })
+};
+
+module.exports = SkillPanelComponent;

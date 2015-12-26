@@ -11,7 +11,7 @@ marked.setOptions({
   }
 });
 
-module.exports = (props) => (
+const PostPreviewComponent = (props) => (
   <article className="col-md-6">
     <h3><a href={`/post/${props.post.slug}`}>{props.post.title}</a></h3>
     <time pubdate className="pull-right"><em>{moment(props.post.posted).format('Do MMMM YYYY')}</em></time>
@@ -21,3 +21,14 @@ module.exports = (props) => (
     </div>
   </article>
 );
+
+PostPreviewComponent.propTypes = {
+  post: React.PropTypes.shape({
+    title: React.PropTypes.string,
+    slug: React.PropTypes.string,
+    blurb: React.PropTypes.string,
+    posted: React.PropTypes.objectOf(Date)
+  })
+};
+
+module.exports = PostPreviewComponent;

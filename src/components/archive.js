@@ -13,7 +13,7 @@ marked.setOptions({
 
 const Page = require('./page');
 
-module.exports = (props) => (
+const ArchiveComponent = (props) => (
   <Page>
     <div className="container latest-posts">
       <div className="row"><h1>Archive</h1></div>
@@ -31,3 +31,9 @@ module.exports = (props) => (
     </div>
   </Page>
 );
+
+ArchiveComponent.propTypes = {
+  posts: React.PropTypes.arrayOf(React.PropTypes.object)
+};
+
+module.exports = ArchiveComponent;

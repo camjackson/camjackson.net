@@ -13,7 +13,7 @@ marked.setOptions({
 
 const Page = require('./page');
 
-module.exports = (props) => (
+const PostComponent = (props) => (
   <Page>
     <article className="container post">
       <h1>{props.post.title}</h1>
@@ -23,3 +23,13 @@ module.exports = (props) => (
     </article>
   </Page>
 );
+
+PostComponent.propTypes = {
+  post: React.PropTypes.shape({
+    title: React.PropTypes.string,
+    text: React.PropTypes.string,
+    posted: React.PropTypes.objectOf(Date)
+  })
+};
+
+module.exports = PostComponent;
