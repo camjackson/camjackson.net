@@ -55,7 +55,7 @@ function AuthHandler(createResponder) {
 AuthHandler.prototype.authenticate = passport.authenticate(
   'local',
   {
-    successRedirect: '/settings',
+    successRedirect: '/write',
     failureRedirect: '/login',
     failureFlash: true
   }

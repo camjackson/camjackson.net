@@ -77,7 +77,7 @@ describe('Integration Test', function() {
     });
 
     describe('POST /login', function() {
-      it('redirects to the settings page when credentials are valid', function() {
+      it('redirects to the write page when credentials are valid', function() {
         const req = request(app).post('/login')
           .type('form')
           .send({
@@ -86,7 +86,7 @@ describe('Integration Test', function() {
           });
         return req.then(function(res) {
           expect(res.statusCode).to.equal(302); //TODO: This should be 303. Pending passport pull request #298
-          expect(res.headers.location).to.equal('/settings');
+          expect(res.headers.location).to.equal('/write');
         })
       });
 
@@ -138,41 +138,6 @@ describe('Integration Test', function() {
       next();
     });
     const app = new App({authHandler: authHandler}).app;
-
-    describe('GET /settings', function() {
-      it('renders the settings page correctly', function() {
-        const req = request(app).get('/settings');
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(200);
-          expect(res.text).to.include('<title>integration title<\/title>');
-          expect(res.text).to.include('Welcome, test-user!');
-          expect(res.text).to.include('name="confirmPassword"');
-          expect(res.text).to.include('<input type="submit"');
-        });
-      });
-    });
-
-    describe('PUT /user/:username', function() {
-      it('updates the given user', function() {
-        const req = request(app).post('/user/test-user')
-          .type('form')
-          .send({
-            _method: 'PUT',
-            username: 'new-username',
-            password: 'new-password',
-            confirmPassword: 'new-password'
-          });
-        return req.then(function(res) {
-          expect(res.statusCode).to.equal(303);
-          expect(res.headers.location).to.equal('/settings');
-          return User.find().exec();
-        }).then(function(users) {
-          expect(users).to.have.length(1);
-          expect(users[0].username).to.equal('new-username');
-          expect(bcrypt.compareSync('new-password', users[0].password)).to.be.true;
-        });
-      });
-    });
 
     describe('GET /write', function() {
       it('renders the post creation page successfully with no post parameter', function() {

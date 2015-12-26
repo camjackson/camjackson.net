@@ -13,8 +13,6 @@ const helmet = require('helmet');
 const log = require('./logging').logger;
 const helpers = require('./helpers');
 const AuthHandler = require('./handlers/authHandler').AuthHandler;
-const UserHandler = require('./handlers/userHandler').UserHandler;
-const SettingsHandler = require('./handlers/settingsHandler').SettingsHandler;
 const PostHandler = require('./handlers/postHandler').PostHandler;
 const FeedHandler = require('./handlers/feedHandler');
 const Post = require('./models').Post;
@@ -95,12 +93,6 @@ function App(handlers) {
   this.app.get('/login', authHandler.getLogin.bind(authHandler));
   this.app.post('/login', authHandler.authenticate.bind(authHandler));
   this.app.post('/logout', authHandler.logOut.bind(authHandler));
-
-  const userHandler = handlers.userHandler || new UserHandler();
-  this.app.put('/user/:username', authHandler.authorise, userHandler.updateUser.bind(userHandler));
-
-  const settingsHandler = handlers.settingsHandler || new SettingsHandler();
-  this.app.get('/settings', authHandler.authorise, settingsHandler.getSettings.bind(settingsHandler));
 
   const postHandler = handlers.postHandler || new PostHandler();
   this.app.get('/write', authHandler.authorise, postHandler.getWrite.bind(postHandler));
