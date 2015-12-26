@@ -140,3 +140,7 @@ pre {
   color: #BABABA;
   background-color: #2B2B2B;
 }
+
+#login-form {
+  margin-top: 50px;
+}

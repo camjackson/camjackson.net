@@ -26,27 +26,6 @@ describe('AuthHandler', function() {
     sandbox.restore();
   });
 
-  describe('getLogin', function() {
-    it('redirects to the home page if the user is already authenticated', function() {
-      const reqWithAuth = { isAuthenticated: function() {return true} };
-      new AuthHandler(createResponder).getLogin(reqWithAuth, response);
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/');
-    });
-
-    it('sends the login page with correct data when the user is not already authenticated', function() {
-      const reqWithFlashAndAuth = {
-        flash: function () {return ['some auth error']},
-        isAuthenticated: function() {return false}
-      };
-      new AuthHandler(createResponder).getLogin(reqWithFlashAndAuth, response);
-      expect(response.render).to.have.been.calledWith(
-        'pages/login.jade',
-        { config: 'config', errorMessage: 'some auth error' },
-        'a responder'
-      );
-    });
-  });
-
   describe('authorise', function() {
     it('redirects to the login page if the user is not authenticated', function() {
       const reqWithoutAuth = { isAuthenticated: function() {return false} };

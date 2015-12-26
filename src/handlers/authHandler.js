@@ -61,17 +61,6 @@ AuthHandler.prototype.authenticate = passport.authenticate(
   }
 );
 
-AuthHandler.prototype.getLogin = function(req, res) {
-  if (req.isAuthenticated()) {
-    res.redirect(303, '/')
-  } else {
-    res.render('pages/login.jade', {
-      config: helpers.getEnvConfig(),
-      errorMessage: req.flash('error')[0]
-    }, this.createResponder(res, 'Error while rendering home page'))
-  }
-};
-
 AuthHandler.prototype.authorise = function(req, res, next) {
   if (!req.isAuthenticated()) {
     res.redirect(303, '/login');

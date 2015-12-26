@@ -29,20 +29,6 @@ describe('App', function() {
     });
   }
 
-  describe('GET /login', function() {
-    it('returns the login page using the authHandler', function() {
-      sandbox.stub(authHandler, 'getLogin', function(req, res) {
-        res.status(200).send('This is the login page');
-      });
-
-      const req = request(new App({authHandler: authHandler}).app).get('/login');
-      return req.then(function(res) {
-        expect(res.statusCode).to.equal(200);
-        expect(res.text).to.equal('This is the login page');
-      });
-    });
-  });
-
   describe('POST /login', function() {
     it('authenticates using the authHandler', function() {
       sandbox.stub(authHandler, 'authenticate', function(req, res) {

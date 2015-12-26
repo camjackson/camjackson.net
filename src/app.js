@@ -29,6 +29,7 @@ const ReactDOMServer = require('react-dom/server');
 const IndexComponent = require('./components/index');
 const ArchiveComponent = require('./components/archive');
 const PostComponent = require('./components/post');
+const LoginComponent = require('./components/login');
 
 function renderIndex(_, res) {
   Post.find({}).sort({posted: 'descending'}).limit(2).exec().then((posts) => {
@@ -52,6 +53,14 @@ function renderPost(req, res) {
   Post.findOne({slug: req.params.slug}).exec().then((post) => {
     res.send(ReactDOMServer.renderToStaticMarkup(<PostComponent post={post}/>));
   });
+}
+
+function renderLogin(req, res) {
+  if (req.isAuthenticated()) {
+    res.redirect(303, '/write')
+  } else {
+    res.send(ReactDOMServer.renderToStaticMarkup(<LoginComponent/>))
+  }
 }
 
 function App(handlers) {
@@ -88,9 +97,9 @@ function App(handlers) {
   this.app.get('/', renderIndex);
   this.app.get('/archive/', renderArchive);
   this.app.get('/post/:slug', renderPost);
+  this.app.get('/login', renderLogin);
 
   const authHandler = handlers.authHandler || new AuthHandler();
-  this.app.get('/login', authHandler.getLogin.bind(authHandler));
   this.app.post('/login', authHandler.authenticate.bind(authHandler));
   this.app.post('/logout', authHandler.logOut.bind(authHandler));
 

@@ -69,7 +69,7 @@ describe('Integration Test', function() {
         const req = request(app).get('/login');
         return req.then(function(res) {
           expect(res.statusCode).to.equal(200);
-          expect(res.text).to.include('<title>integration title<\/title>');
+          expect(res.text).to.include('<title>Cam Jackson<\/title>');
           expect(res.text).to.include('name="password"');
           expect(res.text).to.include('<input type="submit"');
         });
