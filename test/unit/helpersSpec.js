@@ -113,21 +113,7 @@ describe('helpers', function() {
     it('renders a last resort error page with a failure status', function() {
       helpers.errorHandler(null, null, result);
       expect(result.status).to.have.been.calledWithExactly(500);
-      expect(result.render).to.have.been.calledWithExactly('pages/error.jade');
+      expect(result.send).to.have.been.calledWithExactly('Something went wrong :(');
     })
-  });
-
-  describe('createResponder', function() {
-    it('sends the supplied html with a success status when there are no errors', function() {
-      helpers.createResponder(result)(null, 'some html');
-      expect(result.status).to.have.been.calledWithExactly(200);
-      expect(result.send).to.have.been.calledWithExactly('some html');
-    });
-
-    it('renders the error page with a failure status when there are errors', function() {
-      helpers.createResponder(result)('some error', null);
-      expect(result.status).to.have.been.calledWithExactly(500);
-      expect(result.render).to.have.been.calledWithExactly('pages/error.jade');
-    });
   });
 });

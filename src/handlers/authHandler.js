@@ -48,16 +48,13 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
-function AuthHandler(createResponder) {
-  this.createResponder = createResponder || require('../helpers').createResponder;
-}
+function AuthHandler() {} //TODO
 
 AuthHandler.prototype.authenticate = passport.authenticate(
   'local',
   {
     successRedirect: '/write',
-    failureRedirect: '/login',
-    failureFlash: true
+    failureRedirect: '/login'
   }
 );
 

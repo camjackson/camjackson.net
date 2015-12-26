@@ -34,49 +34,6 @@ describe('PostHandler', function() {
     sandbox.restore();
   });
 
-  describe('getWrite', function() {
-    describe('with no post parameter', function() {
-      it('renders the write page with config', function() {
-        const promise_without_data = Q.fcall(function() {});
-        sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_without_data} });
-        return postHandler.getWrite({ query: {} }, response).then(function() {
-          expect(response.render).to.have.been.calledWithExactly(
-            'pages/write.jade',
-            { config: 'the config' },
-            'a responder'
-          );
-        });
-      });
-    });
-
-    describe('with a post parameter', function() {
-      it('renders the write page without a post when the post does not exist', function() {
-        const promise_without_data = Q.fcall(function() {});
-        sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_without_data} });
-        return postHandler.getWrite({ query: { post: 'does_not_exist' } }, response).then(function() {
-          expect(response.render).to.have.been.calledWithExactly(
-            'pages/write.jade',
-            { config: 'the config' },
-            'a responder'
-          );
-        });
-      });
-
-      it('renders the write page with the given post when the post does exist', function() {
-        const existing_post = { title: 'some title', slug: 'some slug', text: 'some text' };
-        const promise_with_data = Q.fcall(function() {return existing_post});
-        sandbox.stub(Post, 'findOne').returns({ exec: function() {return promise_with_data} });
-        return postHandler.getWrite({ query: { post: 'does_exist' } }, response).then(function() {
-          expect(response.render).to.have.been.calledWithExactly(
-            'pages/write.jade',
-            { config: 'the config', postTitle: 'some title', postSlug: 'some slug', postText: 'some text'  },
-            'a responder'
-          );
-        });
-      });
-    });
-  });
-
   describe('createOrUpdatePost', function() {
     const promiseWithData = Q.fcall(function() {return 'data'});
     const promiseWithoutData = Q.fcall(function() {});

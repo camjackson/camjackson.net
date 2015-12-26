@@ -13,22 +13,7 @@ marked.setOptions({
   }
 });
 
-function PostHandler(createResponder) {
-  this.createResponder = createResponder || require('../helpers').createResponder;
-}
-
-PostHandler.prototype.getWrite = function(req, res) {
-  const responder = this.createResponder(res, 'Error while rendering write page');
-  return Post.findOne({ slug: req.query.post }).exec().then(function(post) {
-    const renderArgs = { config: helpers.getEnvConfig() };
-    if (post) {
-      renderArgs.postTitle = post.title;
-      renderArgs.postSlug = post.slug;
-      renderArgs.postText = post.text;
-    }
-    res.render('pages/write.jade', renderArgs, responder);
-  });
-};
+function PostHandler() {} //TODO
 
 PostHandler.prototype.createOrUpdatePost = function(req, res) {
   if (!req.body.slug) {

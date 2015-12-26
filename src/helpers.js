@@ -61,18 +61,7 @@ function getEnvConfig() {
 
 function errorHandler(err, req, res, next) {
   log.error(err);
-  res.status(500).render('pages/error.jade');
-}
-
-function createResponder(res, errorMessage) {
-  return function (err, html) {
-    if (err) {
-      log.error(errorMessage + ' : ' + err);
-      res.status(500).render('pages/error.jade');
-    } else {
-      res.status(200).send(html);
-    }
-  };
+  res.status(500).send('Something went wrong :(');
 }
 
 exports.trimPost = trimPost;
@@ -81,4 +70,3 @@ exports.bodyMethodOverrider = bodyMethodOverrider;
 exports.addUserToResLocals = addUserToResLocals;
 exports.getEnvConfig = getEnvConfig;
 exports.errorHandler = errorHandler;
-exports.createResponder = createResponder;

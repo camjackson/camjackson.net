@@ -11,7 +11,6 @@ const helpers = require('../../../src/helpers');
 describe('AuthHandler', function() {
   let sandbox;
   let response;
-  const createResponder = function(){return 'a responder';};
 
   beforeEach(function() {
     sandbox = sinon.sandbox.create();

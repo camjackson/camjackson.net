@@ -7,7 +7,6 @@ const expressPromise = require('express-promise');
 const expressSession = require('express-session');
 const MongoStore = require('connect-mongo')(expressSession);
 const mongoose = require('mongoose');
-const flash = require('connect-flash');
 const passport = require('passport');
 const helmet = require('helmet');
 const log = require('./logging').logger;
@@ -79,7 +78,6 @@ function App(handlers) {
   this.app.use(express.static('public'));
   this.app.use(expressPromise());
   this.app.use(expressSession(sessionOptions));
-  this.app.use(flash());
   this.app.use(passport.initialize());
   this.app.use(passport.session());
   this.app.use(helpers.addUserToResLocals);
