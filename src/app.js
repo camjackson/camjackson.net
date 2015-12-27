@@ -16,7 +16,7 @@ const createOrUpdatePost = require('./createOrUpdatePost');
 const getFeed = require('./getFeed');
 
 const sessionOptions = {
-  secret: process.env.SESSION_SECRET || 'default secret', //TODO!
+  secret: process.env.SESSION_SECRET || 'default secret',
   store: new MongoStore({mongooseConnection: mongoose.connection}),
   resave: false,
   saveUninitialized: false
