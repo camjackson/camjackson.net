@@ -26,7 +26,7 @@ const HeadComponent = (props) => {
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/8.6/styles/darkula.min.css" type="text/css"/>
       <meta name="ie8_support_plz_ignore" dangerouslySetInnerHTML={{__html: ie8Support}}></meta>
-      <meta name="google-site-verification" content="Y7csxIhlyTdkwxG9k3e6mTyNWyMzFm1Gv5S6KCAlaSw"/>
+      <meta name="google-site-verification" content="beqVA6mdouBqt29xCCkTuf6R-1w6lIEhBz3YlmM1DSc" />
 
       <title>Cam Jackson</title>
       <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
