@@ -7,12 +7,4 @@ const userSchema = new mongoose.Schema({
   password: {type: String, set: string => (bcrypt.hashSync(string, 8))}
 });
 
-const postSchema = new mongoose.Schema({
-  title: String,
-  slug: {type: String, unique: true},
-  text: String,
-  posted: Date
-});
-
 exports.User = mongoose.model('User', userSchema);
-exports.Post = mongoose.model('Post', postSchema);

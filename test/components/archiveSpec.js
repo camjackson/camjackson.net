@@ -6,7 +6,7 @@ const Archive = require('../../src/components/archive');
 
 describe('Archive', () => {
   const posts = [
-    {title: 'My Post', posted: new Date('2016-03-06'), slug: 'my-post', blurb: '*This is a post*'}
+    {title: 'My Post', posted: '2016-03-06', slug: 'my-post', blurb: '*This is a post*'}
   ];
   const archiveComponent = shallowRender(<Archive posts={posts}/>);
   const firstPost = archiveComponent.props.children.props.children[1][0];

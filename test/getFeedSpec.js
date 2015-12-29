@@ -8,7 +8,7 @@ const Q = require('q');
 const moment = require('moment');
 
 const getFeed = require('../src/getFeed');
-const Post = require('../src/models').Post;
+const Posts = require('../src/db').Posts;
 
 describe('getFeed', () => {
   it('returns the proper feed', () => {
@@ -17,7 +17,7 @@ describe('getFeed', () => {
       {title: 'First Post', slug: 'first', text: 'The full content.', posted: new Date('2015-12-01')}
     ];
     const postsPromise = Q.fcall(() => (posts));
-    sinon.stub(Post, 'find').returns({sort: () => ({exec: () => (postsPromise)})});
+    sinon.stub(Posts, 'scan').returns(postsPromise);
 
     const response = {set: sinon.spy(), send: sinon.spy()};
 

@@ -24,7 +24,7 @@ const sessionOptions = {
 
 const wrap = lambda => (
   (req, res) => {
-    const payload = {
+    const event = {
       slug: req.params.slug || req.query.post,
       isAuthenticated: req.isAuthenticated()
     };
@@ -32,7 +32,7 @@ const wrap = lambda => (
       succeed: html => res.send(html),
       fail: (status, location) => (res.redirect(status, location))
     };
-    lambda({payload}, context);
+    lambda(event, context);
   }
 );
 

@@ -5,7 +5,7 @@ const shallowRender = require('./shallowRender');
 const Post = require('../../src/components/post');
 
 describe('Post', () => {
-  const post = {title: 'My Post', text: '*This is a post*', posted: new Date('2016-03-06')};
+  const post = {title: 'My Post', text: '*This is a post*', posted: '2016-03-06'};
   const postComponent = shallowRender(<Post post={post}/>);
   const container = postComponent.props.children;
 

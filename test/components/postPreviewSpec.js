@@ -5,7 +5,7 @@ const shallowRender = require('./shallowRender');
 const PostPreview = require('../../src/components/postPreview');
 
 describe('PostPreview', () => {
-  const post = {title: 'My Post', slug: 'my-post', blurb: '**This is a post**', posted: new Date('2015-06-02')};
+  const post = {title: 'My Post', slug: 'my-post', blurb: '**This is a post**', posted: '2015-06-02'};
   const postPreview = shallowRender(<PostPreview post={post}/>);
 
   it('renders the title as a link to the post', () => {

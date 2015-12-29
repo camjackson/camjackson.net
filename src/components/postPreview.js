@@ -27,7 +27,7 @@ PostPreviewComponent.propTypes = {
     title: React.PropTypes.string,
     slug: React.PropTypes.string,
     blurb: React.PropTypes.string,
-    posted: React.PropTypes.objectOf(Date)
+    posted: React.PropTypes.string
   })
 };
 

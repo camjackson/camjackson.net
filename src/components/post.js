@@ -28,7 +28,7 @@ PostComponent.propTypes = {
   post: React.PropTypes.shape({
     title: React.PropTypes.string,
     text: React.PropTypes.string,
-    posted: React.PropTypes.objectOf(Date)
+    posted: React.PropTypes.string
   })
 };
 

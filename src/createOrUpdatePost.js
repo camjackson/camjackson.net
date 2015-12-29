@@ -1,7 +1,8 @@
 'use strict';
 
+const moment = require('moment');
 const log = require('./logging').logger;
-const Post = require('./models').Post;
+const Posts = require('./db').Posts;
 
 module.exports = (req, res) => {
   if (!req.body.slug) {
@@ -9,20 +10,23 @@ module.exports = (req, res) => {
     res.send('You need to give a slug');
     return;
   }
-  return Post.findOneAndUpdate({slug: req.body.slug}, req.body).exec().then((post) => {
-    if (post) {
-      log.info('Updated existing post ' + req.body.slug);
-      res.redirect(303, '/post/' + req.body.slug);
+  return Posts.findAll(req.body.slug).then((post) => {
+    if (post.length > 0) {
+      log.info('Updating existing post:', req.body.slug);
+      return Posts.update(
+        { hash: post[0].slug, range: post[0].posted },
+        { title: req.body.title, text:req.body.text }
+      )
     } else {
-      return Post.create({
+      log.info('Inserting new post:', req.body.slug);
+      return Posts.insert({
         title: req.body.title,
         slug: req.body.slug,
         text: req.body.text,
-        posted: Date.now()
-      }).then(() => {
-        log.info('Created new post ' + req.body.slug);
-        res.redirect(303, '/post/' + req.body.slug);
+        posted: moment(Date.now()).format()
       });
     }
+  }).then(() => {
+    res.redirect(303, '/post/' + req.body.slug);
   });
 };

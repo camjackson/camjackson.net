@@ -1,22 +1,14 @@
 'use strict';
+const mongoose = require('mongoose');
 const request = require('supertest-as-promised');
 const sinon = require('sinon');
 const chai = require('chai');
 const expect = chai.expect;
-const mongoose = require('mongoose');
-mongoose.models = {};
-mongoose.modelSchemas = {};
-const bcrypt = require('bcrypt');
+const app = require('../src/app');
 const models = require('../src/models');
 const User = models.User;
-const Post = models.Post;
-const app = require('../src/app');
 
 describe('Integration Test', () => {
-  const first_body_text = '*emphasised*\r\n\r\n' +
-    '[//]: # (fold)\r\n\r\n' +
-    'behind a click';
-
   beforeEach(() => {
     mongoose.connect('mongodb://localhost/camjackson-net-test');
     return User.remove({}).exec().then(() => {
@@ -24,24 +16,7 @@ describe('Integration Test', () => {
         username: 'test-user',
         password: 'test-password'
       });
-    }).then(() => {
-      return Post.remove({}).exec();
-    }).then(() => {
-      return Post.create([
-        {
-          title: 'Post title',
-          slug: 'post-slug',
-          text: first_body_text,
-          posted: Date.now()
-        },
-        {
-          title: 'Second post',
-          slug: 'second-slug',
-          text: '**strong**',
-          posted: Date.now()
-        }
-      ]);
-    });
+    })
   });
 
   afterEach((done) => {

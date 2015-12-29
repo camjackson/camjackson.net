@@ -7,7 +7,7 @@ const expect = chai.expect;
 const Q = require('q');
 
 const createOrUpdatePost = require('../src/createOrUpdatePost');
-const Post = require('../src/models').Post;
+const Posts = require('../src/db').Posts;
 
 describe('createOrUpdatePost', () => {
   let sandbox;
@@ -27,47 +27,53 @@ describe('createOrUpdatePost', () => {
     sandbox.restore();
   });
 
-  const promiseWithData = Q.fcall(() => ('data'));
-  const promiseWithoutData = Q.fcall(() => {});
-
-  const requestBody = {
-    title: 'Some Title',
-    slug: 'some-slug',
-    text: 'Some text.'
+  const oldPost = {
+    slug: 'the-slug',
+    posted: '2015-03-05',
+    title: 'Old Title',
+    text: 'Old text.'
   };
+  const requestBody = {
+    title: 'New Title',
+    slug: 'the-slug',
+    text: 'New text.'
+  };
+  const promise = Q.fcall(() => {});
 
   it('errors if no slug is given', () => {
-    sandbox.spy(Post, 'findOneAndUpdate');
+    sandbox.spy(Posts, 'findAll');
 
     createOrUpdatePost({body: {title: 'Hey', text: 'Sup.'}}, response);
 
-    expect(Post.findOneAndUpdate).not.to.have.been.called;
+    expect(Posts.findAll).not.to.have.been.called;
     expect(response.status).to.have.been.calledWithExactly(400);
     expect(response.send).to.have.been.calledWithExactly('You need to give a slug');
   });
 
   it('updates the post if it already exists', () => {
-    sandbox.stub(Post, 'findOneAndUpdate').returns({exec: () => (promiseWithData)});
+    sandbox.stub(Posts, 'findAll').returns(Q.fcall(() => ([oldPost])));
+    sandbox.stub(Posts, 'update').returns(promise);
 
     return createOrUpdatePost({body: requestBody}, response).then(() => {
-      expect(Post.findOneAndUpdate).to.have.been.calledWithExactly({slug: 'some-slug'}, requestBody);
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
+      expect(Posts.update).to.have.been.calledWithExactly(
+        { hash: 'the-slug', range: '2015-03-05' }, { title: 'New Title', text: 'New text.' });
+      expect(response.redirect).to.have.been.calledWithExactly(303, '/post/the-slug');
     });
   });
 
   it('creates the post if it does not already exist', () => {
-    sandbox.stub(Post, 'findOneAndUpdate').returns({exec: () => (promiseWithoutData)});
-    sandbox.stub(Post, 'create').returns(promiseWithoutData);
-    sandbox.useFakeTimers(42);
+    sandbox.stub(Posts, 'findAll').returns(Q.fcall(() => ([])));
+    sandbox.stub(Posts, 'insert').returns(promise);
+    sandbox.useFakeTimers(1451337115429);
 
     return createOrUpdatePost({body: requestBody}, response).then(() => {
-      expect(Post.create).to.have.been.calledWithExactly({
-        title: 'Some Title',
-        slug: 'some-slug',
-        text: 'Some text.',
-        posted: 42
+      expect(Posts.insert).to.have.been.calledWithExactly({
+        slug: 'the-slug',
+        posted: '2015-12-29T08:11:55+11:00',
+        title: 'New Title',
+        text: 'New text.'
       });
-      expect(response.redirect).to.have.been.calledWithExactly(303, '/post/some-slug');
+      expect(response.redirect).to.have.been.calledWithExactly(303, '/post/the-slug');
     })
   });
 });

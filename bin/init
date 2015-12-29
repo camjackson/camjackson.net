@@ -1,0 +1,8 @@
+#!/usr/local/bin/node
+
+const dynasty = require('dynasty')({ accessKeyId: '.', secretAccessKey: '.' }, 'http://localhost:8000');
+
+dynasty.create('Posts', { key_schema: { hash: ['slug', 'string'], range: ['posted', 'string'] } }).then((res) => {
+  console.log('Created Posts table');
+  console.log(res);
+});

@@ -3,7 +3,7 @@ const xml = require('xml');
 const moment = require('moment');
 const marked = require('marked');
 const highlightjs = require('highlight.js');
-const Post = require('./models').Post;
+const Posts = require('./db').Posts;
 
 marked.setOptions({
   highlight: (code) => {
@@ -12,7 +12,8 @@ marked.setOptions({
 });
 
 module.exports = (_, res) => {
-  return Post.find({}).sort({posted: 'descending'}).exec().then((posts) => {
+  const attrsGet = ['slug', 'title', 'posted', 'text'];
+  return Posts.scan({attrsGet}).then((posts) => {
     const format = date => moment(date).format();
     const link = (rel, href) => ([
       { _attr: {rel: rel} },
