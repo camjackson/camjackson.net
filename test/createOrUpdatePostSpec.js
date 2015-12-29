@@ -4,6 +4,7 @@ const chai = require('chai');
 const sinonChai = require('sinon-chai');
 chai.use(sinonChai);
 const expect = chai.expect;
+const moment = require('moment');
 const Q = require('q');
 
 const createOrUpdatePost = require('../src/createOrUpdatePost');
@@ -65,11 +66,12 @@ describe('createOrUpdatePost', () => {
     sandbox.stub(Posts, 'findAll').returns(Q.fcall(() => ([])));
     sandbox.stub(Posts, 'insert').returns(promise);
     sandbox.useFakeTimers(1451337115429);
+    const formattedDate = moment(1451337115429).format();
 
     return createOrUpdatePost({body: requestBody}, response).then(() => {
       expect(Posts.insert).to.have.been.calledWithExactly({
         slug: 'the-slug',
-        posted: '2015-12-29T08:11:55+11:00',
+        posted: formattedDate,
         title: 'New Title',
         text: 'New text.'
       });
