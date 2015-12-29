@@ -26,11 +26,12 @@ const HeadComponent = (props) => {
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/8.6/styles/darkula.min.css" type="text/css"/>
       <meta name="ie8_support_plz_ignore" dangerouslySetInnerHTML={{__html: ie8Support}}></meta>
+      <meta name="google-site-verification" content="Y7csxIhlyTdkwxG9k3e6mTyNWyMzFm1Gv5S6KCAlaSw"/>
 
       <title>Cam Jackson</title>
       <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
       <link href="/style.css" rel="stylesheet"/>
-      <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed" />
+      <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed"/>
       <script type='text/javascript' src="/ga.js"></script>
       { pageScripts }
     </head>
