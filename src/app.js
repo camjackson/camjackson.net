@@ -22,6 +22,7 @@ const sessionOptions = {
   saveUninitialized: false
 };
 
+//Wraps an AWS lambda function for use with express.js
 const wrap = lambda => (
   (req, res) => {
     const event = {
