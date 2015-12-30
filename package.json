@@ -4,7 +4,7 @@
   "description": "Blogging with markdown",
   "repository": {
     "type": "git",
-    "url": "http://github.com/camjackson/camjackson.net.git"
+    "url": "https://github.com/camjackson/camjackson.net.git"
   },
   "author": "Cam Jackson",
   "license": "GPL-3.0",
