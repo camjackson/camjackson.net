@@ -79,10 +79,11 @@ app.get('/', wrap(views.index));
 app.get('/archive/', wrap(views.archive));
 app.get('/post/:slug', wrap(views.post));
 app.get('/atom.xml', getFeed);
-app.get('/login', wrap(views.login));
 app.get('/write', auth.authorise, wrap(views.write));
 app.put('/posts/', auth.authorise, createOrUpdatePost);
-app.post('/login', auth.authenticate);
+app.get('/login', auth.login);
+app.get('/oauth2callback', auth.authenticate);
+app.get('/loginFailure', wrap(views.loginFailure));
 app.get('/logout', auth.logOut);
 
 //For letsencrypt:

@@ -25,29 +25,33 @@ describe('auth', () => {
 
   describe('authorise', () => {
     it('redirects to the login page if the user is not authenticated', () => {
-      const reqWithoutAuth = { isAuthenticated: () => false };
+      const request = { isAuthenticated: () => false };
       const next = sandbox.spy();
-      auth.authorise(reqWithoutAuth, response, next);
+      auth.authorise(request, response, next);
       expect(response.redirect).to.have.been.calledWithExactly(303, '/login');
       expect(next).not.to.have.been.called;
     });
 
     it('calls next if the user is authenticated', () => {
-      const reqWithAuth = {
-        isAuthenticated: () => true,
-        params: {}
-      };
+      const request = { isAuthenticated: () => true };
       const next = sandbox.spy();
-      auth.authorise(reqWithAuth, null, next);
+      auth.authorise(request, null, next);
       expect(next).to.have.been.calledOnce;
     });
   });
 
   describe('logOut', () => {
-    it('logs the user out and redirects to the home page', () => {
-      const reqWithLogout = { logout: sandbox.spy() };
-      auth.logOut(reqWithLogout, response);
-      expect(reqWithLogout.logout).to.have.been.calledOnce;
+    it('logs the user out and redirects if the user is logged in', () => {
+      const request = { isAuthenticated: () => true, logout: sandbox.spy() };
+      auth.logOut(request, response);
+      expect(request.logout).to.have.been.calledOnce;
+      expect(response.redirect).to.have.been.calledWithExactly(303, '/');
+    });
+
+    it('just redirects if the user is not logged in', () => {
+      const request = { isAuthenticated: () => false, logout: sandbox.spy() };
+      auth.logOut(request, response);
+      expect(request.logout).not.to.have.been.called;
       expect(response.redirect).to.have.been.calledWithExactly(303, '/');
     });
   });

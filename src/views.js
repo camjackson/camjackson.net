@@ -6,8 +6,8 @@ const ReactDOMServer = require('react-dom/server');
 const IndexComponent = require('./components/index');
 const ArchiveComponent = require('./components/archive');
 const PostComponent = require('./components/post');
-const LoginComponent = require('./components/login');
 const WriteComponent = require('./components/write');
+const LoginFailureComponent = require('./components/loginFailure');
 
 const attrsGet = ['slug', 'title', 'posted', 'text'];
 exports.index = (_, context) => {
@@ -39,14 +39,6 @@ exports.post = (event, context) => {
   });
 };
 
-exports.login = (event, context) => {
-  if (event.isAuthenticated) {
-    context.fail(303, '/write');
-  } else {
-    context.succeed(ReactDOMServer.renderToStaticMarkup(<LoginComponent/>));
-  }
-};
-
 exports.write = (event, context) => {
   if (event.slug) {
     Posts.findAll(event.slug).then((posts) => {
@@ -55,4 +47,8 @@ exports.write = (event, context) => {
   } else {
     context.succeed(ReactDOMServer.renderToStaticMarkup(<WriteComponent post={{}}/>));
   }
+};
+
+exports.loginFailure = (event, context) => {
+  context.succeed(ReactDOMServer.renderToStaticMarkup(<LoginFailureComponent/>));
 };

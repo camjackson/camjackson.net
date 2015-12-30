@@ -1,53 +1,34 @@
 'use strict';
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const bcrypt = require('bcrypt');
+const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const log = require('./logging').logger;
-const User = require('./models').User;
 
-passport.use(new LocalStrategy(
-  (username, password, done) => {
-    User.findOne({username: username}).exec().then((user) => {
-      if (!user) {
-        done(null, false, { message: 'Incorrect username or password.' });
-      } else {
-        bcrypt.compare(password, user.password, (err, result) => {
-          if (err) {
-            log.err('Error during bcrypt.compare: ' + err);
-          }
-          if (result) {
-            log.info('User authenticated: ' + username);
-            done(null, user);
-          } else {
-            log.info('User authentication failed: ' + username);
-            done(null, false, { message: 'Incorrect username or password.' })
-          }
-        });
-      }
-    }, (err) => {
-      log.err('Error retrieving username from database: ' + err);
-      done(err);
-    });
+passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: "/oauth2callback"
+  },
+  (accessToken, refreshToken, profile, done) => {
+    if (profile.id === process.env.ALLOWED_GOOGLE_ID) {
+      log.info('Cam Jackson has been logged in, using profile ID:', profile.id);
+      return done(null, profile);
+    } else {
+      log.info('Unauthorised user attempting login:', profile.id);
+      return done(null, false, 'Only Cam Jackson is allowed.')
+    }
   }
 ));
 
 passport.serializeUser((user, done) => {
-  done(null, user._id);
+  done(null, user);
 });
 
-passport.deserializeUser((id, done) => {
-  User.findById(id).exec().then((user) => {
-    if (!user) {
-      log.warn('No user found when deserialising session with id: ' + id);
-    }
-    done(null, user);
-  }, (err) => {
-    log.err('Error deserialising user: ' + err);
-    done(err, null);
-  });
+passport.deserializeUser((user, done) => {
+  done(null, user);
 });
 
-exports.authenticate = passport.authenticate( 'local', { successRedirect: '/write', failureRedirect: '/login'});
+exports.login = passport.authenticate('google', { scope: 'openid profile' });
+exports.authenticate = passport.authenticate('google', { successRedirect: '/write', failureRedirect: '/loginFailure' });
 
 exports.authorise = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -58,6 +39,8 @@ exports.authorise = (req, res, next) => {
 };
 
 exports.logOut = (req, res) => {
-  req.logout();
+  if (req.isAuthenticated()) {
+    req.logout();
+  }
   res.redirect(303, '/');
 };
