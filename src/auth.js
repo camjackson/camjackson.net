@@ -4,8 +4,8 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const log = require('./logging').logger;
 
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    clientID: process.env.GOOGLE_CLIENT_ID || '-',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '-',
     callbackURL: "/oauth2callback"
   },
   (accessToken, refreshToken, profile, done) => {
