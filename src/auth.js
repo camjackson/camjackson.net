@@ -6,7 +6,7 @@ const log = require('./logging').logger;
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID || '-',
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || '-',
-    callbackURL: "/oauth2callback",
+    callbackURL: process.env.OAUTH2_CALLBACK || "/oauth2callback",
     proxy: true
   },
   (accessToken, refreshToken, profile, done) => {

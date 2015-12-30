@@ -86,13 +86,6 @@ app.get('/login', auth.login);
 app.get('/oauth2callback', auth.authenticate);
 app.get('/loginFailure', wrap(views.loginFailure));
 app.get('/logout', auth.logOut);
-app.get('/tmp', (req, res) => {
-  log.info('Connection encrypted:', req.connection.encrypted);
-  log.info('App trust proxy:', app.get('trust proxy'));
-  log.info('Protocol', req.headers['x-forwarded-proto']);
-  log.info('Weird split', req.headers['x-forwarded-proto'].toLowerCase().split(/\s*,\s*/));
-  res.send('Done');
-});
 
 //For letsencrypt:
 app.get('/.well-known/acme-challenge/M5rHkTUg7nfVEF9K8J4bl8xsyXHInorJzY02ppGRCoQ', (req, res) => {
