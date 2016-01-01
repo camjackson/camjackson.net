@@ -7,20 +7,22 @@ My personal website. Includes a landing page with bio/skills, and blogging with 
 ### Dependencies:
 
 1. node.js + npm
-2. mongodb
+2. DynamoDB
 
 ### Setup
 1. `npm install`
-2. Start `mongod` in a separate terminal.
-3. `bin/seed` (seeds localhost by default, override with env DB_CONNECTION_STRING)
+2. Start dynamodb in a separate terminal
+3. `npm run init` (creates tables in local DynamoDB)
+4. `npm run seed` (seeds local DynamoDB with some useful data)
 
 ### Tests:
 `npm test`
 
-### Run:
-`npm start`
+### Run with file watching:
+`npm run dev`
 
-Default login is admin/admin
+### Run in prod:
+`npm start`
 
 ### Setting up TLS
 

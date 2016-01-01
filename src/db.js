@@ -11,3 +11,4 @@ if (process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY) {
 }
 
 exports.Posts = db.table('Posts');
+exports.client = db.dynamo;

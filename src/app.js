@@ -4,12 +4,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const methodOverride = require('method-override');
 const expressSession = require('express-session');
-const MongoStore = require('connect-mongo')(expressSession);
-const mongoose = require('mongoose');
+const DynamoDBStore = require('connect-dynamodb')({session: expressSession});
 const passport = require('passport');
 const helmet = require('helmet');
 
 const log = require('./logging').logger;
+const db = require('./db');
 const views = require('./views');
 const auth = require('./auth');
 const createOrUpdatePost = require('./createOrUpdatePost');
@@ -17,9 +17,9 @@ const getFeed = require('./getFeed');
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || 'default secret',
-  store: new MongoStore({mongooseConnection: mongoose.connection}),
-  resave: false,
-  saveUninitialized: false
+  store: new DynamoDBStore({client: db.client, reapInterval: 604800000}),
+  resave: true,
+  saveUninitialized: true
 };
 
 //Wraps an AWS lambda function for use with express.js

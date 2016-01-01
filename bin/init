@@ -6,3 +6,8 @@ dynasty.create('Posts', { key_schema: { hash: ['slug', 'string'], range: ['poste
   console.log('Created Posts table');
   console.log(res);
 });
+
+dynasty.create('sessions', { key_schema: { hash: ['id', 'string'] } }).then((res) => {
+  console.log('Created sessions table');
+  console.log(res);
+});
