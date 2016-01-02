@@ -1,15 +1,10 @@
 'use strict';
 const bunyan = require('bunyan');
 
-if (process.env.LOGGING) {
-  exports.logger = bunyan.createLogger({name: 'camjackson.net'});
-} else {
-  exports.logger = {
-    trace: () => {},
-    debug: () => {},
-    info: () => {},
-    warn: () => {},
-    error: () => {},
-    fatal: () => {}
-  }
+const logger = bunyan.createLogger({name: 'camjackson.net'});
+
+if (process.env.NO_LOGGING) {
+  logger.level(bunyan.ERROR);
 }
+
+module.exports = logger;

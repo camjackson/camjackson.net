@@ -8,7 +8,7 @@ const DynamoDBStore = require('connect-dynamodb')({session: expressSession});
 const passport = require('passport');
 const helmet = require('helmet');
 
-const log = require('./logging').logger;
+const log = require('./logging');
 const db = require('./db');
 const views = require('./views');
 const auth = require('./auth');
@@ -111,4 +111,6 @@ redirects.forEach((redirect) => {
   app.get(redirect.from, (_, res) => { res.redirect(301, redirect.to)});
 });
 
-module.exports = app;
+const port = process.env.PORT ||  8080;
+app.listen(port);
+log.info(`App listening on port ${port}`);

@@ -1,7 +1,7 @@
 'use strict';
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const log = require('./logging').logger;
+const log = require('./logging');
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID || '-',

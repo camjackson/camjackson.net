@@ -1,7 +1,7 @@
 'use strict';
 
 const moment = require('moment');
-const log = require('./logging').logger;
+const log = require('./logging');
 const Posts = require('./db').Posts;
 
 module.exports = (req, res) => {
