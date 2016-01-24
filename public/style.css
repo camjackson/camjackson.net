@@ -105,18 +105,6 @@ a.anchor::before {
   height: 90%;
 }
 
-.latest-posts h1 {
-  margin-bottom: 20px;
-}
-
-.latest-posts h3 {
-  display: inline;
-}
-
-.latest-posts time {
-  margin-top: 6px;
-}
-
 .post h1 {
   display: inline-block;
   margin-bottom: 0;
@@ -128,14 +116,6 @@ a.anchor::before {
 
 h1 a, h1 a:hover, h1 a:focus, h3 a, h3 a:hover, h3 a:focus {
   color: black;
-}
-
-.post-preview {
-  padding-top: 10px;
-}
-
-.post-preview h3 {
-  font-size: 18px;
 }
 
 blockquote {

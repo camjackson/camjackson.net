@@ -14,8 +14,8 @@ marked.setOptions({
 const PostPreviewComponent = (props) => (
   <article className="col-md-6">
     <h3><a href={`/post/${props.post.slug}`}>{props.post.title}</a></h3>
-    <time pubdate className="pull-right"><em>{moment(props.post.posted).format('Do MMMM YYYY')}</em></time>
-    <div className="post-preview">
+    <time pubdate><em>{moment(props.post.posted).format('Do MMMM YYYY')}</em></time>
+    <div>
       <span dangerouslySetInnerHTML={{__html: marked(props.post.blurb)}}/>
       <a className="pull-right" href={`/post/${props.post.slug}`}>Read more...</a>
     </div>
