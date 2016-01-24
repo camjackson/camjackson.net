@@ -27,7 +27,7 @@ footer .navbar {
 a.anchor::before {
   content: '';
   position: relative;
-  top: -70px;
+  top: -55px;
 }
 
 .jumbotron img {
