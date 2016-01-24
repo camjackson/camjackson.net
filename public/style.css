@@ -24,6 +24,12 @@ footer .navbar {
   margin-top: -4px;
 }
 
+a.anchor::before {
+  content: '';
+  position: relative;
+  top: -70px;
+}
+
 .jumbotron img {
   border-radius: 100px;
 }
