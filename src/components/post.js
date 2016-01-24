@@ -14,7 +14,7 @@ marked.setOptions({
 const Page = require('./page');
 
 const PostComponent = (props) => (
-  <Page>
+  <Page title={props.post.title}>
     <article className="container post">
       <h1>{props.post.title}</h1>
       <time pubdate className="pull-right"><em>{moment(props.post.posted).format('Do MMMM YYYY')}</em></time>

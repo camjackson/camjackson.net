@@ -28,7 +28,7 @@ const HeadComponent = (props) => {
       <meta name="ie8_support_plz_ignore" dangerouslySetInnerHTML={{__html: ie8Support}}></meta>
       <meta name="google-site-verification" content="beqVA6mdouBqt29xCCkTuf6R-1w6lIEhBz3YlmM1DSc" />
 
-      <title>Cam Jackson</title>
+      <title>{ props.title ? `${props.title} - Cam Jackson` : 'Cam Jackson'}</title>
       <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
       <link href="/style.css" rel="stylesheet"/>
       <link href="/atom.xml" type="application/atom+xml" rel="alternate" title="Sitewide ATOM Feed"/>
@@ -39,6 +39,7 @@ const HeadComponent = (props) => {
 };
 
 HeadComponent.propTypes = {
+  title: React.PropTypes.string,
   pageScript: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 

@@ -7,7 +7,7 @@ const Footer = require('./footer');
 
 const PageComponent = (props) => (
   <html>
-    <Head pageScripts={props.pageScripts}/>
+    <Head title={props.title} pageScripts={props.pageScripts}/>
     <body>
       <div id="container">
         <NavBar/>
@@ -21,6 +21,7 @@ const PageComponent = (props) => (
 );
 
 PageComponent.propTypes = {
+  title: React.PropTypes.string,
   pageScripts: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
