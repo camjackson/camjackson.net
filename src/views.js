@@ -12,7 +12,7 @@ const LoginFailureComponent = require('./components/loginFailure');
 const attrsGet = ['slug', 'title', 'posted', 'text'];
 exports.index = (_, context) => {
   //TODO: Query + sort + limit, pending release of https://github.com/victorquinn/dynasty/pull/71
-  Posts.scan({attrsGet}).then((posts) => {
+  Posts.scan({attrsGet}).then(posts => {
     posts.sort((a, b) => a.posted < b.posted);
     posts = posts.slice(0, 2);
     posts.forEach((post) => {
@@ -24,7 +24,7 @@ exports.index = (_, context) => {
 
 exports.archive = (_, context) => {
   //TODO: Query + sort, pending release of https://github.com/victorquinn/dynasty/pull/71
-  Posts.scan({attrsGet}).then((posts) => {
+  Posts.scan({attrsGet}).then(posts => {
     posts.sort((a, b) => a.posted < b.posted);
     posts.forEach((post) => {
       post.blurb = post.text.substr(0, post.text.indexOf('[//]: # (fold)'));
@@ -34,14 +34,18 @@ exports.archive = (_, context) => {
 };
 
 exports.post = (event, context) => {
-  Posts.findAll(event.slug).then((posts) => {
-    context.succeed(ReactDOMServer.renderToStaticMarkup(<PostComponent post={posts[0]}/>));
+  Posts.findAll(event.slug).then(posts => {
+    if (posts.length < 1) {
+      context.fail(404, 'No such post :( Try the <a href="/archive">Archive</a>?');
+    } else {
+      context.succeed(ReactDOMServer.renderToStaticMarkup(<PostComponent post={posts[0]}/>));
+    }
   });
 };
 
 exports.write = (event, context) => {
   if (event.slug) {
-    Posts.findAll(event.slug).then((posts) => {
+    Posts.findAll(event.slug).then(posts => {
       context.succeed(ReactDOMServer.renderToStaticMarkup(<WriteComponent post={posts[0]}/>));
     });
   } else {

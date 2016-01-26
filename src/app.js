@@ -31,7 +31,7 @@ const wrap = lambda => (
     };
     const context = {
       succeed: html => res.send(html),
-      fail: (status, location) => (res.redirect(status, location))
+      fail: (status, text) => res.status(status).send(text)
     };
     lambda(event, context);
   }
