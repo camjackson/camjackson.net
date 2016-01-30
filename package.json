@@ -11,8 +11,10 @@
   "main": "server.js",
   "scripts": {
     "build": "./node_modules/.bin/babel src -d lib",
-    "dev": "nodemon --exec ./node_modules/.bin/babel-node -- src/app.js",
+    "dev": "LOCAL_DB=1 nodemon --exec ./node_modules/.bin/babel-node -- src/app.js",
+    "deploy": "npm run package && aws lambda update-function-code --function-name views-index --zip-file fileb://lambda.zip",
     "init": "scripts/init",
+    "package": "npm run build && rm lambda.zip; zip -dd -q -r lambda.zip node_modules lib/*",
     "prestart": "npm run build",
     "seed": "scripts/seed",
     "start": "node lib/app.js",

@@ -1,8 +1,7 @@
 const moment = require('moment');
-const Posts = require('./db').Posts;
-
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
+const Posts = require('./db').Posts;
 const IndexComponent = require('./components/index');
 const ArchiveComponent = require('./components/archive');
 const PostComponent = require('./components/post');
