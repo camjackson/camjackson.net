@@ -2,6 +2,9 @@
   "name": "camjackson.net",
   "version": "0.0.1",
   "description": "My personal website, including blogging with markdown",
+  "engines": {
+    "node": "0.12.10"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/camjackson/camjackson.net.git"
