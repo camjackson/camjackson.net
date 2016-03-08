@@ -88,13 +88,9 @@ app.get('/loginFailure', wrap(views.loginFailure));
 app.get('/logout', auth.logOut);
 
 //For letsencrypt:
-app.get('/.well-known/acme-challenge/M5rHkTUg7nfVEF9K8J4bl8xsyXHInorJzY02ppGRCoQ', (req, res) => {
+app.get('/.well-known/acme-challenge/FVYPG3dOjUJzdUqB-w7cAMqHnrKktQTF22fAp_zC4Dc', (req, res) => {
   res.type('text/plain');
-  res.send('M5rHkTUg7nfVEF9K8J4bl8xsyXHInorJzY02ppGRCoQ.8RYOGbfpg_HSBz35otVictQhkbvFgKlGr7OIBKFFAdI');
-});
-app.get('/.well-known/acme-challenge/R9oTAu1wreSm3kCy_GVz_BGBeIDtkWXRhqYHvBgPhk0', (req, res) => {
-  res.type('text/plain');
-  res.send('R9oTAu1wreSm3kCy_GVz_BGBeIDtkWXRhqYHvBgPhk0.8RYOGbfpg_HSBz35otVictQhkbvFgKlGr7OIBKFFAdI');
+  res.send('FVYPG3dOjUJzdUqB-w7cAMqHnrKktQTF22fAp_zC4Dc.8RYOGbfpg_HSBz35otVictQhkbvFgKlGr7OIBKFFAdI');
 });
 
 //Redirects for annoying 404s:
