@@ -21,7 +21,7 @@
     "prestart": "npm run build",
     "seed": "scripts/seed",
     "start": "node lib/app.js",
-    "test": "NO_LOGGING=1 ./node_modules/.bin/mocha --compilers js:babel-core/register --reporter min --watch --recursive test",
+    "test": "NO_LOGGING=1 ./node_modules/.bin/mocha --require babel-core/register --reporter min --watch --recursive test",
     "test-single": "NO_LOGGING=1 ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive test"
   },
   "babel": {
