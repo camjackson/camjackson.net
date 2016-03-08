@@ -22,7 +22,7 @@
     "seed": "scripts/seed",
     "start": "node lib/app.js",
     "test": "NO_LOGGING=1 ./node_modules/.bin/mocha --require babel-core/register --reporter min --watch --recursive test",
-    "test-single": "NO_LOGGING=1 ./node_modules/.bin/mocha --compilers js:babel-core/register --recursive test"
+    "test-single": "NO_LOGGING=1 ./node_modules/.bin/mocha --require babel-core/register --recursive test"
   },
   "babel": {
     "presets": [
@@ -58,6 +58,7 @@
     "xml": "^1.0.0"
   },
   "devDependencies": {
+    "babel-core": "^6.6.5",
     "chai": "^3.4.0",
     "mocha": "^2.3.3",
     "nodemon": "^1.8.1",
