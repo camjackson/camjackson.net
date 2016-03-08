@@ -92,6 +92,10 @@ app.get('/.well-known/acme-challenge/FVYPG3dOjUJzdUqB-w7cAMqHnrKktQTF22fAp_zC4Dc
   res.type('text/plain');
   res.send('FVYPG3dOjUJzdUqB-w7cAMqHnrKktQTF22fAp_zC4Dc.8RYOGbfpg_HSBz35otVictQhkbvFgKlGr7OIBKFFAdI');
 });
+app.get('/.well-known/acme-challenge/eL5EeROUs1yH6E821RnoFnBV1GkMpWKEX4EXbOBW8gY', (req, res) => {
+  res.type('text/plain');
+  res.send('eL5EeROUs1yH6E821RnoFnBV1GkMpWKEX4EXbOBW8gY.8RYOGbfpg_HSBz35otVictQhkbvFgKlGr7OIBKFFAdI');
+});
 
 //Redirects for annoying 404s:
 const redirects = [
