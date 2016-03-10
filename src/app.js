@@ -69,7 +69,7 @@ app.use(helmet.csp({
   defaultSrc: ["'self'"],
   scriptSrc: ["'self'", 'https://oss.maxcdn.com', 'https://www.google-analytics.com'],
   styleSrc: ["'self'", 'https://maxcdn.bootstrapcdn.com', 'https://cdn.jsdelivr.net'],
-  imgSrc: ["'self'", 'https://www.google-analytics.com'],
+  imgSrc: ["'self'", 'https://www.google-analytics.com', 'https://stats.g.doubleclick.net'],
   fontSrc: ['https://maxcdn.bootstrapcdn.com'],
   formAction: ["'self'"],
   frameAncestors: ["'none'"],

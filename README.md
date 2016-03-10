@@ -43,14 +43,14 @@ cd letsencrypt
 
 3. Copy the specified route and data into the app
 
-4. Upload the certs to AWS IAM:
+4. Upload the certs to AWS IAM (don't forget to give a unique date!'):
 
 ```sh
 sudo su
 source ~cjacks/bin/load_aws_personal.sh
 aws iam upload-server-certificate \
   --path /cloudfront/camjackson.net/ \
-  --server-certificate-name camjackson.net \
+  --server-certificate-name camjackson.net-YYYY-MM-DD \
   --certificate-body file:///etc/letsencrypt/live/camjackson.net/cert.pem \
   --private-key file:///etc/letsencrypt/live/camjackson.net/privkey.pem \
   --certificate-chain file:///etc/letsencrypt/live/camjackson.net/chain.pem
@@ -60,4 +60,4 @@ exit
 5. Note down the expiration date!
 
 6. Log in to the web console and configure the cloudfront distribution manually.
-Ideally this would be automated, but for now it's in the too-hard basket.
+Ideally this would be automated, but the cloudfront CLI is still in preview :(
