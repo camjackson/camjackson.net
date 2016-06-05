@@ -36,9 +36,8 @@ cd letsencrypt
 
 2. Request a cert for manual installation (don't forget to fix the email address!):
 ```sh
-./letsencrypt-auto certonly --manual --email <me@me.com> --agree-tos --debug \
-  -d camjackson.net \
-  -d www.camjackson.net
+#--no-self-upgrade needed temporarily because of https://github.com/certbot/certbot/pull/3118
+./certbot-auto certonly --manual --email me@gmail.com --agree-tos --debug -d camjackson.net -d www.camjackson.net --no-self-upgrade
 ```
 
 3. Copy the specified route and data into the app
