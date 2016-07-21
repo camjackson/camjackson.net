@@ -9,7 +9,7 @@ module.exports = () => (
       <a className="navbar-brand" href="/archive">Archive</a>
       <a className="navbar-brand navbar-right" href="/atom.xml"><i className="fa fa-2x fa-rss"/></a>
       <a className="navbar-brand navbar-right" href="https://github.com/camjackson"><i className="fa fa-2x fa-github"/></a>
-      <a className="navbar-brand navbar-right" href="https://twitter.com/camjackson89"><i className="fa fa-2x fa-twitter"/></a>
+      <a className="navbar-brand navbar-right" href="https://twitter.com/thecamjackson"><i className="fa fa-2x fa-twitter"/></a>
       <a className="navbar-brand navbar-right" href="https://linkedin.com/in/camjackson"><i className="fa fa-2x fa-linkedin"/></a>
     </div>
   </nav>
