@@ -88,7 +88,7 @@ app.get('/loginFailure', wrap(views.loginFailure));
 app.get('/logout', auth.logOut);
 
 //For letsencrypt:
-app.get('/.well-known/acme-challenge/jHyLoaIrFGlK3SA36gsHNw5Chawno7hQ9YRbzK3CLCw', (req, res) => {
+app.get('.well-known/acme-challenge/jHyLoaIrFGlK3SA36gsHNw5Chawno7hQ9YRbzK3CLCw', (req, res) => {
   res.type('text/plain');
   res.send('jHyLoaIrFGlK3SA36gsHNw5Chawno7hQ9YRbzK3CLCw.8RYOGbfpg_HSBz35otVictQhkbvFgKlGr7OIBKFFAdI');
 });
