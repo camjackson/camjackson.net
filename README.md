@@ -34,10 +34,16 @@ cd letsencrypt
 ./letsencrypt-auto --help --debug
 ```
 
-2. Request a cert for manual installation (don't forget to fix the email address!):
+2a. Request a cert for manual installation (don't forget to fix the email address!):
 ```sh
 #--no-self-upgrade needed temporarily because of https://github.com/certbot/certbot/pull/3118
 ./certbot-auto certonly --manual --email me@gmail.com --agree-tos --debug -d camjackson.net -d www.camjackson.net --no-self-upgrade
+```
+OR
+
+2b. Renew existing certs:
+```sh
+./certbot-auto certonly --debug --force-renew -a manual -d www.camjackson.net -d camjackson.net
 ```
 
 3. Copy the specified route and data into the app
@@ -46,13 +52,12 @@ cd letsencrypt
 
 ```sh
 sudo su
-source ~cjacks/bin/load_aws_personal.sh
 aws iam upload-server-certificate \
   --path /cloudfront/camjackson.net/ \
   --server-certificate-name camjackson.net-YYYY-MM-DD \
-  --certificate-body file:///etc/letsencrypt/live/camjackson.net/cert.pem \
-  --private-key file:///etc/letsencrypt/live/camjackson.net/privkey.pem \
-  --certificate-chain file:///etc/letsencrypt/live/camjackson.net/chain.pem
+  --certificate-body file:///etc/letsencrypt/live/camjackson.net-0001/cert.pem \
+  --private-key file:///etc/letsencrypt/live/camjackson.net-0001/privkey.pem \
+  --certificate-chain file:///etc/letsencrypt/live/camjackson.net-0001/chain.pem
 exit
 ```
 
