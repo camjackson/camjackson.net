@@ -26,12 +26,12 @@ My personal website. Includes a landing page with bio/skills, and blogging with 
 
 ### Setting up TLS
 
-1. Install letsencrypt:
+1. Install certbot:
 ```sh
 cd ~/code
-git clone git@github.com:letsencrypt/letsencrypt
-cd letsencrypt
-./letsencrypt-auto --help --debug
+git clone git@github.com:certbot/certbot.git
+cd certbot
+./certbot-auto --help --debug
 ```
 
 2a. Request a cert for manual installation (don't forget to fix the email address!):
