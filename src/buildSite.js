@@ -7,12 +7,17 @@ const posts = require('./posts');
 const IndexComponent = require('./components/index');
 const ArchiveComponent = require('./components/archive');
 const PostComponent = require('./components/post');
+const atomFeed = require('./atomFeed');
 
 const out = 'target';
 
+const write = (file, string) => {
+  console.log(`Writing ${file}...`);
+  fs.writeFileSync(`${out}/${file}`, string);
+}
+
 const render = (file, component) => {
-  console.log(`Rendering ${file}...`)
-  fs.writeFileSync(`${out}/${file}`, ReactDOMServer.renderToStaticMarkup(component))
+  write(file, ReactDOMServer.renderToStaticMarkup(component))
 };
 
 console.log('Creating output directories...')
@@ -25,3 +30,4 @@ render('archive.html', <ArchiveComponent posts={posts}/>);
 posts.forEach(post => (
   render(`post/${post.slug}.html`, <PostComponent post={post}/>)
 ));
+write('atom.xml', atomFeed.renderFeedXml(posts));
