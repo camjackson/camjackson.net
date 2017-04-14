@@ -2,11 +2,6 @@
 
 const React = require('react');
 
-const ie8Support = '<!--[if lt IE 9]>' +
-  '<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>' +
-  '<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>' +
-  '<![endif]-->';
-
 const HeadComponent = (props) => {
   let pageScripts;
   if (props.pageScripts) {
@@ -25,7 +20,6 @@ const HeadComponent = (props) => {
             crossOrigin="anonymous"/>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/>
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/8.6/styles/darkula.min.css" type="text/css"/>
-      <meta name="ie8_support_plz_ignore" dangerouslySetInnerHTML={{__html: ie8Support}}></meta>
       <meta name="google-site-verification" content="beqVA6mdouBqt29xCCkTuf6R-1w6lIEhBz3YlmM1DSc" />
 
       <title>{ props.title ? `${props.title} - Cam Jackson` : 'Cam Jackson'}</title>
