@@ -7,7 +7,7 @@ const expect = chai.expect;
 const Q = require('q');
 const moment = require('moment');
 
-const getFeed = require('../src/getFeed');
+const atomFeed = require('../src/atomFeed');
 const Posts = require('../src/db').Posts;
 
 describe('getFeed', () => {
@@ -21,7 +21,7 @@ describe('getFeed', () => {
 
     const response = {set: sinon.spy(), send: sinon.spy()};
 
-    return getFeed(null, response).then(() => {
+    return atomFeed.getFeed(null, response).then(() => {
       expect(response.send).to.have.been.called;
       const feed = response.send.args[0][0];
       expect(feed).to.contain('<title>camjackson.net</title>');

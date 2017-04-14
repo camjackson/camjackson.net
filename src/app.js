@@ -13,7 +13,7 @@ const db = require('./db');
 const views = require('./views');
 const auth = require('./auth');
 const createOrUpdatePost = require('./createOrUpdatePost');
-const getFeed = require('./getFeed');
+const atomFeed = require('./atomFeed');
 
 const sessionOptions = {
   secret: process.env.SESSION_SECRET || 'default secret',
@@ -79,7 +79,7 @@ app.use(helmet.csp({
 app.get('/', wrap(views.index));
 app.get('/archive/', wrap(views.archive));
 app.get('/post/:slug', wrap(views.post));
-app.get('/atom.xml', getFeed);
+app.get('/atom.xml', atomFeed.getFeed);
 app.get('/write', auth.authorise, wrap(views.write));
 app.put('/posts/', auth.authorise, createOrUpdatePost);
 app.get('/login', auth.login);

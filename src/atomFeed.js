@@ -65,7 +65,7 @@ const addBlurbs = posts => (
   }))
 );
 
-module.exports = (_, res) => {
+const getFeed = (_, res) => {
   const attrsGet = ['slug', 'title', 'posted', 'text'];
   return Posts.scan({attrsGet})
     .then(addBlurbs)
@@ -75,3 +75,8 @@ module.exports = (_, res) => {
       res.send(feed);
     });
 };
+
+module.exports = {
+  renderFeedXml,
+  getFeed,
+}
