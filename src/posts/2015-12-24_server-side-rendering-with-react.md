@@ -2,10 +2,12 @@ Over the last 6 months I've been using [React](https://facebook.github.io/react/
 I've fallen in love with it. Of course, a big part of what makes React great is the magic it does in the browser with
 its Virtual DOM, but even for simple static pages it has some properties that make it ideal for server-side rendering:
 
+[//]: # (fold)
+
 1. **Familiar syntax:** Compared with templating languages like [Jade](http://jade-lang.com/) or
 [Handlebars](http://handlebarsjs.com/), there's almost no new syntax or API to learn (assuming you use
 [JSX](https://facebook.github.io/jsx/), which you absolutely should!). It's just HTML and Javascript with some minor
-differences. [//]: # (fold)
+differences.
 2. **Easy component composition:** HTML by nature is about putting bits together to build something larger, and React
 extends that by encouraging you to build small components that can be pieced together, and often reused on multiple
 pages.
