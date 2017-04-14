@@ -29,6 +29,9 @@
     "presets": [
       "es2015",
       "react"
+    ],
+    "plugins": [
+      "transform-object-rest-spread"
     ]
   },
   "dependencies": {
@@ -60,6 +63,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.6.5",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "chai": "^3.4.0",
     "mkdirp": "^0.5.1",
     "mocha": "^2.3.3",

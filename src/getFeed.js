@@ -51,16 +51,24 @@ const renderFeedXml = posts => {
         { author: me },
         { content: renderMarkdown(post.text) },
         { link: link('alternate', uri)},
-        { summary: renderMarkdown(post.text.substr(0, post.text.indexOf('[//]: # (fold)'))) }
+        { summary: renderMarkdown(post.blurb) }
       ]
     });
   });
   return xml({feed}, {indent: true, declaration: true});
 }
 
+const addBlurbs = posts => (
+  posts.map(post => ({
+    ...post,
+    blurb: post.text.substr(0, post.text.indexOf('[//]: # (fold)'))
+  }))
+);
+
 module.exports = (_, res) => {
   const attrsGet = ['slug', 'title', 'posted', 'text'];
   return Posts.scan({attrsGet})
+    .then(addBlurbs)
     .then(renderFeedXml)
     .then(feed => {
       res.set('Content-Type', 'application/atom+xml');
