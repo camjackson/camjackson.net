@@ -25,9 +25,9 @@ mkdirp(out);
 mkdirp(`${out}/post`);
 
 const firstTwoPosts = posts.slice(0, 2);
-render('index.html', <IndexComponent posts={firstTwoPosts}/>);
-render('archive.html', <ArchiveComponent posts={posts}/>);
+render('index', <IndexComponent posts={firstTwoPosts}/>);
+render('archive', <ArchiveComponent posts={posts}/>);
 posts.forEach(post => (
-  render(`post/${post.slug}.html`, <PostComponent post={post}/>)
+  render(`post/${post.slug}`, <PostComponent post={post}/>)
 ));
 write('atom.xml', atomFeed.renderFeedXml(posts));
