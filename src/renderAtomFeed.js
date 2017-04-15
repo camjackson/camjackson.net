@@ -3,7 +3,6 @@ const xml = require('xml');
 const moment = require('moment');
 const marked = require('marked');
 const highlightjs = require('highlight.js');
-const Posts = require('./db').Posts;
 
 marked.setOptions({
   highlight: (code) => {
@@ -11,7 +10,7 @@ marked.setOptions({
   }
 });
 
-const renderFeedXml = posts => {
+module.exports = posts => {
   const formatDate = date => moment(date).format();
   const link = (rel, href) => ([
     { _attr: {rel: rel} },
@@ -64,19 +63,3 @@ const addBlurbs = posts => (
     blurb: post.text.substr(0, post.text.indexOf('[//]: # (fold)'))
   }))
 );
-
-const getFeed = (_, res) => {
-  const attrsGet = ['slug', 'title', 'posted', 'text'];
-  return Posts.scan({attrsGet})
-    .then(addBlurbs)
-    .then(renderFeedXml)
-    .then(feed => {
-      res.set('Content-Type', 'application/atom+xml');
-      res.send(feed);
-    });
-};
-
-module.exports = {
-  renderFeedXml,
-  getFeed,
-}

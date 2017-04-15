@@ -7,7 +7,7 @@ const posts = require('./posts');
 const IndexComponent = require('./components/index');
 const ArchiveComponent = require('./components/archive');
 const PostComponent = require('./components/post');
-const atomFeed = require('./atomFeed');
+const renderAtomFeed = require('./renderAtomFeed');
 
 const out = 'target';
 
@@ -30,4 +30,7 @@ render('archive', <ArchiveComponent posts={posts}/>);
 posts.forEach(post => (
   render(`post/${post.slug}`, <PostComponent post={post}/>)
 ));
-write('atom.xml', atomFeed.renderFeedXml(posts));
+write('atom.xml', renderAtomFeed(posts));
+
+// TODO: Headers: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/example-functions.html
+// TODO: Error page

@@ -7,7 +7,7 @@ const Footer = require('./footer');
 
 const PageComponent = (props) => (
   <html>
-    <Head title={props.title} pageScripts={props.pageScripts}/>
+    <Head title={props.title}/>
     <body>
       <div id="container">
         <NavBar/>
@@ -22,7 +22,6 @@ const PageComponent = (props) => (
 
 PageComponent.propTypes = {
   title: React.PropTypes.string,
-  pageScripts: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 module.exports = PageComponent;
