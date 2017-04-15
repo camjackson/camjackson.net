@@ -32,7 +32,7 @@ fn my_local_function(arg: u8) -> bool{
 Given a pre-defined a function that does some arbitrary calculation, passing it into our first function above is trivial. You can see the complete example in the Rust playground [here](https://play.rust-lang.org/?gist=301cbe27d4b99bba5f8f&version=stable), and even run it in your browser!
 
 
-##Closures are not functions
+## Closures are not functions
 Passing a function into a function is great, but what if we need to pass in a closure instead, one which captures (closes over) its environment?
 
 ```rust
@@ -58,7 +58,7 @@ fn call_function<F>(function: F) -> bool
 
 With that type signature, and our previous attempt at `main` (where we passed in the closure), [it works](https://play.rust-lang.org/?gist=31d8b21a8689cf4eeeb4&version=stable)! If the above code doesn't make sense, read more about [generics](http://doc.rust-lang.org/1.0.0-beta/book/generics.html) and [static dispatch](http://doc.rust-lang.org/1.0.0-beta/book/static-and-dynamic-dispatch.html#static-dispatch) in Rust.
 
-##How about a method from a trait?
+## How about a method from a trait?
 For my particular use case, it wasn't enough to be able to pass a closure into a function. I want to be able to pass a closure into a method, where the object that I'm passing it to just has a trait type. I.e., I don't know what the concrete type is.
 
 Lets take the generic function signature we just created, and make it part of a trait (with an additional `&self` parameter):
@@ -109,7 +109,7 @@ fn main() {
 
 I don't fully understand object safety yet ([this](https://huonw.github.io/blog/2015/01/object-safety/) is on my reading list), but I think the basic problem here is that you can't put a generic method in a trait. Which makes some intuitive sense, I didn't really expect it to work as I was trying it.
 
-##Boxed closures to the rescue!
+## Boxed closures to the rescue!
 While the above compilation error makes sense, it didn't lead me to a solution. If you did try to run that last example though, you might have noticed a second compilation error:
 
 `error: the trait FunctionCaller is not implemented for the type FunctionCaller [E0277]`
