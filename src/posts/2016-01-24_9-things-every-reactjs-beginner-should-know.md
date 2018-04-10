@@ -11,6 +11,30 @@ then you might want to read the official [Getting started](https://facebook.gith
 [Tutorial](https://facebook.github.io/react/docs/tutorial.html) pages. I'm also going to use [JSX](https://facebook.github.io/jsx/),
 because it's a much more succinct and expressive syntax for writing components.
 
+#### *Update, April 2018:*
+It's been more than two years since I originally published this blog post. That of course a very long time in software
+development, and an even longer time in JavaScript. I still agree with a lot of what's written on this page, but
+definitely not all of it. Partly because the landscape itself has changed in the last couple of years, and partly
+because I've just changed my mind as I've learned more. I plan to publish a more comprehensive follow-up to this
+article, but in the short-term I'd like to issue a couple of corrections.
+
+Firstly, my blanket recommendation of Redux in point #5 is far too heavy-handed. Redux is a great library
+which solves genuine problems with state management in complex React applications, but it's important that you only use
+it if you actually *have* those problems. If you can't articulate why Redux is a good idea for your app, then you should
+put off using it, otherwise you risk making your application *more* complex rather than less. In addition, if you're a
+React beginner, trying to learn both React and Redux at the same time is just too hard. You should learn how to manage
+state properly with React first, and then learn Redux once you actually need it.
+
+Secondly, while I still agree with the general approach to testing that I outlined in point #7,
+[Enzyme](http://airbnb.io/projects/enzyme/) has since emerged as one of, if not the leading way to test your React
+applications. This is a topic that deserves its own dedicated blog post, but for now, my general recommendation would be
+to use Enzyme to write the kinds of component unit tests I describe in this post.
+
+Those are the two main things I want to add, other than to say that you should always take advice from random internet
+strangers with an active and sceptical mind, especially when the subject matter has changed a lot since the date of
+publication. I'm glad that so many people have read this post and found it valuable, but remember that no one's advice
+is a substitute for thinking through things yourself. And with that, we return to your regularly scheduled blog post :)
+
 <a class="anchor" id="its-just-a-view-library"></a>
 ### [1. It's just a view library](#its-just-a-view-library)
 Let's get the basics out of the way. React is not another MVC framework, or any other kind of framework. It's just a
