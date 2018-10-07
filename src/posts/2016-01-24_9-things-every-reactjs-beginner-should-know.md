@@ -104,7 +104,7 @@ hadn't split it up yet:
 ```js
 class LatestPostsComponent extends React.Component {
   render() {
-    const postPreviews = renderPostPreviews();
+    const postPreviews = this.renderPostPreviews();
 
     return (
       <section>
@@ -154,7 +154,7 @@ const LatestPostsComponent = props => {
 };
 
 const renderPostPreviews = posts => (
-  posts.map(post => this.renderPostPreview(post))
+  posts.map(post => renderPostPreview(post))
 );
 
 const renderPostPreview = post => (
