@@ -301,6 +301,8 @@ const ListOfNumbers = props => (
   </ol>
 );
 
+// React.PropTypes React.PropTypes is deprecated since React 15.5.0,
+// use the npm module prop-types instead.
 ListOfNumbers.propTypes = {
   className: React.PropTypes.string.isRequired,
   numbers: React.PropTypes.arrayOf(React.PropTypes.number)
