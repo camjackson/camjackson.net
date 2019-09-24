@@ -10,6 +10,8 @@ header {
 
 header h1 {
   margin: 0;
+  font-size: 2.5em;
+  text-align: center;
 }
 
 header img {
@@ -17,7 +19,8 @@ header img {
 }
 
 header ul {
-  margin-left: -30px;
+  margin-left: -10px;
+  font-size: 1.5em;
 }
 
 @media (min-width: 600px) {
@@ -28,6 +31,7 @@ header ul {
     grid-template-areas:
       "img title"
       "img subtitle";
+    grid-column-gap: 20px;
     justify-items: center;
   }
   header img {
@@ -35,8 +39,10 @@ header ul {
   }
   header h1 {
     grid-area: title;
+    font-size: 4em;
   }
-  header ol {
+  header ul {
     grid-area: subtitle;
+    font-size: 2em;
   }
 }
