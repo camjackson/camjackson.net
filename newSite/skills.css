@@ -1,0 +1,6 @@
+@media (min-width: 600px) {
+  section {
+    grid-template-columns: 5% 20% 25% 25% 25%;
+    grid-template-rows: auto auto auto auto;
+  }
+}

@@ -1,15 +1,9 @@
 header {
-  width: 100%;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding-top: 30px;
 }
 
 header h1 {
-  margin: 0;
+  margin: 0 0 20px;
   font-size: 2.5em;
   text-align: center;
 }
@@ -25,13 +19,12 @@ header ul {
 
 @media (min-width: 600px) {
   header {
-    display: grid;
+    padding-top: 50px;
     grid-template-columns: 50% 50%;
-    grid-template-rows: 50% 50%;
+    grid-template-rows: auto auto;
     grid-template-areas:
       "img title"
       "img subtitle";
-    grid-column-gap: 20px;
     justify-items: center;
   }
   header img {
@@ -40,6 +33,7 @@ header ul {
   header h1 {
     grid-area: title;
     font-size: 4em;
+    margin: 0;
   }
   header ul {
     grid-area: subtitle;
