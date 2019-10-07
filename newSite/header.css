@@ -17,7 +17,7 @@ header ul {
   font-size: 1.5em;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   header {
     padding-top: 50px;
     grid-template-columns: 40% 60%;

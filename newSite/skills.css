@@ -1,14 +1,12 @@
-@media (min-width: 600px) {
-  section.skill {
-    grid-template-columns: 33.33% 33.3% 33.33%;
-    grid-template-rows: auto auto;
-    grid-template-areas:
-      "title title title"
-      "sub1 sub2 sub3";
-  }
-  section.skill span {
+section.skill {
+  grid-template-columns: 33.33% 33.3% 33.33%;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "title title title"
+    "sub1 sub2 sub3";
+}
+section.skill span {
   justify-content: center;
-  }
 }
 
 @media (min-width: 1000px) {
@@ -18,7 +16,7 @@
     grid-template-areas: "title sub1 sub2 sub3";
   }
   section.skill span {
-  justify-content: flex-start;
+    justify-content: flex-start;
   }
 }
 

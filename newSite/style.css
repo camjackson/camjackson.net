@@ -18,7 +18,7 @@ html, body {
   align-items: center;
 }
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
   .column-or-grid {
     display: grid;
   }
