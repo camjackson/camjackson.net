@@ -1,6 +1,50 @@
 @media (min-width: 600px) {
-  section {
-    grid-template-columns: 5% 20% 25% 25% 25%;
-    grid-template-rows: auto auto auto auto;
+  section.skill {
+    grid-template-columns: 33.33% 33.3% 33.33%;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "title title title"
+      "sub1 sub2 sub3";
   }
+  section.skill span {
+  justify-content: center;
+  }
+}
+
+@media (min-width: 1000px) {
+  section.skill {
+    grid-template-columns: 300px 33fr 33fr 33fr;
+    grid-template-rows: auto;
+    grid-template-areas: "title sub1 sub2 sub3";
+  }
+  section.skill span {
+  justify-content: flex-start;
+  }
+}
+
+section.skill {
+  padding: 30px 20px;
+}
+
+section.skill span {
+  grid-area: title;
+  display: flex;
+  align-items: center;
+}
+
+section.skill h2 {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+section.skill p:nth-of-type(1) {
+  grid-area: sub1;
+}
+
+section.skill p:nth-of-type(2) {
+  grid-area: sub2;
+}
+
+section.skill p:nth-of-type(3) {
+  grid-area: sub3;
 }
