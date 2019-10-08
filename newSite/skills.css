@@ -35,6 +35,11 @@ section.skill h2 {
   margin-left: 10px;
 }
 
+section.skill p {
+  text-align: center;
+}
+
+/* Position the <p>s within every skill section */
 section.skill p:nth-of-type(1) {
   grid-area: sub1;
 }
@@ -45,4 +50,26 @@ section.skill p:nth-of-type(2) {
 
 section.skill p:nth-of-type(3) {
   grid-area: sub3;
+}
+
+/* Colours of each skill section */
+
+section.skill:nth-of-type(1) {
+  color: #53d95c;
+  background-color: #53d95c50;
+}
+
+section.skill:nth-of-type(2) {
+  color: #00dcff;
+  background-color: #00dcff50;
+}
+
+section.skill:nth-of-type(3) {
+  color: #ec26ec;
+  background-color: #ec26ec50;
+}
+
+section.skill:nth-of-type(4) {
+  color: #e6e41e;
+  background-color: #e6e41e50;
 }
