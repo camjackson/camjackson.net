@@ -32,7 +32,7 @@ section.skill span {
 
 section.skill h2 {
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 section.skill p {
@@ -54,22 +54,22 @@ section.skill p:nth-of-type(3) {
 
 /* Colours of each skill section */
 
-section.skill:nth-of-type(1) {
-  color: #53d95c;
+#skills div:nth-of-type(1) {
+  color: white;
   background-color: #53d95c50;
 }
 
-section.skill:nth-of-type(2) {
-  color: #00dcff;
+#skills div:nth-of-type(2) {
+  color: white;
   background-color: #00dcff50;
 }
 
-section.skill:nth-of-type(3) {
-  color: #ec26ec;
+#skills div:nth-of-type(3) {
+  color: white;
   background-color: #ec26ec50;
 }
 
-section.skill:nth-of-type(4) {
-  color: #e6e41e;
+#skills div:nth-of-type(4) {
+  color: white;
   background-color: #e6e41e50;
 }
