@@ -41,5 +41,6 @@ header ul {
   header ul {
     grid-area: subtitle;
     font-size: 2em;
+    align-self: start;
   }
 }
