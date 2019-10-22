@@ -45,16 +45,24 @@ section.skill h2 {
   grid-area: title;
   text-align: center;
   line-height: 1.5;
+  font-weight: normal;
+  padding: 0 20px;
 }
 
 section.skill div {
   text-align: center;
 }
 
+section.skill h3 {
+  font-weight: lighter;
+  text-decoration: underline;
+}
+
 section.skill p {
   font-size: 1.2em;
   line-height: 1.2;
   font-weight: lighter;
+  padding: 0 15px;
 }
 
 /* Colours of each skill section */
