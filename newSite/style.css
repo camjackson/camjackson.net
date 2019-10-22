@@ -2,6 +2,10 @@
   box-sizing: border-box;
   font-family: sans-serif;
 }
+html {
+  /* 1em = 10px (assuming browser has font-size: 16px; ) */
+  font-size: 62.5%;
+}
 
 html, body {
   margin: 0;
