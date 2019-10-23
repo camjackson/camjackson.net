@@ -17,7 +17,7 @@ html, body {
 
 .column-or-grid {
   width: 100%;
-  max-width: 1400px;
+  max-width: 140rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

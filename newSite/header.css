@@ -1,9 +1,9 @@
 header {
-  padding: 30px;
+  padding: 3rem;
 }
 
 header h1 {
-  margin: 0 0 20px;
+  margin: 0 0 2rem;
   text-align: center;
   font-size: 4rem;
   font-weight: lighter;
@@ -11,11 +11,11 @@ header h1 {
 
 header img {
   max-width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
 }
 
 header ul {
-  margin-left: -10px;
+  margin-left: -1rem;
   margin: 0;
   line-height: 1.5;
   font-size: 2.4rem;
@@ -24,7 +24,7 @@ header ul {
 
 @media (min-width: 700px) {
   header {
-    padding-top: 50px;
+    padding-top: 5rem;
     grid-template-columns: 40% 60%;
     grid-template-rows: auto auto;
     grid-template-areas:

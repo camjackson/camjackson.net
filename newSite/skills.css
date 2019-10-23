@@ -25,25 +25,25 @@
 @media (min-width: 1000px) {
   /* 2-skill large layout */
   section.skill-x2 {
-    grid-template-columns: 300px 50fr 50fr;
+    grid-template-columns: 30rem 50fr 50fr;
     grid-template-rows: auto;
     grid-template-areas: "title sub1 sub2";
   }
   /* 3-skill large layout */
   section.skill-x3 {
-    grid-template-columns: 300px 33fr 33fr 33fr;
+    grid-template-columns: 30rem 33fr 33fr 33fr;
     grid-template-rows: auto;
     grid-template-areas: "title sub1 sub2 sub3";
   }
 }
 
 section.skill {
-  padding: 30px 20px;
+  padding: 3rem 2rem;
 }
 
 section.skill h2 {
   grid-area: title;
-  padding: 0 20px;
+  padding: 0 2rem;
   text-align: center;
   font-size: 2.4rem;
   font-weight: normal;
@@ -64,7 +64,7 @@ section.skill p {
   font-size: 2rem;
   line-height: 1.2;
   font-weight: lighter;
-  padding: 0 15px;
+  padding: 0 1.5rem;
 }
 
 /* Colours of each skill section */
