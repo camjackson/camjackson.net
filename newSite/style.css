@@ -24,7 +24,7 @@ html, body {
   align-items: center;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 43.75em) { /* 700px / 16 */
   .column-or-grid {
     display: grid;
   }

@@ -1,4 +1,4 @@
-@media (min-width: 700px) {
+@media (min-width: 43.75em) { /* 700px / 16 */
   /* 2-skill medium layout */
   section.skill-x2 {
     grid-template-columns: 50% 50%;
@@ -22,7 +22,7 @@
   }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 62.5em) { /* 1000px / 16 */
   /* 2-skill large layout */
   section.skill-x2 {
     grid-template-columns: 30rem 50fr 50fr;
