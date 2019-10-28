@@ -1,3 +1,5 @@
+/* Global stuff */
+
 * {
   box-sizing: border-box;
   font-family: sans-serif;
@@ -12,8 +14,10 @@ html, body {
   padding: 0;
   width: 100%;
   background-color: #1e201e;
-  color: #ffffff;
+  color: #cccccc;
 }
+
+/* Reusable layout stuff */
 
 .column-or-grid {
   width: 100%;
@@ -28,4 +32,23 @@ html, body {
   .column-or-grid {
     display: grid;
   }
+}
+
+/* Typography */
+
+h2 {
+  margin: 0;
+  text-align: center;
+  font-size: 2.6rem;
+  line-height: 1.5;
+}
+
+a, a:visited {
+  color: inherit;
+}
+
+p {
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: lighter;
 }

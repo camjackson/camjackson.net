@@ -1,0 +1,18 @@
+section#writing {
+  grid-template-columns: 50% 50%;
+  grid-template-rows: auto auto;
+  grid-template-areas:
+    "title title"
+    "p1 p2";
+  align-items: baseline;
+  padding: 2.5rem 2rem;
+}
+
+section#writing h2 {
+  grid-area: title;
+  align-self: stretch;
+}
+
+section#writing p {
+  padding: 0 3rem;
+}
