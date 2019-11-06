@@ -54,6 +54,7 @@ section.skill div {
 }
 
 section.skill h3 {
+  margin: 2.2rem 0 1rem;
   font-size: 2.2rem;
   font-weight: normal;
 }
