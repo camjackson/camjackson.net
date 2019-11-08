@@ -49,12 +49,8 @@ section.skill h2 {
   grid-area: title;
 }
 
-section.skill div {
-  text-align: center;
-}
-
 section.skill h3 {
-  margin: 2.2rem 0 1rem;
+  margin: 2.2rem 1.5rem 1rem;
   font-size: 2.2rem;
   font-weight: normal;
 }
