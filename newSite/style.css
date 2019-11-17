@@ -13,8 +13,8 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: #1e201e;
-  color: #cccccc;
+  background-color: hsl(120, 3%, 12%);
+  color: hsl(0, 0%, 80%);
 }
 
 /* Reusable layout stuff */
