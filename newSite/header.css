@@ -16,9 +16,19 @@ header img#profile-pic {
 
 header ul#subtitle {
   margin: 0 0 2rem;
-  line-height: 1.5;
+  line-height: 1.8;
   font-size: 2.4rem;
   font-weight: lighter;
+  list-style: none;
+}
+
+header ul#subtitle svg {
+  position: absolute;
+  margin-left: -5rem;
+  margin-top: 1.2rem;
+  width: 3rem;
+  height: 3rem;
+  fill: hsl(0, 0%, 80%);
 }
 
 header ul#socials {
@@ -28,7 +38,13 @@ header ul#socials {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 23rem;
+  width: 28rem;
+}
+
+header ul#socials svg {
+  width: 6.4rem;
+  height: 6.4rem;
+  fill: hsl(0, 0%, 80%);
 }
 
 @media (min-width: 43.75em) { /* 700px / 16 */
