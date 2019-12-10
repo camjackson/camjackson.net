@@ -17,12 +17,14 @@ html, body {
   color: hsl(0, 0%, 80%);
 }
 
-/* Reusable layout stuff */
-
-.column-or-grid {
+header, main {
   width: 100%;
   max-width: 140rem;
   margin: 0 auto;
+}
+
+/* Reusable layout stuff */
+.column-or-grid {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +34,13 @@ html, body {
   .column-or-grid {
     display: grid;
   }
+}
+
+.panel {
+  margin: 0 2rem 5rem;
+  padding: 2.5rem 2rem;
+  border: 1px solid hsl(0, 0%, 80%);
+  box-shadow: -0.2rem 0.2rem 0.5rem 0.2rem hsla(0, 0%, 80%, 0.35);
 }
 
 /* Typography */

@@ -41,10 +41,6 @@
   }
 }
 
-section.skill {
-  padding: 2.5rem 2rem;
-}
-
 section.skill h2 {
   grid-area: title;
 }

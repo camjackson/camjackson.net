@@ -4,8 +4,7 @@ section#writing {
   grid-template-areas:
     "title title"
     "p1 p2";
-  align-items: baseline;
-  padding: 2.5rem 2rem;
+  align-items: start;
 }
 
 section#writing h2 {
