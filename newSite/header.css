@@ -22,12 +22,16 @@ header ul#subtitle {
   list-style: none;
 }
 
+header ul#subtitle li {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
 header ul#subtitle svg {
-  position: absolute;
-  margin-left: -5rem;
-  margin-top: 1.2rem;
   width: 3rem;
   height: 3rem;
+  margin: -0.2rem 2rem 0 0;
   fill: hsl(0, 0%, 80%);
 }
 
