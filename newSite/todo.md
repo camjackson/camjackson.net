@@ -1,8 +1,6 @@
 # TODO:
 
-- Colours
-  - CSS variables?
-- Icon bullets are too low on mobile view
-  - Fix with flex probly
-- Maybe some box shadows?
+- CSS variables for colours?
 - Test in IE11
+- Make it look less shit 😭
+  - Try a light design instead of dark?

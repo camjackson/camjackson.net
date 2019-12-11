@@ -10,7 +10,7 @@ header h1 {
 }
 
 header img#profile-pic {
-  max-width: 100%;
+  max-width: 50%;
   margin-bottom: 2rem;
 }
 
@@ -48,7 +48,8 @@ header ul#socials {
 header ul#socials svg {
   width: 6.4rem;
   height: 6.4rem;
-  fill: hsl(0, 0%, 80%);
+  background-color: hsl(0, 0%, 80%);
+  fill: hsl(120, 3%, 12%);
 }
 
 @media (min-width: 43.75em) { /* 700px / 16 */
