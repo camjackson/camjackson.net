@@ -1,6 +1,6 @@
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
-const fs = require('fs');
+const fs = require('fs-extra');
 const mkdirp = require('mkdirp');
 
 const posts = require('./posts');
@@ -31,6 +31,9 @@ posts.forEach(post => (
   render(`post/${post.slug}`, <PostComponent post={post}/>)
 ));
 write('atom.xml', renderAtomFeed(posts));
+
+console.log('Copying newSite...');
+fs.copySync('src/newSite', `${out}/newSite`);
 
 // TODO: Headers: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/example-functions.html
 // TODO: Error page
