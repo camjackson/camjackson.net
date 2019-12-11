@@ -6,7 +6,9 @@ header h1 {
   margin: 0 0 2rem;
   text-align: center;
   font-size: 4rem;
-  font-weight: lighter;
+  font-weight: 400;
+  font-family: 'EB Garamond', serif;
+  color: hsl(0, 0%, 95%);
 }
 
 header img#profile-pic {
@@ -19,6 +21,7 @@ header ul#subtitle {
   line-height: 1.8;
   font-size: 2.4rem;
   font-weight: lighter;
+  color: hsl(0, 0%, 60%);
   list-style: none;
 }
 
@@ -32,7 +35,7 @@ header ul#subtitle svg {
   width: 3rem;
   height: 3rem;
   margin: -0.2rem 2rem 0 0;
-  fill: hsl(0, 0%, 80%);
+  fill: hsl(0, 0%, 60%);
 }
 
 header ul#socials {
