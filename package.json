@@ -10,6 +10,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "build": "babel-node src/buildSite.js",
+    "start": "concurrently \"nodemon -w src --ext js,md --exec npm run build\" \"serve target\"",
     "test": "mocha --require babel-core/register --recursive test"
   },
   "babel": {
@@ -38,5 +39,10 @@
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "xml": "^1.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.0.1",
+    "nodemon": "^2.0.1",
+    "serve": "^11.2.0"
   }
 }
