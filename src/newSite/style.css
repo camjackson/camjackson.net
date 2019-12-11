@@ -13,7 +13,7 @@ html, body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: hsl(120, 3%, 12%);
+  background-color: hsl(210, 5%, 12%);
   color: hsl(0, 0%, 80%);
 }
 
@@ -39,29 +39,27 @@ header, main {
 .panel {
   margin: 0 2rem 5rem;
   padding: 2.5rem 2rem;
-  border: 1px solid hsl(0, 0%, 80%);
-  background-color: hsl(120, 3%, 16%);
-  border-radius: 0.3rem;
+  background-color: hsl(210, 5%, 16%);
 }
 
-.panel:nth-child(1) {
+.panel:nth-child(1) h2,
+.panel:nth-child(1) h3 {
   color: hsl(180, 30%, 50%);
-  border-color: hsl(180, 30%, 50%);
 }
 
-.panel:nth-child(2) {
+.panel:nth-child(2) h2,
+.panel:nth-child(2) h3 {
   color: hsl(100, 35%, 55%);
-  border-color: hsl(100, 35%, 55%);
 }
 
-.panel:nth-child(3) {
+.panel:nth-child(3) h2,
+.panel:nth-child(3) h3 {
   color: hsl(280, 45%, 60%);
-  border-color: hsl(280, 45%, 60%);
 }
 
-.panel:nth-child(4) {
+.panel:nth-child(4) h2,
+.panel:nth-child(4) h3 {
   color: hsl(0, 40%, 55%);
-  border-color: hsl(0, 40%, 55%);
 }
 
 /* Typography */

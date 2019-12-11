@@ -46,12 +46,12 @@ section.skill h2 {
 }
 
 section.skill h3 {
-  margin: 2.2rem 1.5rem 1rem;
+  margin: 1rem 1.5rem 1rem;
   font-size: 2.2rem;
   font-weight: normal;
-  text-decoration: underline;
 }
 
 section.skill p {
+  margin: 1rem 0;
   padding: 0 1.5rem;
 }
