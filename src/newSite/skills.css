@@ -38,6 +38,8 @@
 
   section.skill h2 {
     align-self: center;
+    justify-self: center;
+    max-width: 80%;
   }
 }
 
