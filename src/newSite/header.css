@@ -12,7 +12,8 @@ header h1 {
 }
 
 header img#profile-pic {
-  max-width: 50%;
+  justify-self: end;
+  max-width: 26rem;
   margin-bottom: 2rem;
 }
 
