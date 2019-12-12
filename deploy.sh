@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo 'This is probably dead now, do not use'
+exit 1
+
 set -e
 
 echo
