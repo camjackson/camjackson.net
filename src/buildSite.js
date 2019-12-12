@@ -36,7 +36,7 @@ console.log('Copying newSite...');
 fs.copySync('src/newSite', `${out}/newSite`);
 
 console.log('Copying public...');
-fs.copySync('public', `${out}/public`);
+fs.copySync('public', `${out}`);
 
 // TODO: Headers: https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/example-functions.html
 // TODO: Error page
