@@ -9,6 +9,11 @@ html {
   font-size: 62.5%;
 }
 
+div {
+  /* Does nothing in most browsers, but makes IE11 fail better  */
+  max-width: 100%;
+}
+
 html, body {
   margin: 0;
   padding: 0;

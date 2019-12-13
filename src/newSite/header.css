@@ -80,6 +80,5 @@ header ul#socials svg {
   }
   header ul#socials {
     grid-area: socials;
-    align-self: baseline;
   }
 }
