@@ -31,7 +31,8 @@ header, main {
   --grey-2: hsl(0, 0%, 80%);
   --grey-3: hsl(0, 0%, 60%);
   --grey-4: hsl(210, 5%, 16%);
-  --grey-5: hsl(210, 5%, 12%);
+  --grey-5: hsl(210, 5%, 12%); /* Also used in HTML theme colour */
+  /* There's also a different grey used in the background image fill */
 
   --blue: hsl(180, 30%, 50%);
   --green: hsl(100, 35%, 55%);

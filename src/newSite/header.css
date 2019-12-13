@@ -52,8 +52,7 @@ header ul#socials {
 header ul#socials svg {
   width: 6.4rem;
   height: 6.4rem;
-  background-color: var(--grey-2);
-  fill: var(--grey-5);
+  fill: var(--grey-2);
 }
 
 @media (min-width: 43.75em) { /* 700px / 16 */
