@@ -59,23 +59,42 @@ header, main {
   background-color: var(--grey-4);
 }
 
+section#intro p {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+section#intro h2 {
+  font-style: italic;
+}
+
 .panel:nth-child(1) h2,
 .panel:nth-child(1) h3 {
-  color: var(--blue);
+  /* color: var(--wat); */
 }
 
 .panel:nth-child(2) h2,
-.panel:nth-child(2) h3 {
-  color: var(--green);
+.panel:nth-child(2) h3,
+.panel:nth-child(2) a {
+  color: var(--blue);
 }
 
 .panel:nth-child(3) h2,
-.panel:nth-child(3) h3 {
-  color: var(--purple);
+.panel:nth-child(3) h3,
+.panel:nth-child(3) a {
+  color: var(--green);
 }
 
 .panel:nth-child(4) h2,
-.panel:nth-child(4) h3 {
+.panel:nth-child(4) h3,
+.panel:nth-child(4) a {
+  color: var(--purple);
+}
+
+.panel:nth-child(5) h2,
+.panel:nth-child(5) h3,
+.panel:nth-child(5) a {
   color: var(--red);
 }
 
