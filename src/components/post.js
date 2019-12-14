@@ -1,7 +1,6 @@
 'use strict';
 
 const React = require('react');
-const moment = require('moment');
 const marked = require('marked');
 const highlightjs = require('highlight.js');
 
@@ -17,7 +16,7 @@ const PostComponent = (props) => (
   <Page title={props.post.title}>
     <article className="container post">
       <h1>{props.post.title}</h1>
-      <time pubdate className="pull-right"><em>{moment(props.post.posted).format('Do MMMM YYYY')}</em></time>
+      <time pubdate className="pull-right"><em>{props.post.posted}</em></time>
       <hr/>
       <div dangerouslySetInnerHTML={{__html: marked(props.post.text)}}></div>
     </article>
