@@ -1,5 +1,5 @@
 # TODO:
 
-- Test in IE11
-  - Grid probably doesn't work
-  - CSS vars probably don't work
+- Removing old stuff
+  - Keeping a few blog posts, so:
+    - Remove dead links from header (archive, feed, etc)
