@@ -9,8 +9,8 @@
   "author": "Cam Jackson",
   "license": "GPL-3.0",
   "scripts": {
-    "build": "babel-node src/buildSite.js",
-    "start": "concurrently \"nodemon -w src --ext js,md,jpg,png,css,html,json --exec npm run build\" \"serve target\""
+    "build": "babel-node buildOldPosts.js",
+    "start": "serve src"
   },
   "babel": {
     "presets": [
@@ -25,14 +25,11 @@
     "babel-preset-react": "^6.0.15",
     "highlight.js": "^8.9.1",
     "marked": "^0.3.5",
-    "mkdirp": "^0.5.1",
     "react": "^0.14.2",
     "react-dom": "^0.14.2"
   },
   "devDependencies": {
-    "concurrently": "^5.0.1",
     "fs-extra": "^8.1.0",
-    "nodemon": "^2.0.1",
     "serve": "^11.2.0"
   }
 }

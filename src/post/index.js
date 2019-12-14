@@ -7,7 +7,7 @@ const posts = [
 ];
 
 module.exports = posts.map(({ slug, posted, title }) => {
-  const text = fs.readFileSync(`./src/oldPosts/${slug}.md`, { encoding: 'utf8' });
+  const text = fs.readFileSync(`./src/post/${slug}.md`, { encoding: 'utf8' });
   const blurb = text.substr(0, text.indexOf('[//]: # (fold)'));
 
   return { slug, title, posted, text, blurb };
