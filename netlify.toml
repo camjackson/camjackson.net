@@ -1,0 +1,4 @@
+[build]
+  publish = "old-site/"
+
+  command = "echo 'Nothing to build :)'"
