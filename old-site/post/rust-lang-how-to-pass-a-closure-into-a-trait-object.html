@@ -1,0 +1,126 @@
+<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"/><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/8.6/styles/darkula.min.css" type="text/css"/><meta name="google-site-verification" content="beqVA6mdouBqt29xCCkTuf6R-1w6lIEhBz3YlmM1DSc"/><title>Rust: Passing a closure to a trait object - Cam Jackson</title><link rel="icon" type="image/x-icon" href="/favicon.ico"/><link href="/style/oldStyles.css" rel="stylesheet"/><script type="text/javascript" src="/ga.js"></script></head><body><div id="container"><nav class="navbar navbar-fixed-top navbar-inverse"><div class="container"><a class="navbar-brand" href="/">Home</a><a class="navbar-brand navbar-right" href="https://github.com/camjackson"><i class="fa fa-2x fa-github"></i></a><a class="navbar-brand navbar-right" href="https://twitter.com/thecamjackson"><i class="fa fa-2x fa-twitter"></i></a><a class="navbar-brand navbar-right" href="https://linkedin.com/in/camjackson"><i class="fa fa-2x fa-linkedin"></i></a></div></nav><main><article class="container post"><h1>Rust: Passing a closure to a trait object</h1><time class="pull-right"><em>18th June 2015</em></time><hr/><div><blockquote>
+<p>I have an object which is a <code>&amp;SomeTrait</code>, and I want to create a closure and pass it into a method on that trait. How do I make the types work?</p>
+</blockquote>
+<p>In this post I&#39;m going to go through my process of eventually figuring out the answer to this question, starting with a much simpler problem. If you just want the answer, then scroll right to the bottom of this post. Otherwise, read on!</p>
+<h2 id="passing-a-function-into-a-function">Passing a function into a function</h2>
+<p>Lets forget about closures and traits for now, and start with a function that takes another function as a parameter:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">call_function</span></span>(function: <span class="hljs-function"><span class="hljs-keyword">fn</span></span>(<span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span>) -&gt; <span class="hljs-keyword">bool</span> {
+    function(<span class="hljs-number">8</span>)
+}
+</code></pre>
+<p>As you can see, all this function does is call its argument with a fixed value, and return the result.</p>
+<p>Here&#39;s how we might use it:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, call_function(my_local_function));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">my_local_function</span></span>(arg: <span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span>{
+    <span class="hljs-keyword">let</span> max = <span class="hljs-number">5</span>;
+    arg &lt; max
+}
+</code></pre>
+<p>Given a pre-defined a function that does some arbitrary calculation, passing it into our first function above is trivial. You can see the complete example in the Rust playground <a href="https://play.rust-lang.org/?gist=301cbe27d4b99bba5f8f&amp;version=stable">here</a>, and even run it in your browser!</p>
+<h2 id="closures-are-not-functions">Closures are not functions</h2>
+<p>Passing a function into a function is great, but what if we need to pass in a closure instead, one which captures (closes over) its environment?</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> max = <span class="hljs-number">5</span>;
+    <span class="hljs-keyword">let</span> closure = move |arg: <span class="hljs-keyword">u8</span>| { arg &lt; max };
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, call_function(closure));
+}
+</code></pre>
+<p>This is mostly the same as before, except we use a closure instead of the pre-defined function. Notice that the closure takes ownership of <code>max</code> from its environment, using <code>move</code>.</p>
+<p>Unfortunately, <a href="https://play.rust-lang.org/?gist=f6b1a864771cea867151&amp;version=stable">this doesn&#39;t compile</a>. In Rust, closures and functions aren&#39;t interchangeable. In fact, even 2 closures with the same type signature <a href="https://github.com/rust-lang/rust/issues/24036#issuecomment-89509870">aren&#39;t interchangeable</a>! So we can&#39;t use <code>fn(u8) -&gt; bool</code>  as the type of the parameter to <code>call_function</code>, because our closure isn&#39;t compatible with it.</p>
+<p>Instead, we can make our original function generic, and put a constraint on the type parameter which says that it has to implement the <a href="https://doc.rust-lang.org/std/ops/trait.Fn.html"><code>Fn</code></a> trait (a trait is like an interface):</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">call_function</span></span>&lt;F&gt;(function: F) -&gt; <span class="hljs-keyword">bool</span>
+  <span class="hljs-keyword">where</span> F: <span class="hljs-built_in">Fn</span>(<span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span> {
+    function(<span class="hljs-number">8</span>)
+}
+</code></pre>
+<p>With that type signature, and our previous attempt at <code>main</code> (where we passed in the closure), <a href="https://play.rust-lang.org/?gist=31d8b21a8689cf4eeeb4&amp;version=stable">it works</a>! If the above code doesn&#39;t make sense, read more about <a href="http://doc.rust-lang.org/1.0.0-beta/book/generics.html">generics</a> and <a href="http://doc.rust-lang.org/1.0.0-beta/book/static-and-dynamic-dispatch.html#static-dispatch">static dispatch</a> in Rust.</p>
+<h2 id="how-about-a-method-from-a-trait-">How about a method from a trait?</h2>
+<p>For my particular use case, it wasn&#39;t enough to be able to pass a closure into a function. I want to be able to pass a closure into a method, where the object that I&#39;m passing it to just has a trait type. I.e., I don&#39;t know what the concrete type is.</p>
+<p>Lets take the generic function signature we just created, and make it part of a trait (with an additional <code>&amp;self</code> parameter):</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">FunctionCaller</span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">call_function</span></span>&lt;F&gt;(&amp;<span class="hljs-keyword">self</span>, function: F) -&gt; <span class="hljs-keyword">bool</span>
+      <span class="hljs-keyword">where</span> F: <span class="hljs-built_in">Fn</span>(<span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span>;
+}
+</code></pre>
+<p>Now lets consider a function that takes a <code>FunctionCaller</code> (a trait object of unknown concrete type), and calls its method, passing it a closure:</p>
+<pre><code class="lang-rust"><span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">invoke</span></span>(function_caller: &amp;FunctionCaller) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-keyword">let</span> max = <span class="hljs-number">5</span>;
+    <span class="hljs-keyword">let</span> closure = move |arg: <span class="hljs-keyword">u8</span>| { arg &lt; max };
+
+    function_caller.call_function(closure)
+}
+</code></pre>
+<p> The <code>&amp;</code> means that it&#39;s a reference, one of Rust&#39;s several pointer types, which is necessary for <a href="http://doc.rust-lang.org/1.0.0-beta/book/static-and-dynamic-dispatch.html#dynamic-dispatch">dynamic dispatch</a> on a trait object in Rust.</p>
+<p>Now we just have to create a type that implements our trait, instantiate it, and pass <code>invoke</code> a reference to it!</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">struct</span> MyFunctionCaller {
+    data: <span class="hljs-keyword">u8</span>,
+}
+
+<span class="hljs-keyword">impl</span> FunctionCaller <span class="hljs-keyword">for</span> MyFunctionCaller {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">call_function</span></span>&lt;F&gt;(&amp;<span class="hljs-keyword">self</span>, function: F) -&gt; <span class="hljs-keyword">bool</span> <span class="hljs-keyword">where</span> F: <span class="hljs-built_in">Fn</span>(<span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span> {
+        function(<span class="hljs-keyword">self</span>.data)
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> my_function_caller = &amp;MyFunctionCaller{data: <span class="hljs-number">8</span>};
+
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, invoke(my_function_caller));
+}
+</code></pre>
+<p>... or so I thought. If you try to run <a href="https://play.rust-lang.org/?gist=c2aa2a5c10ea3f106512&amp;version=stable">the complete example</a>, it won&#39;t let us pass <code>my_function_caller</code> to <code>invoke</code> as a <code>FunctionCaller</code> :(</p>
+<p><code>error: cannot convert to a trait object because trait FunctionCaller is not object-safe [E0038]</code></p>
+<p>I don&#39;t fully understand object safety yet (<a href="https://huonw.github.io/blog/2015/01/object-safety/">this</a> is on my reading list), but I think the basic problem here is that you can&#39;t put a generic method in a trait. Which makes some intuitive sense, I didn&#39;t really expect it to work as I was trying it.</p>
+<h2 id="boxed-closures-to-the-rescue-">Boxed closures to the rescue!</h2>
+<p>While the above compilation error makes sense, it didn&#39;t lead me to a solution. If you did try to run that last example though, you might have noticed a second compilation error:</p>
+<p><code>error: the trait FunctionCaller is not implemented for the type FunctionCaller [E0277]</code></p>
+<p>Uh, ok, that&#39;s not immediately helpful... But it did lead me to <a href="https://stackoverflow.com/questions/30055356/the-trait-a-is-not-implemented-for-the-type-a">this</a> on Stack Overflow, which finally gave me what I needed: boxed closures.</p>
+<p>Now that I know what the solution is, it seems obvious. In this post, we&#39;ve already seen two different ways to specify a parameter&#39;s type as a trait:</p>
+<ol>
+<li>Static dispatch with generics: <code>fn foo&lt;T&gt;(t: T) where T: SomeTrait</code></li>
+<li>Dynamic dispatch with pointers: <code>fn foo(t: &amp;SomeTrait)</code></li>
+</ol>
+<p>What we&#39;re trying to do now is have a parameter where arguments need to implement the <code>Fn</code> trait. If we can&#39;t use the first approach (generics), then the solution is surely to use a pointer!</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">FunctionCaller</span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">call_function</span></span>(&amp;<span class="hljs-keyword">self</span>, function: &amp;<span class="hljs-built_in">Fn</span>(<span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span>) -&gt; <span class="hljs-keyword">bool</span>;
+}
+</code></pre>
+<p>Then to use it we just need to pass a reference to our closure:</p>
+<pre><code class="lang-rust">let closure = &amp;move |<span class="hljs-string">arg: u8</span>|<span class="hljs-string"> { arg &lt; max };</span>
+</code></pre>
+<p><a href="https://play.rust-lang.org/?gist=e6bba3ef661345d7b5fb&amp;version=stable">And it finally works</a>! In Rust, a pointer to a closure is known as a &#39;boxed closure&#39;. The name is a little bit misleading, as Rust&#39;s heap-allocated pointer type is called <a href="https://doc.rust-lang.org/std/boxed/"><code>Box</code></a>, but either pointer type (<code>Box</code> or reference) will do the trick. In fact, I originally used <code>Box</code> in this blog post, as I thought that was required for boxed closures, so thanks to <a href="https://www.reddit.com/user/masklinn">/u/masklinn</a> on reddit for correcting me!</p>
+<p>For completeness, here&#39;s the final code I came up with:</p>
+<pre><code class="lang-rust"><span class="hljs-keyword">trait</span> <span class="hljs-title">FunctionCaller</span> {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">call_function</span></span>(&amp;<span class="hljs-keyword">self</span>, function: &amp;<span class="hljs-built_in">Fn</span>(<span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span>) -&gt; <span class="hljs-keyword">bool</span>;
+}
+
+<span class="hljs-keyword">struct</span> MyFunctionCaller {
+    data: <span class="hljs-keyword">u8</span>,
+}
+
+<span class="hljs-keyword">impl</span> FunctionCaller <span class="hljs-keyword">for</span> MyFunctionCaller {
+    <span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">call_function</span></span>(&amp;<span class="hljs-keyword">self</span>, function: &amp;<span class="hljs-built_in">Fn</span>(<span class="hljs-keyword">u8</span>) -&gt; <span class="hljs-keyword">bool</span>) -&gt; <span class="hljs-keyword">bool</span> {
+        function(<span class="hljs-keyword">self</span>.data)
+    }
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">main</span></span>() {
+    <span class="hljs-keyword">let</span> my_function_caller = &amp;MyFunctionCaller{data: <span class="hljs-number">8</span>};
+
+    <span class="hljs-built_in">println!</span>(<span class="hljs-string">"{}"</span>, invoke(my_function_caller));
+}
+
+<span class="hljs-function"><span class="hljs-keyword">fn</span> <span class="hljs-title">invoke</span></span>(function_caller: &amp;FunctionCaller) -&gt; <span class="hljs-keyword">bool</span> {
+    <span class="hljs-keyword">let</span> max = <span class="hljs-number">5</span>;
+    <span class="hljs-keyword">let</span> closure = &amp;move |arg: <span class="hljs-keyword">u8</span>| { arg &lt; max };
+
+    function_caller.call_function(closure)
+}
+</code></pre>
+<h2 id="phew-">Phew!</h2>
+<p>That was tricky stuff! After spending a a few years working mostly in dynamically typed languages (Ruby, Javascript, Python), it&#39;s taken me a while to get used to solving problems like these, but I have to say I&#39;m really enjoying it. I&#39;d like to do another post soon on my general experiences with Rust so far, but the short version is that it&#39;s awesome. Cancel all your current projects and rewrite everything in Rust.</p>
+<p>Thanks for reading!</p>
+</div></article></main><footer><nav class="navbar navbar-inverse"><div class="container"><a class="navbar-brand navbar-right" href="https://github.com/camjackson/camjackson.net">Source available on Github</a></div></nav></footer></div></body></html>
