@@ -5,7 +5,7 @@
   font-family: 'Nunito Sans', sans-serif;
 }
 html {
-  /* 1em = 10px (assuming browser has font-size: 16px; ) */
+  /* 1rem = 10px (assuming browser has font-size: 16px; ) */
   font-size: 62.5%;
 }
 
