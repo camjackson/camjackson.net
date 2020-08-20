@@ -2,22 +2,8 @@
 
 My personal website.
 
-Includes a landing page with bio/skills, and blogging with markdown, complete with code highlighting!
+## TODO
 
-## Test
-
-```sh
-npm test
-```
-
-## Deploy
-
-```sh
-./deploy.sh
-```
-
-## Compile views (without deploying)
-
-```sh
-npm run build
-```
+- Add mortgage thing to projects
+- Add treeview thing to projects
+- Add Voxxed Days talk link
