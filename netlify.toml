@@ -1,4 +1,4 @@
 [build]
-  publish = "old-site/"
+  publish = "public/"
 
-  command = "echo 'Nothing to build :)'"
+  command = "yarn build"
