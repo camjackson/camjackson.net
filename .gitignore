@@ -1,2 +1,7 @@
-node_modules
-npm-debug.log
+/node_modules/
+/public/build/
+
+.DS_Store
+.vscode
+
+yarn-error.log
