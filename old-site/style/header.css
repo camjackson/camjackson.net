@@ -54,15 +54,16 @@ header ul#socials svg {
   fill: var(--grey-2);
 }
 
-@media (min-width: 43.75em) { /* 700px / 16 */
+@media (min-width: 43.75em) {
+  /* 700px / 16 */
   header {
     padding-top: 5rem;
     grid-template-columns: 40% 60%;
     grid-template-rows: auto auto auto;
     grid-template-areas:
-      "img title"
-      "img subtitle"
-      "img socials";
+      'img title'
+      'img subtitle'
+      'img socials';
     justify-items: center;
   }
   header img#profile-pic {

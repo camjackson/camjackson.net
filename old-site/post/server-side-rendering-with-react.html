@@ -1,22 +1,98 @@
-<html><head><meta charset="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous"/><link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"/><link rel="stylesheet" href="https://cdn.jsdelivr.net/highlight.js/8.6/styles/darkula.min.css" type="text/css"/><meta name="google-site-verification" content="beqVA6mdouBqt29xCCkTuf6R-1w6lIEhBz3YlmM1DSc"/><title>Server-Side Rendering with React - Cam Jackson</title><link rel="icon" type="image/x-icon" href="/favicon.ico"/><link href="/style/oldStyles.css" rel="stylesheet"/><script type="text/javascript" src="/ga.js"></script></head><body><div id="container"><nav class="navbar navbar-fixed-top navbar-inverse"><div class="container"><a class="navbar-brand" href="/">Home</a><a class="navbar-brand navbar-right" href="https://github.com/camjackson"><i class="fa fa-2x fa-github"></i></a><a class="navbar-brand navbar-right" href="https://twitter.com/thecamjackson"><i class="fa fa-2x fa-twitter"></i></a><a class="navbar-brand navbar-right" href="https://linkedin.com/in/camjackson"><i class="fa fa-2x fa-linkedin"></i></a></div></nav><main><article class="container post"><h1>Server-Side Rendering with React</h1><time class="pull-right"><em>24th December 2015</em></time><hr/><div><p>Over the last 6 months I&#39;ve been using <a href="https://facebook.github.io/react/">React</a> in a single page app project, and
-I&#39;ve fallen in love with it. Of course, a big part of what makes React great is the magic it does in the browser with
-its Virtual DOM, but even for simple static pages it has some properties that make it ideal for server-side rendering:</p>
-<ol>
-<li><strong>Familiar syntax:</strong> Compared with templating languages like <a href="http://jade-lang.com/">Jade</a> or
-<a href="http://handlebarsjs.com/">Handlebars</a>, there&#39;s almost no new syntax or API to learn (assuming you use
-<a href="https://facebook.github.io/jsx/">JSX</a>, which you absolutely should!). It&#39;s just HTML and Javascript with some minor
-differences.</li>
-<li><strong>Easy component composition:</strong> HTML by nature is about putting bits together to build something larger, and React
-extends that by encouraging you to build small components that can be pieced together, and often reused on multiple
-pages.</li>
-<li><strong>UI as functions:</strong> React components, written well, are really just functions that spit out some HTML based on
-input parameters. These stateless, pure, functional components are testable and predictable - given a certain set of
-properties, we know exactly what our page will look like.</li>
-</ol>
-<p>It&#39;s important to remember that React isn&#39;t an MVC framework, it&#39;s a just view library. So if you&#39;re already writing a
-<a href="https://nodejs.org/">Node.js</a> app where it makes sense to render pages on the server, React is a great option. Let&#39;s
-take a look at the code to render this page:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> React = <span class="hljs-keyword">require</span>(<span class="hljs-string">'react'</span>);
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+      integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/highlight.js/8.6/styles/darkula.min.css"
+      type="text/css"
+    />
+    <meta
+      name="google-site-verification"
+      content="beqVA6mdouBqt29xCCkTuf6R-1w6lIEhBz3YlmM1DSc"
+    />
+    <title>Server-Side Rendering with React - Cam Jackson</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link href="/style/oldStyles.css" rel="stylesheet" />
+    <script type="text/javascript" src="/ga.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <nav class="navbar navbar-fixed-top navbar-inverse">
+        <div class="container">
+          <a class="navbar-brand" href="/">Home</a
+          ><a
+            class="navbar-brand navbar-right"
+            href="https://github.com/camjackson"
+            ><i class="fa fa-2x fa-github"></i></a
+          ><a
+            class="navbar-brand navbar-right"
+            href="https://twitter.com/thecamjackson"
+            ><i class="fa fa-2x fa-twitter"></i></a
+          ><a
+            class="navbar-brand navbar-right"
+            href="https://linkedin.com/in/camjackson"
+            ><i class="fa fa-2x fa-linkedin"></i
+          ></a>
+        </div>
+      </nav>
+      <main>
+        <article class="container post">
+          <h1>Server-Side Rendering with React</h1>
+          <time class="pull-right"><em>24th December 2015</em></time>
+          <hr />
+          <div>
+            <p>
+              Over the last 6 months I&#39;ve been using
+              <a href="https://facebook.github.io/react/">React</a> in a single
+              page app project, and I&#39;ve fallen in love with it. Of course,
+              a big part of what makes React great is the magic it does in the
+              browser with its Virtual DOM, but even for simple static pages it
+              has some properties that make it ideal for server-side rendering:
+            </p>
+            <ol>
+              <li>
+                <strong>Familiar syntax:</strong> Compared with templating
+                languages like <a href="http://jade-lang.com/">Jade</a> or
+                <a href="http://handlebarsjs.com/">Handlebars</a>, there&#39;s
+                almost no new syntax or API to learn (assuming you use
+                <a href="https://facebook.github.io/jsx/">JSX</a>, which you
+                absolutely should!). It&#39;s just HTML and Javascript with some
+                minor differences.
+              </li>
+              <li>
+                <strong>Easy component composition:</strong> HTML by nature is
+                about putting bits together to build something larger, and React
+                extends that by encouraging you to build small components that
+                can be pieced together, and often reused on multiple pages.
+              </li>
+              <li>
+                <strong>UI as functions:</strong> React components, written
+                well, are really just functions that spit out some HTML based on
+                input parameters. These stateless, pure, functional components
+                are testable and predictable - given a certain set of
+                properties, we know exactly what our page will look like.
+              </li>
+            </ol>
+            <p>
+              It&#39;s important to remember that React isn&#39;t an MVC
+              framework, it&#39;s a just view library. So if you&#39;re already
+              writing a <a href="https://nodejs.org/">Node.js</a> app where it
+              makes sense to render pages on the server, React is a great
+              option. Let&#39;s take a look at the code to render this page:
+            </p>
+            <pre><code class="lang-js"><span class="hljs-keyword">const</span> React = <span class="hljs-keyword">require</span>(<span class="hljs-string">'react'</span>);
 <span class="hljs-keyword">const</span> ReactDomServer = <span class="hljs-keyword">require</span>(<span class="hljs-string">'react-dom/server'</span>);
 <span class="hljs-keyword">const</span> PostComponent = <span class="hljs-keyword">require</span>(<span class="hljs-string">'./components/PostComponent'</span>);
 
@@ -26,16 +102,25 @@ app.get(<span class="hljs-string">'/post/:slug'</span>, (req, res) =&gt; {
   res.send(html);
 });
 </code></pre>
-<p>I&#39;ve removed some boilerplate and simplified the database code, but the important bits are all there. Let&#39;s look more
-closely at the bit that looks kinda like html:</p>
-<pre><code class="lang-js"><span class="hljs-tag">&lt;<span class="hljs-title">PostComponent</span> <span class="hljs-attribute">post</span>=<span class="hljs-value">{relevantPost}</span>/&gt;</span>
+            <p>
+              I&#39;ve removed some boilerplate and simplified the database
+              code, but the important bits are all there. Let&#39;s look more
+              closely at the bit that looks kinda like html:
+            </p>
+            <pre><code class="lang-js"><span class="hljs-tag">&lt;<span class="hljs-title">PostComponent</span> <span class="hljs-attribute">post</span>=<span class="hljs-value">{relevantPost}</span>/&gt;</span>
 </code></pre>
-<p>This is called JSX, and it compiles down to a Javascript function call which basically says &quot;instantiate the React
-component called <code>PostComponent</code>, passing in <code>relevantPost</code> as the value for the <code>post</code> prop&quot;. Prop values can either be
-strings, just like HTML, or as above, Javascript expressions inside curly brackets. The resulting component is then
-rendered to static markup, and sent back as a response.</p>
-<p>Let&#39;s take a look at the component:</p>
-<pre><code class="lang-js">const React = require('react');
+            <p>
+              This is called JSX, and it compiles down to a Javascript function
+              call which basically says &quot;instantiate the React component
+              called <code>PostComponent</code>, passing in
+              <code>relevantPost</code> as the value for the
+              <code>post</code> prop&quot;. Prop values can either be strings,
+              just like HTML, or as above, Javascript expressions inside curly
+              brackets. The resulting component is then rendered to static
+              markup, and sent back as a response.
+            </p>
+            <p>Let&#39;s take a look at the component:</p>
+            <pre><code class="lang-js">const React = require('react');
 const moment = require('moment');
 const Page = require('./page');
 
@@ -53,17 +138,38 @@ const PostComponent = (props) =&gt; (
 );
 module.exports = PostComponent;
 </code></pre>
-<p>There are a few things worth calling out here:</p>
-<ol>
-<li>The export (i.e. our component) is just a function, which takes props and returns some JSX.</li>
-<li>The <code>props</code> parameter is an object with all of the attributes assigned to this element. In this case it&#39;s <code>{post: {relevantPost}}</code></li>
-<li>This component is composed partly out of another custom react component ( the capitalised <code>Page</code>), but mostly regular
-HTML elements (all the lowercase ones).</li>
-<li>In JSX we use <code>className</code> instead of <code>class</code>, because the latter is a Javascript reserved word.</li>
-<li>We can use awesome Javascript libraries like <a href="http://momentjs.com/">moment.js</a> from within our components. More on that later.</li>
-</ol>
-<p>That <code>Page</code> component is actually common code used by all of the pages on this site. Here&#39;s what it looks like:</p>
-<pre><code class="lang-js"><span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
+            <p>There are a few things worth calling out here:</p>
+            <ol>
+              <li>
+                The export (i.e. our component) is just a function, which takes
+                props and returns some JSX.
+              </li>
+              <li>
+                The <code>props</code> parameter is an object with all of the
+                attributes assigned to this element. In this case it&#39;s
+                <code>{post: {relevantPost}}</code>
+              </li>
+              <li>
+                This component is composed partly out of another custom react
+                component ( the capitalised <code>Page</code>), but mostly
+                regular HTML elements (all the lowercase ones).
+              </li>
+              <li>
+                In JSX we use <code>className</code> instead of
+                <code>class</code>, because the latter is a Javascript reserved
+                word.
+              </li>
+              <li>
+                We can use awesome Javascript libraries like
+                <a href="http://momentjs.com/">moment.js</a> from within our
+                components. More on that later.
+              </li>
+            </ol>
+            <p>
+              That <code>Page</code> component is actually common code used by
+              all of the pages on this site. Here&#39;s what it looks like:
+            </p>
+            <pre><code class="lang-js"><span class="hljs-keyword">const</span> React = <span class="hljs-built_in">require</span>(<span class="hljs-string">'react'</span>);
 <span class="hljs-keyword">const</span> Head = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./head'</span>);
 <span class="hljs-keyword">const</span> NavBar = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./navBar'</span>);
 <span class="hljs-keyword">const</span> Footer = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./footer'</span>);
@@ -85,30 +191,82 @@ HTML elements (all the lowercase ones).</li>
 
 <span class="hljs-built_in">module</span>.exports = Page;
 </code></pre>
-<p>You can tell that it&#39;s the root component, laying out the head, body, nav and footer elements that every page needs.
-The only new concept here is the special prop called <code>children</code>, which refers to any elements that are placed between
-the opening and closing <code>&lt;Page&gt;</code> tags. In this example, we&#39;re taking the <code>&lt;article&gt;</code> element (and all its children) and
-putting it inside the <code>&lt;main&gt;</code> tag. Easy!</p>
-<p>That&#39;s pretty much all there is to it. We write some React components, compose them together, pass them to a special
-render method, and send it back! The only thing missing from this equation is testing, but that&#39;s a whole separate blog
-post :)</p>
-<h3 id="advanced-topic-rendering-markdown">Advanced topic: rendering markdown</h3>
-<p>I have to admit, I told a small lie earlier, specifically this line:</p>
-<pre><code class="lang-js">&lt;<span class="hljs-operator">div</span>&gt;{props.<span class="hljs-built_in">post</span>.<span class="hljs-keyword">text</span>}&lt;/<span class="hljs-operator">div</span>&gt;
+            <p>
+              You can tell that it&#39;s the root component, laying out the
+              head, body, nav and footer elements that every page needs. The
+              only new concept here is the special prop called
+              <code>children</code>, which refers to any elements that are
+              placed between the opening and closing
+              <code>&lt;Page&gt;</code> tags. In this example, we&#39;re taking
+              the <code>&lt;article&gt;</code> element (and all its children)
+              and putting it inside the <code>&lt;main&gt;</code> tag. Easy!
+            </p>
+            <p>
+              That&#39;s pretty much all there is to it. We write some React
+              components, compose them together, pass them to a special render
+              method, and send it back! The only thing missing from this
+              equation is testing, but that&#39;s a whole separate blog post :)
+            </p>
+            <h3 id="advanced-topic-rendering-markdown">
+              Advanced topic: rendering markdown
+            </h3>
+            <p>
+              I have to admit, I told a small lie earlier, specifically this
+              line:
+            </p>
+            <pre><code class="lang-js">&lt;<span class="hljs-operator">div</span>&gt;{props.<span class="hljs-built_in">post</span>.<span class="hljs-keyword">text</span>}&lt;/<span class="hljs-operator">div</span>&gt;
 </code></pre>
-<p>Actually, I write and store my blog posts in <a href="https://daringfireball.net/projects/markdown/syntax">markdown</a> format, and
-render to HTML using <a href="https://github.com/chjj/marked">marked</a> and <a href="https://highlightjs.org/">highlight.js</a>. So the
-expression <code>props.post.text</code> isn&#39;t quite what we want. Even if we passed in the already-rendered html, it still wouldn&#39;t
-work as is, because React won&#39;t let you inject HTML quite so easily. The actual code I use looks like this:</p>
-<pre><code class="lang-js">&lt;div dangerouslySetInnerHTML=<span class="hljs-expansion">{{<span class="hljs-symbol">__html:</span> marked(props.post.text)}}</span>&gt;&lt;<span class="hljs-regexp">/div&gt;</span>
+            <p>
+              Actually, I write and store my blog posts in
+              <a href="https://daringfireball.net/projects/markdown/syntax"
+                >markdown</a
+              >
+              format, and render to HTML using
+              <a href="https://github.com/chjj/marked">marked</a> and
+              <a href="https://highlightjs.org/">highlight.js</a>. So the
+              expression <code>props.post.text</code> isn&#39;t quite what we
+              want. Even if we passed in the already-rendered html, it still
+              wouldn&#39;t work as is, because React won&#39;t let you inject
+              HTML quite so easily. The actual code I use looks like this:
+            </p>
+            <pre><code class="lang-js">&lt;div dangerouslySetInnerHTML=<span class="hljs-expansion">{{<span class="hljs-symbol">__html:</span> marked(props.post.text)}}</span>&gt;&lt;<span class="hljs-regexp">/div&gt;</span>
 </code></pre>
-<p>The post text is passed to <code>marked</code> for rendering, which returns raw HTML. However, we can&#39;t just use it as a child
-element of the div. Instead, React makes us use the <code>dangerouslySetInnerHTML</code> prop. The value that we have to pass is an
-object with a single <code>__html</code> field, which we set to the actual HTML we want to inject.</p>
-<p>I actually think this is a really good compromise. This kind of behaviour (injecting arbitrary HTML into your React
-component) is clearly not the intended way to use React. However, because there&#39;s a legitimate use case for it, the
-React developers have given us a perfectly workable solution; the only price we have to pay is a slightly ugly
-signature, and an acknowledgement that what we&#39;re doing is a bit dirty, and potentially unsafe.</p>
-<p>If you want to see the full code for my site, including more server-side React examples, click the link in the footer.</p>
-<p>Happy Reacting!</p>
-</div></article></main><footer><nav class="navbar navbar-inverse"><div class="container"><a class="navbar-brand navbar-right" href="https://github.com/camjackson/camjackson.net">Source available on Github</a></div></nav></footer></div></body></html>
+            <p>
+              The post text is passed to <code>marked</code> for rendering,
+              which returns raw HTML. However, we can&#39;t just use it as a
+              child element of the div. Instead, React makes us use the
+              <code>dangerouslySetInnerHTML</code> prop. The value that we have
+              to pass is an object with a single <code>__html</code> field,
+              which we set to the actual HTML we want to inject.
+            </p>
+            <p>
+              I actually think this is a really good compromise. This kind of
+              behaviour (injecting arbitrary HTML into your React component) is
+              clearly not the intended way to use React. However, because
+              there&#39;s a legitimate use case for it, the React developers
+              have given us a perfectly workable solution; the only price we
+              have to pay is a slightly ugly signature, and an acknowledgement
+              that what we&#39;re doing is a bit dirty, and potentially unsafe.
+            </p>
+            <p>
+              If you want to see the full code for my site, including more
+              server-side React examples, click the link in the footer.
+            </p>
+            <p>Happy Reacting!</p>
+          </div>
+        </article>
+      </main>
+      <footer>
+        <nav class="navbar navbar-inverse">
+          <div class="container">
+            <a
+              class="navbar-brand navbar-right"
+              href="https://github.com/camjackson/camjackson.net"
+              >Source available on Github</a
+            >
+          </div>
+        </nav>
+      </footer>
+    </div>
+  </body>
+</html>

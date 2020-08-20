@@ -14,7 +14,8 @@ div {
   max-width: 100%;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -24,7 +25,8 @@ html, body {
   color: var(--grey-2);
 }
 
-header, main {
+header,
+main {
   width: 100%;
   max-width: 140rem;
   margin: 0 auto;
@@ -52,7 +54,8 @@ header, main {
   align-items: center;
 }
 
-@media (min-width: 43.75em) { /* 700px / 16 */
+@media (min-width: 43.75em) {
+  /* 700px / 16 */
   .column-or-grid {
     display: grid;
   }
@@ -112,7 +115,8 @@ h2 {
   line-height: 1.5;
 }
 
-a, a:visited {
+a,
+a:visited {
   color: inherit;
 }
 

@@ -114,7 +114,12 @@ a.anchor::before {
   margin-top: 40px;
 }
 
-h1 a, h1 a:hover, h1 a:focus, h3 a, h3 a:hover, h3 a:focus {
+h1 a,
+h1 a:hover,
+h1 a:focus,
+h3 a,
+h3 a:hover,
+h3 a:focus {
   color: black;
 }
 
@@ -123,8 +128,8 @@ blockquote {
 }
 
 pre {
-  color: #BABABA;
-  background-color: #2B2B2B;
+  color: #bababa;
+  background-color: #2b2b2b;
 }
 
 form {

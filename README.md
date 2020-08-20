@@ -1,5 +1,4 @@
-[camjackson.net](http://camjackson.net)
-===========
+# [camjackson.net](http://camjackson.net)
 
 My personal website.
 
@@ -12,11 +11,13 @@ npm test
 ```
 
 ## Deploy
+
 ```sh
 ./deploy.sh
 ```
 
 ## Compile views (without deploying)
+
 ```sh
 npm run build
 ```
