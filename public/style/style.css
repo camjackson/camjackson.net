@@ -77,11 +77,6 @@ section#intro h2 {
   font-style: italic;
 }
 
-.panel:nth-child(1) h2,
-.panel:nth-child(1) h3 {
-  /* color: var(--wat); */
-}
-
 .panel:nth-child(2) h2,
 .panel:nth-child(2) h3,
 .panel:nth-child(2) a {

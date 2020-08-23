@@ -3,7 +3,7 @@ import App from '../App.svelte';
 
 describe('App', () => {
   it('renders without error', () => {
-    const app = render(App, { name: 'world' });
+    const app = render(App);
 
     expect(app.getByText('👋 Hi! 👋')).toBeInTheDocument();
   });
