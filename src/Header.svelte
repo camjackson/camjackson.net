@@ -1,6 +1,9 @@
 <style>
   header {
     padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   header h1 {
@@ -8,7 +11,7 @@
     text-align: center;
     font-size: 4rem;
     font-weight: 400;
-    color: var(--grey-1);
+    color: hsl(0, 0%, 95%);
   }
 
   header img#profile-pic {
@@ -59,6 +62,7 @@
     /* 700px / 16 */
     header {
       padding-top: 5rem;
+      display: grid;
       grid-template-columns: 40% 60%;
       grid-template-rows: auto auto auto;
       grid-template-areas:
@@ -85,7 +89,7 @@
   }
 </style>
 
-<header class="column-or-grid">
+<header>
   <h1>Cam Jackson</h1>
   <img id="profile-pic" src="./avatar.jpg" alt="My headshot" />
   <ul id="subtitle">

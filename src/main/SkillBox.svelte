@@ -1,14 +1,10 @@
 <script lang="ts">
+  import Panel from './Panel.svelte';
+
   export let title = '';
 </script>
 
 <style>
-  section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
   div {
     display: flex;
     flex-direction: column;
@@ -26,12 +22,6 @@
 
   @media (min-width: 62.5em) {
     /* 1000px / 16 */
-    section {
-      display: grid;
-      grid-template-columns: 30rem 100fr;
-      grid-template-rows: auto;
-    }
-
     h2 {
       align-self: center;
       justify-self: center;
@@ -40,9 +30,10 @@
   }
 </style>
 
-<section class="panel">
+<Panel>
   <h2>{title}</h2>
   <div>
+    <!-- It's one slot but 2 or 3 children -->
     <slot />
   </div>
-</section>
+</Panel>

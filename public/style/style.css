@@ -19,7 +19,11 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  background-color: var(--grey-5);
+  background-color: hsl(
+    210,
+    5%,
+    12%
+  ); /* Also used in index.html theme colour */
   /* Background pattern from https://www.heropatterns.com/ */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='199' viewBox='0 0 100 199'%3E%3Cg fill='%23a7afb6' fill-opacity='0.08'%3E%3Cpath d='M0 199V0h1v1.99L100 199h-1.12L1 4.22V199H0zM100 2h-.12l-1-2H100v2z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
   color: var(--grey-2);
@@ -34,71 +38,33 @@ main {
 
 /* Colours */
 :root {
-  --grey-1: hsl(0, 0%, 95%);
   --grey-2: hsl(0, 0%, 80%);
   --grey-3: hsl(0, 0%, 60%);
-  --grey-4: hsl(210, 5%, 16%);
-  --grey-5: hsl(210, 5%, 12%); /* Also used in HTML theme colour */
   /* There's also a different grey used in the background image fill */
-
-  --blue: hsl(180, 30%, 50%);
-  --green: hsl(100, 35%, 55%);
-  --purple: hsl(280, 50%, 65%);
-  --red: hsl(0, 40%, 55%);
 }
 
-/* Reusable layout stuff */
-.column-or-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+section:nth-child(2) h2,
+section:nth-child(2) h3,
+section:nth-child(2) a {
+  color: hsl(180, 30%, 50%);
 }
 
-@media (min-width: 43.75em) {
-  /* 700px / 16 */
-  .column-or-grid {
-    display: grid;
-  }
+section:nth-child(3) h2,
+section:nth-child(3) h3,
+section:nth-child(3) a {
+  color: hsl(100, 35%, 55%);
 }
 
-.panel {
-  margin: 0 2rem 5rem;
-  padding: 2.5rem 2rem;
-  background-color: var(--grey-4);
+section:nth-child(4) h2,
+section:nth-child(4) h3,
+section:nth-child(4) a {
+  color: hsl(280, 50%, 65%);
 }
 
-section#intro p {
-  max-width: 80rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-section#intro h2 {
-  font-style: italic;
-}
-
-.panel:nth-child(2) h2,
-.panel:nth-child(2) h3,
-.panel:nth-child(2) a {
-  color: var(--blue);
-}
-
-.panel:nth-child(3) h2,
-.panel:nth-child(3) h3,
-.panel:nth-child(3) a {
-  color: var(--green);
-}
-
-.panel:nth-child(4) h2,
-.panel:nth-child(4) h3,
-.panel:nth-child(4) a {
-  color: var(--purple);
-}
-
-.panel:nth-child(5) h2,
-.panel:nth-child(5) h3,
-.panel:nth-child(5) a {
-  color: var(--red);
+section:nth-child(5) h2,
+section:nth-child(5) h3,
+section:nth-child(5) a {
+  color: hsl(0, 40%, 55%);
 }
 
 /* Typography */
