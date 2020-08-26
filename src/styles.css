@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-dark-gray {
+  background-color: hsl(210, 5%, 16%);
+}
+
+@responsive {
+  .max-w-7xl {
+    max-width: 80rem;
+  }
+
+  .max-w-10xl {
+    max-width: 140rem;
+  }
+
+  .max-w-80pc {
+    max-width: 80%;
+  }
+
+  .justify-self-center {
+    justify-self: center;
+  }
+
+  .grid-rows-auto {
+    grid-template-rows: auto;
+  }
+
+  .grid-rows-auto-auto {
+    grid-template-rows: auto auto;
+  }
+
+  .grid-auto-cols-1fr {
+    grid-auto-columns: 1fr;
+  }
+
+  .grid-cols-30rem-then-100fr {
+    grid-template-columns: 30rem 100fr;
+  }
+}

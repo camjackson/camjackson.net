@@ -29,13 +29,6 @@ body {
   color: var(--grey-2);
 }
 
-header,
-main {
-  width: 100%;
-  max-width: 140rem;
-  margin: 0 auto;
-}
-
 /* Colours */
 :root {
   --grey-2: hsl(0, 0%, 80%);

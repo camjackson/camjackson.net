@@ -89,7 +89,7 @@
   }
 </style>
 
-<header>
+<header className="w-full max-w-10xl my-0 mx-auto">
   <h1>Cam Jackson</h1>
   <img id="profile-pic" src="./avatar.jpg" alt="My headshot" />
   <ul id="subtitle">

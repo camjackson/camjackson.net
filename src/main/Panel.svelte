@@ -1,28 +1,15 @@
 <script lang="ts">
   export let alwaysColumn: boolean = false;
+
+  const flexClasses = 'flex flex-col items-center';
+  const spaceClasses = 'mt-0 mx-8 mb-20 py-10 px-8';
+  $: gridClasses = alwaysColumn
+    ? ''
+    : 'lg:grid lg:grid-rows-auto lg:grid-cols-30rem-then-100fr';
 </script>
 
-<style>
-  section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    margin: 0 2rem 5rem;
-    padding: 2.5rem 2rem;
-    background-color: hsl(210, 5%, 16%);
-  }
-
-  @media (min-width: 62.5em) {
-    /* 1000px / 16 */
-    section:not(.alwaysColumn) {
-      display: grid;
-      grid-template-columns: 30rem 100fr;
-      grid-template-rows: auto;
-    }
-  }
-</style>
-
-<section class:alwaysColumn>
+<section
+  class:alwaysColumn
+  class="{`bg-dark-gray ${flexClasses} ${spaceClasses} ${gridClasses}`}">
   <slot />
 </section>

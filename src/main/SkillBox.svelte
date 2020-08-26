@@ -4,35 +4,11 @@
   export let title = '';
 </script>
 
-<style>
-  div {
-    display: flex;
-    flex-direction: column;
-  }
-
-  @media (min-width: 43.75em) {
-    /* 700px / 16 */
-    div {
-      display: grid;
-      grid-auto-flow: column;
-      grid-auto-columns: 1fr;
-      grid-template-rows: auto auto;
-    }
-  }
-
-  @media (min-width: 62.5em) {
-    /* 1000px / 16 */
-    h2 {
-      align-self: center;
-      justify-self: center;
-      max-width: 80%;
-    }
-  }
-</style>
-
 <Panel>
-  <h2>{title}</h2>
-  <div>
+  <h2 class="max-w-80pc lg:self-center lg:justify-self-center">{title}</h2>
+  <div
+    class="flex flex-col md:grid md:grid-flow-col md:grid-auto-cols-1fr
+    md:grid-rows-auto-auto">
     <!-- It's one slot but 2 or 3 children -->
     <slot />
   </div>

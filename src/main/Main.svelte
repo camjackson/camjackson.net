@@ -6,7 +6,7 @@
   import Practices from './skillBoxes/Practices.svelte';
 </script>
 
-<main>
+<main class="w-full max-w-10xl my-0 mx-auto">
   <Intro />
 
   <Projects />
