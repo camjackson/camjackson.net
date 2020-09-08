@@ -3,7 +3,7 @@ module.exports = {
   future: {
     removeDeprecatedGapUtilities: true,
   },
-  purge: ['./src/**/*.svelte'],
+  purge: ['./public/index.html', './src/**/*.svelte'],
   theme: {
     extend: {},
   },
