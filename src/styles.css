@@ -2,8 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-dark-gray {
+/* TODO: Delete this, and re-do allll the spacing */
+html {
+  /* 1rem = 10px (assuming browser has font-size: 16px; ) */
+  font-size: 62.5%;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.bg-img-lines {
+  /* Background pattern from https://www.heropatterns.com/ */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='199' viewBox='0 0 100 199'%3E%3Cg fill='%23a7afb6' fill-opacity='0.08'%3E%3Cpath d='M0 199V0h1v1.99L100 199h-1.12L1 4.22V199H0zM100 2h-.12l-1-2H100v2z'%3E%3C/path%3E%3C/g%3E%3C/svg%3E");
+}
+
+.bg-dark-gray-12 {
+  background-color: hsl(210, 5%, 12%);
+}
+
+.bg-dark-gray-16 {
   background-color: hsl(210, 5%, 16%);
+}
+
+.font-nunito {
+  font-family: 'Nunito Sans', sans-serif;
+}
+
+/* 3.5xl */
+.text-3-5xl {
+  font-size: 2rem;
 }
 
 @responsive {
@@ -38,4 +66,9 @@
   .grid-cols-30rem-then-100fr {
     grid-template-columns: 30rem 100fr;
   }
+}
+
+div {
+  /* Does nothing in most browsers, but makes IE11 fail better  */
+  max-width: 100%;
 }

@@ -10,6 +10,6 @@
 
 <section
   class:alwaysColumn
-  class="{`bg-dark-gray ${flexClasses} ${spaceClasses} ${gridClasses}`}">
+  class="{`bg-dark-gray-16 ${flexClasses} ${spaceClasses} ${gridClasses}`}">
   <slot />
 </section>
