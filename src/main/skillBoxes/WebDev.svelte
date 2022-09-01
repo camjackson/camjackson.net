@@ -5,8 +5,8 @@
 
 <SkillBox title="Full stack web development">
   <Skill name="Frontend development">
-    I'm an expert in HTML, CSS, and JavaScript, and I've been using React.js for
-    over 5 years. I love working closely with designers to build the best user
+    I'm an expert in HTML, CSS, and JavaScript, and I've been using React.js
+    since 2015. I love working closely with designers to build the best user
     experience possible. My own design skills are rudimentary, but I'm working
     on it!
   </Skill>

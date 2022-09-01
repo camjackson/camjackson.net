@@ -125,7 +125,7 @@
           0h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9
           0h-6v6h6v-6z"></path>
       </svg>
-      Micro frontends expert
+      Frontend expert
     </li>
   </ul>
   <ul id="socials">
